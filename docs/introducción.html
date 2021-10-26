@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title> 1 Introducción | Título completo de la tesis o seminario de grado</title>
-  <meta name="description" content=" 1 Introducción | Título completo de la tesis o seminario de grado" />
-  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+  <title>1 Introducción: | Tesis de grado</title>
+  <meta name="description" content="1 Introducción: | Tesis de grado" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content=" 1 Introducción | Título completo de la tesis o seminario de grado" />
+  <meta property="og:title" content="1 Introducción: | Tesis de grado" />
   <meta property="og:type" content="book" />
   
   
@@ -16,14 +16,15 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content=" 1 Introducción | Título completo de la tesis o seminario de grado" />
+  <meta name="twitter:title" content="1 Introducción: | Tesis de grado" />
   
   
   
 
-<meta name="author" content="Mi nombre" />
+<meta name="author" content="Sebastián Cortínez Rojas" />
 
 
+<meta name="date" content="2021-10-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,9 +32,10 @@
   
   
 <link rel="prev" href="agradecimientos.html"/>
-<link rel="next" href="requisitos.html"/>
-<script src="libs/header-attrs-2.3/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link rel="next" href="estructura-de-investigación.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,71 +51,36 @@
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 
 <style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
 }
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -134,33 +101,52 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Resumen</a></li>
 <li class="chapter" data-level="" data-path="agradecimientos.html"><a href="agradecimientos.html"><i class="fa fa-check"></i>Agradecimientos</a></li>
-<li class="chapter" data-level="1" data-path="introducción.html"><a href="introducción.html"><i class="fa fa-check"></i><b>1</b> Introducción</a>
+<li class="chapter" data-level="1" data-path="introducción.html"><a href="introducción.html"><i class="fa fa-check"></i><b>1</b> Introducción:</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="requisitos.html"><a href="requisitos.html"><i class="fa fa-check"></i><b>1.1</b> Requisitos</a></li>
-<li class="chapter" data-level="1.2" data-path="cómo-funciona.html"><a href="cómo-funciona.html"><i class="fa fa-check"></i><b>1.2</b> ¿Cómo funciona?</a></li>
-<li class="chapter" data-level="1.3" data-path="algunos-detalles-adicionales.html"><a href="algunos-detalles-adicionales.html"><i class="fa fa-check"></i><b>1.3</b> Algunos detalles adicionales:</a></li>
+<li class="chapter" data-level="1.1" data-path="estructura-de-investigación.html"><a href="estructura-de-investigación.html"><i class="fa fa-check"></i><b>1.1</b> Estructura de investigación</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="antecedentes-conceptuales-y-empíricos.html"><a href="antecedentes-conceptuales-y-empíricos.html"><i class="fa fa-check"></i><b>2</b> Antecedentes conceptuales y empíricos</a>
+<li class="chapter" data-level="2" data-path="antecedentes.html"><a href="antecedentes.html"><i class="fa fa-check"></i><b>2</b> Antecedentes</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="concepto-principal-explanandum-objeto-de-estudio.html"><a href="concepto-principal-explanandum-objeto-de-estudio.html"><i class="fa fa-check"></i><b>2.1</b> (concepto principal - explanandum - objeto de estudio)</a></li>
-<li class="chapter" data-level="2.2" data-path="factores-asociados-a-objeto-de-estudio.html"><a href="factores-asociados-a-objeto-de-estudio.html"><i class="fa fa-check"></i><b>2.2</b> Factores asociados a objeto de estudio</a>
+<li class="chapter" data-level="2.1" data-path="atribuciones-de-pobreza-y-riqueza.html"><a href="atribuciones-de-pobreza-y-riqueza.html"><i class="fa fa-check"></i><b>2.1</b> Atribuciones de pobreza y riqueza</a>
 <ul>
-<li class="chapter" data-level="2.2.1" data-path="factores-asociados-a-objeto-de-estudio.html"><a href="factores-asociados-a-objeto-de-estudio.html#factor-1"><i class="fa fa-check"></i><b>2.2.1</b> Factor 1</a></li>
-<li class="chapter" data-level="2.2.2" data-path="factores-asociados-a-objeto-de-estudio.html"><a href="factores-asociados-a-objeto-de-estudio.html#factor-n"><i class="fa fa-check"></i><b>2.2.2</b> Factor N</a></li>
+<li class="chapter" data-level="2.1.1" data-path="atribuciones-de-pobreza-y-riqueza.html"><a href="atribuciones-de-pobreza-y-riqueza.html#conceptualización-y-medición-de-atribuciones"><i class="fa fa-check"></i><b>2.1.1</b> Conceptualización y medición de atribuciones</a></li>
+<li class="chapter" data-level="2.1.2" data-path="atribuciones-de-pobreza-y-riqueza.html"><a href="atribuciones-de-pobreza-y-riqueza.html#antecedentes-de-las-atribuciones-de-pobreza-y-riqueza"><i class="fa fa-check"></i><b>2.1.2</b> Antecedentes de las atribuciones de pobreza y riqueza</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="meritocracia.html"><a href="meritocracia.html"><i class="fa fa-check"></i><b>2.2</b> Meritocracia</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="meritocracia.html"><a href="meritocracia.html#un-concepto-controversial"><i class="fa fa-check"></i><b>2.2.1</b> Un concepto controversial</a></li>
+<li class="chapter" data-level="2.2.2" data-path="meritocracia.html"><a href="meritocracia.html#las-creencias-meritocráticas-en-las-ciencias-sociales"><i class="fa fa-check"></i><b>2.2.2</b> Las creencias meritocráticas en las ciencias sociales</a></li>
+<li class="chapter" data-level="2.2.3" data-path="meritocracia.html"><a href="meritocracia.html#creencias-meritocráticas-y-atribuciones-de-pobreza-y-riqueza"><i class="fa fa-check"></i><b>2.2.3</b> Creencias meritocráticas y atribuciones de pobreza y riqueza</a></li>
+<li class="chapter" data-level="2.2.4" data-path="meritocracia.html"><a href="meritocracia.html#antecedentes-en-la-relación-entre-meritocracia-y-atribuciones-de-pobreza"><i class="fa fa-check"></i><b>2.2.4</b> Antecedentes en la relación entre meritocracia y atribuciones de pobreza</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="metodología.html"><a href="metodología.html"><i class="fa fa-check"></i><b>3</b> Metodología</a>
+<li class="chapter" data-level="3" data-path="datos-variables-y-métodos.html"><a href="datos-variables-y-métodos.html"><i class="fa fa-check"></i><b>3</b> Datos, variables y métodos</a>
 <ul>
 <li class="chapter" data-level="3.1" data-path="datos.html"><a href="datos.html"><i class="fa fa-check"></i><b>3.1</b> Datos</a></li>
-<li class="chapter" data-level="3.2" data-path="variables.html"><a href="variables.html"><i class="fa fa-check"></i><b>3.2</b> Variables</a></li>
+<li class="chapter" data-level="3.2" data-path="variables.html"><a href="variables.html"><i class="fa fa-check"></i><b>3.2</b> Variables</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="variables.html"><a href="variables.html#variables-dependientes"><i class="fa fa-check"></i><b>3.2.1</b> Variables dependientes</a></li>
+<li class="chapter" data-level="3.2.2" data-path="variables.html"><a href="variables.html#variables-independientes"><i class="fa fa-check"></i><b>3.2.2</b> Variables independientes</a></li>
+<li class="chapter" data-level="3.2.3" data-path="variables.html"><a href="variables.html#variables-de-control"><i class="fa fa-check"></i><b>3.2.3</b> Variables de control</a></li>
+</ul></li>
 <li class="chapter" data-level="3.3" data-path="métodos.html"><a href="métodos.html"><i class="fa fa-check"></i><b>3.3</b> Métodos</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="análisis.html"><a href="análisis.html"><i class="fa fa-check"></i><b>4</b> Análisis</a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="análisis-descriptivo.html"><a href="análisis-descriptivo.html"><i class="fa fa-check"></i><b>4.1</b> Análisis descriptivo</a></li>
-<li class="chapter" data-level="4.2" data-path="modelos.html"><a href="modelos.html"><i class="fa fa-check"></i><b>4.2</b> Modelos</a></li>
+<li class="chapter" data-level="4.2" data-path="modelo-de-medición-para-atribuciones-de-pobreza-y-riqueza.html"><a href="modelo-de-medición-para-atribuciones-de-pobreza-y-riqueza.html"><i class="fa fa-check"></i><b>4.2</b> Modelo de medición para Atribuciones de pobreza y riqueza</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="modelo-de-medición-para-atribuciones-de-pobreza-y-riqueza.html"><a href="modelo-de-medición-para-atribuciones-de-pobreza-y-riqueza.html#modelos-de-correlación"><i class="fa fa-check"></i><b>4.2.1</b> Modelos de correlación</a></li>
+<li class="chapter" data-level="4.2.2" data-path="modelo-de-medición-para-atribuciones-de-pobreza-y-riqueza.html"><a href="modelo-de-medición-para-atribuciones-de-pobreza-y-riqueza.html#analisis-factorial-exploratorio-afe"><i class="fa fa-check"></i><b>4.2.2</b> Analisis Factorial Exploratorio (AFE)</a></li>
+<li class="chapter" data-level="4.2.3" data-path="modelo-de-medición-para-atribuciones-de-pobreza-y-riqueza.html"><a href="modelo-de-medición-para-atribuciones-de-pobreza-y-riqueza.html#análisis-multivariado"><i class="fa fa-check"></i><b>4.2.3</b> Análisis multivariado</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="conclusiones.html"><a href="conclusiones.html"><i class="fa fa-check"></i><b>5</b> Conclusiones</a></li>
+<li class="chapter" data-level="4.3" data-path="relación-entre-creencias-meritocráticas-y-atribuciones-de-pobreza-y-riqueza-a-través-del-tiempo-2000-2009-y-2019.html"><a href="relación-entre-creencias-meritocráticas-y-atribuciones-de-pobreza-y-riqueza-a-través-del-tiempo-2000-2009-y-2019.html"><i class="fa fa-check"></i><b>4.3</b> Relación entre creencias meritocráticas y atribuciones de pobreza y riqueza a través del tiempo (2000, 2009 y 2019)</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="relación-entre-creencias-meritocráticas-y-atribuciones-de-pobreza-y-riqueza-a-través-del-tiempo-2000-2009-y-2019.html"><a href="relación-entre-creencias-meritocráticas-y-atribuciones-de-pobreza-y-riqueza-a-través-del-tiempo-2000-2009-y-2019.html#análisis-descriptivo-1"><i class="fa fa-check"></i><b>4.3.1</b> Análisis descriptivo</a></li>
+<li class="chapter" data-level="4.3.2" data-path="relación-entre-creencias-meritocráticas-y-atribuciones-de-pobreza-y-riqueza-a-través-del-tiempo-2000-2009-y-2019.html"><a href="relación-entre-creencias-meritocráticas-y-atribuciones-de-pobreza-y-riqueza-a-través-del-tiempo-2000-2009-y-2019.html#análisis-multivariado-1"><i class="fa fa-check"></i><b>4.3.2</b> Análisis multivariado</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="comentarios-finales-y-autoevaluación.html"><a href="comentarios-finales-y-autoevaluación.html"><i class="fa fa-check"></i><b>5</b> Comentarios finales y autoevaluación</a></li>
 <li class="chapter" data-level="" data-path="bibliografía.html"><a href="bibliografía.html"><i class="fa fa-check"></i>Bibliografía</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado con bookdown</a></li>
@@ -174,7 +160,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Título completo de la tesis o seminario de grado</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Tesis de grado</a>
           </h1>
         </div>
 
@@ -183,15 +169,93 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="introducción" class="section level1" number="1">
-<h1><span class="header-section-number"> 1</span> Introducción</h1>
-<p>Tesisfacsodown es básicamente una propuesta para poder escribir un trabajo final formateado en un texto de calidad, con opción tanto para pdf como para html. Para ello, basta con escribir el trabajo en un lenguaje de estructura simple: markdown (detalles mś adelante), el que luego es transformado a un documento formateado en pdf tal como se puede ver <a href="docs/tesis.pdf">aquí</a>, y si se desea también en html de manera simultanea.</p>
-<p><strong>¿Cómo funciona?</strong></p>
-<p>En breve: haciendo una copia de la carpeta tesisfacsodown, completando los contenidos en archivos separados según capítulo del documento, y luego se utiliza el programa o librería <code>bookdown</code>, que funciona en el entorno R. No es necesario saber R para poder utilizar tesisfacsodown, pero si estar dispuesto a aprender un par de cosas.</p>
-<div class="figure" style="text-align: center"><span id="fig:flujo"></span>
-<img src="images/flujobookdown.png" alt="Flujo tesisfacsodown" width="100%" />
-<p class="caption">
-Figura 1.1: Flujo tesisfacsodown
-</p>
+<h1><span class="header-section-number">1</span> Introducción:</h1>
+<div style="text-align: justify">
+
+<p>Los altos niveles de desigualdad socioeconómica, su aumento en varios países alrededor del mundo y sus consecuencias, son fenómenos que han generado preocupación tanto entre cientistas sociales como en el espacio público <span class="citation">(<a href="#ref-mijs_paradox_2019" role="doc-biblioref">Jonathan J. B. Mijs 2019</a>; <a href="#ref-roex_attitudes_2019" role="doc-biblioref">Roex, Huijts, and Sieben 2019</a>; <a href="#ref-seery_working_2014" role="doc-biblioref">Seery 2014</a>; <a href="#ref-worldeconomicforum_global_2014" role="doc-biblioref">World Economic Forum 2014</a>)</span>. El debate sobre la desigualdad social en Chile no es nuevo y ha sido relevado en vista de diversos acontecimientos recientes, como lo es el estallido social del 2019. Considerando que las desigualdades socioeconómicas poseen múltiples dimensiones <span class="citation">(<a href="#ref-pnud_desiguales_2017" role="doc-biblioref">PNUD 2017</a>)</span>, es posible identificar la agenda de investigación sociológica sobre desigualdades subjetivas <span class="citation">(<a href="#ref-kluegel_beliefs_1986" role="doc-biblioref">Kluegel and Smith 1986</a>)</span>, la cual trabaja en temas como las creencias, justificación y legitimación de las desigualdades por parte de la población. El estudio de las atribuciones de pobreza y riqueza -el cómo la gente se explica las carencias o grandes ventajas de grupos sociales- se inserta en el estudio sobre las creencias de las desigualdades, y ha sido clave para abordar el problema de la legitimación de las desigualdades socioeconómicas.</p>
+<p>Tradicionalmente, las atribuciones de pobreza y riqueza se han categorizado en internas y externas, en donde las primeras responsabilizan a las personas por su situación -por ejemplo, explicar la pobreza como consecuencia de la falta de esfuerzo-, mientras que las segundas son explicaciones en que se responsabiliza a la sociedad -por ejemplo, explicar la pobreza por la falta de oportunidades- <span class="citation">(<a href="#ref-castillo_dimensiones_2018" role="doc-biblioref">Juan Carlos Castillo and Rivera-Gutiérrez 2018</a>)</span>. Las atribuciones se relacionan con percepciones sobre la desigualdad <span class="citation">(<a href="#ref-schneider_poverty_2015" role="doc-biblioref">Schneider and Castillo 2015</a>)</span>, la justificación y legitimación de desigualdades, actitudes hacia ricos y pobres <span class="citation">(<a href="#ref-castillo_dimensiones_2018" role="doc-biblioref">Juan Carlos Castillo and Rivera-Gutiérrez 2018</a>)</span> y aversión hacia políticas redistributivas <span class="citation">(<a href="#ref-sainz_where_2019" role="doc-biblioref">Sainz et al. 2019</a>)</span>. Por otra parte, existen distintos factores que inciden en las atribuciones de pobreza y riqueza. En las investigaciones sociológicas suelen destacar las variables sociodemográficas -como la edad o el sexo- y de estratificación social -como la ocupación, escolarización, ingresos, entre otros-<span class="citation">(<a href="#ref-bucca_merit_2016" role="doc-biblioref">Bucca 2016</a>; <a href="#ref-castillo_dimensiones_2018" role="doc-biblioref">Juan Carlos Castillo and Rivera-Gutiérrez 2018</a>)</span>. Pero, además, las atribuciones -de carácter interno- han sido relacionadas con las creencias meritocráticas <span class="citation">(<a href="#ref-bucca_merit_2016" role="doc-biblioref">Bucca 2016</a>; <a href="#ref-madeira_primes_2019" role="doc-biblioref">Madeira et al. 2019</a>; <a href="#ref-major_ideology_2017" role="doc-biblioref">Major and Kaiser 2017</a>)</span>.</p>
+<p>La meritocracia puede entenderse como un sistema de distribución de recursos y recompensas basado en el mérito individual, siendo esta última en su concepción original una combinación de talento y esfuerzo <span class="citation">(<a href="#ref-young_rise_1962" role="doc-biblioref">Young 1962</a>)</span>. Por su parte, las creencias meritocráticas refieren a las creencias de las personas acerca de cómo operan o debiesen operar los mecanismos meritocráticos en la sociedad. Si bien las atribuciones de carácter interno se han relacionado con el mérito y la idea de justicia meritocrática <span class="citation">(<a href="#ref-frei_fruto_2020" role="doc-biblioref">Frei et al. 2020</a>)</span>, muchas veces se da por sentada la relación entre meritocracia y atribuciones internas sin un trabajo empírico previo. Un ejemplo de ello se evidencia en la investigación de <span class="citation"><a href="#ref-bucca_merit_2016" role="doc-biblioref">Bucca</a> (<a href="#ref-bucca_merit_2016" role="doc-biblioref">2016</a>)</span> sobre atribuciones de pobreza en América Latina, en donde reiteradamente se vincula el mérito a las atribuciones internas sin utilizar variables que refieran al mérito o meritocracia. Aunque la evidencia preliminar sugiere que aquellos que muestran mayor afinidad por las creencias meritocráticas tienden a atribuir la pobreza -y la riqueza- a factores más internos que externos, es necesario ahondar en la relación entre meritocracia y atribuciones de pobreza y riqueza de manera empírica. Para ello, se plantea la siguiente pregunta que guiará la investigación:</p>
+<blockquote>
+<p>¿Cómo se relacionan las creencias meritocráticas con las atribuciones de pobreza y riqueza?</p>
+</blockquote>
+<p>Esta pregunta cobra especial relevancia para el caso chileno, considerando las profundas transformaciones sociales que ha experimentado en las últimas décadas. Ciertos procesos son destacables. A partir de los noventa, se termina de afianzar el modelo económico de liberalización económica y financiera impuesto en dictadura. Dentro de sus consecuencias, este proceso generó un reordenamiento institucional y un rediseño de las fronteras entre mercado y Estado <span class="citation">(<a href="#ref-araujo_sujeto_2017" role="doc-biblioref">Araujo 2017</a>)</span>. La adopción de nuevas dinámicas socioeconómicas permitió el mantenimiento de desigualdades socioeconómicas históricas del país y que aumentase la segregación tanto de espacios urbanos, como de prestaciones de servicio básicos <span class="citation">(<a href="#ref-pnud_desiguales_2017" role="doc-biblioref">PNUD 2017</a>)</span>.
+Además, en este periodo Chile experimenta un fuerte crecimiento económico y una reducción considerable de la pobreza, en donde en 1990 aproximadamente un 70% de las personas vivían bajo la línea de la pobreza, reduciéndose a un 8,6% en 2017 <span class="citation">(<a href="#ref-ministeriodedesarrollosocial_evolucion_2017" role="doc-biblioref">Ministerio de Desarrollo Social and PNUD 2017</a>)</span>. Junto a esto, se expande la oferta de bienes y servicios, aumenta el acceso a consumo, gran parte de la población ingresa a la educación terciaria y se masifica la idea de pertenencia a una clase media <span class="citation">(<a href="#ref-frei_fruto_2020" role="doc-biblioref">Frei et al. 2020</a>)</span>.</p>
+<p>Estos procesos gatillaron un gran cambio tanto en la vida social junto a sus relaciones, como también sobre las subjetividades de la población <span class="citation">(<a href="#ref-araujo_sujeto_2017" role="doc-biblioref">Araujo 2017</a>; <a href="#ref-espinoza_que_2008" role="doc-biblioref">Espinoza and Barozet 2008</a>)</span>. Dentro de estos cambios, se evidencia la adopción de un ethos más individualista respecto a las atribuciones de pobreza y riqueza, en donde se responsabiliza cada vez más a los individuos por ser pobres o ricos <span class="citation">(<a href="#ref-frei_fruto_2020" role="doc-biblioref">Frei et al. 2020</a>)</span>. Por otro lado, y de la mano al proceso anterior, se ha evidenciado que el mérito, como valor y mecanismo generador de juicios <span class="citation">(<a href="#ref-araujo_sujeto_2017" role="doc-biblioref">Araujo 2017</a>)</span>, se instala con fuerza en la sociedad chilena. De esta forma, la idea de una sociedad meritocrática se convierte en un proyecto común para la población, independiente de la posición política y del estrato socioeconómico <span class="citation">(<a href="#ref-cocina_cinco_2013" role="doc-biblioref">Cociña 2013a</a>)</span>. En este sentido, el adherir a creencias meritocráticas se posiciona como una opción válida y justa a la hora de ordenar de forma jerárquica a la sociedad.</p>
+<p>Como parte de este proceso, en el área de las ciencias sociales, existe una agenda de investigación bajo la lógica de la justicia de mercado, la cual sostiene que la posición que ocupan los individuos en la jerarquía social es producto de sus esfuerzos y méritos <span class="citation">(<a href="#ref-lane_market_1986" role="doc-biblioref">Lane 1986</a>)</span>. Estas investigaciones sostienen la idea de que para combatir la desigualdad socioeconómica se deben mejorar los mecanismos meritocráticos y de igualdad de oportunidades. Sin embargo, existe otra línea de investigación, en donde se plantea que las creencias meritocráticas no se oponen a la desigualdad, sino más bien a un cierto tipo de discriminación, y que estas funcionan como un mecanismo legitimador de las desigualdades socioeconómicas <span class="citation">(<a href="#ref-mijs_meritocracy_2020" role="doc-biblioref">Jonathan J. B. Mijs and Savage 2020</a>)</span>. El argumento central de este estudio se posiciona a partir de lo último señalado, es decir, bajo la idea de que las creencias meritocráticas cumplen un rol legitimador de las desigualdades socioeconómicas, y discute con la idea de la meritocracia como un sistema distributivo justo, al plantear:</p>
+<blockquote>
+<p>Hipótesis general: Las atribuciones de pobreza y riqueza se explican parcialmente por las creencias meritocráticas</p>
+</blockquote>
+<p>Evidenciar el efecto de las creencias meritocráticas sobre las atribuciones de pobreza y riqueza es un aporte en diferentes aspectos. Su aporte teórico radica en cuestionar la teoría de justicia de mercado al señalar que las creencias meritocráticas generan consecuencias negativas para la sociedad, específicamente, legitimando las desigualdades socioeconómicas al responsabilizar a los individuos de su propia situación y posición en la sociedad. Por otra parte, es un aporte al escaso debate y evidencia empírica sobre la relación entre creencias meritocráticas y atribuciones de pobreza y riqueza. En este sentido, el distinguir conceptualmente la meritocracia de las atribuciones internas, como también el abordar la relación que ambos fenómenos mantienen, puede aportar a futuros debates e investigaciones en no confundir y/o usar indistintamente ambos conceptos. Por último, es un aporte para el debate público al analizar de manera crítica ideas y valores tan arraigados y aceptados de manera transversal en nuestra sociedad, como lo es el mérito. Esto también ayuda a buscar vías diferentes de acción política, considerando que tanto serctores de izquierda como de derecha han abrazado el modelo meritocrático <span class="citation">(<a href="#ref-atria_dilemas_2021" role="doc-biblioref">Atria 2021</a>)</span>.</p>
+<p>A partir de la pregunta y los problemas planteados hasta ahora, la presente investigación se propone el objetivo doble de:</p>
+<ul>
+<li><p>Analizar la relación entre atribuciones de pobreza y riqueza con las creencias meritocráticas</p></li>
+<li><p>Analizar los cambios en la relación entre atribuciones de pobreza y riqueza con las creencias meritocráticas para los años 2000, 2009 y 2019.</p></li>
+</ul>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-araujo_sujeto_2017" class="csl-entry">
+Araujo, Kathya. 2017. <span>“Sujeto y Neoliberalismo En Chile: Rechazos y Apegos.”</span> <em>Nuevo Mundo Mundos Nuevos</em>, no. February. <a href="https://doi.org/10.4000/nuevomundo.70649">https://doi.org/10.4000/nuevomundo.70649</a>.
+</div>
+<div id="ref-atria_dilemas_2021" class="csl-entry">
+Atria, Jorge. 2021. <span>“<span class="nocase">Los dilemas de la meritocracia. Entrevista con François Dubet</span>.”</span> <em>Revista Mexicana de Sociología</em> 83 (2). <a href="https://doi.org/10.22201/iis.01882503p.2021.2.60092">https://doi.org/10.22201/iis.01882503p.2021.2.60092</a>.
+</div>
+<div id="ref-bucca_merit_2016" class="csl-entry">
+Bucca, Mauricio. 2016. <span>“Merit and Blame in Unequal Societies: <span>Explaining Latin Americans</span>’ Beliefs about Wealth and Poverty.”</span> <em>Research in Social Stratification and Mobility</em> 44 (June): 98–112. <a href="https://doi.org/10.1016/j.rssm.2016.02.005">https://doi.org/10.1016/j.rssm.2016.02.005</a>.
+</div>
+<div id="ref-castillo_dimensiones_2018" class="csl-entry">
+Castillo, Juan Carlos, and Mauricio Rivera-Gutiérrez. 2018. <span>“Dimensiones <span>Comunes</span> a Las <span>Atribuciones</span> de <span>Pobreza</span> y <span>Riqueza</span>.”</span> <em>Psykhe (Santiago)</em>, November, 1–10. <a href="https://doi.org/10.7764/psykhe.27.2.1152">https://doi.org/10.7764/psykhe.27.2.1152</a>.
+</div>
+<div id="ref-cocina_cinco_2013" class="csl-entry">
+Cociña, Matías. 2013a. <span>“<span class="nocase">Cinco argumentos contra la Meritocracia.</span>”</span> <em>CIPER Chile</em>.
+</div>
+<div id="ref-espinoza_que_2008" class="csl-entry">
+Espinoza, Vicente, and Emmanuelle Barozet. 2008.<em>Qué Hablamos Cuando Decimos "Clase Media"? <span>Perspectivas</span> Sobre El Caso Chileno.</em>
+</div>
+<div id="ref-frei_fruto_2020" class="csl-entry">
+Frei, Raimundo, Juan Carlos Castillo, Rodrigo Herrera, and José Ignacio Suárez. 2020. <span>“ Del Esfuerzo? <span>Los</span> Cambios En Las Atribuciones Sobre Pobreza y Riqueza En Chile Entre 1996 y 2015.”</span> <em>Latin American Research Review</em> 55 (3): 477–95. <a href="https://doi.org/10.25222/larr.464">https://doi.org/10.25222/larr.464</a>.
+</div>
+<div id="ref-kluegel_beliefs_1986" class="csl-entry">
+Kluegel, James R., and Eliot R. Smith. 1986. <em><span class="nocase">Beliefs about Inequality: Americans’ Views of What is and What Ought to be.</span></em> <span>New York</span>.
+</div>
+<div id="ref-lane_market_1986" class="csl-entry">
+Lane, Robert E. 1986. <span>“Market <span>Justice</span>, <span>Political Justice</span>.”</span> <em>American Political Science Review</em> 80 (2): 383–402. <a href="https://doi.org/10.2307/1958264">https://doi.org/10.2307/1958264</a>.
+</div>
+<div id="ref-madeira_primes_2019" class="csl-entry">
+Madeira, Ana Filipa, Rui Costa-Lopes, John F. Dovidio, Gonçalo Freitas, and Mafalda F. Mascarenhas. 2019. <span>“Primes and Consequences: <span>A</span> Systematic Review of Meritocracy in Intergroup Relations.”</span> <em>Frontiers in Psychology</em> 10 (September). <a href="https://doi.org/10.3389/fpsyg.2019.02007">https://doi.org/10.3389/fpsyg.2019.02007</a>.
+</div>
+<div id="ref-major_ideology_2017" class="csl-entry">
+Major, Brenda, and Cheryl R. Kaiser. 2017. <span>“Ideology and the Maintenance of Group Inequality.”</span> <em>Group Processes &amp; Intergroup Relations</em> 20 (5): 582–92. <a href="https://doi.org/10.1177/1368430217712051">https://doi.org/10.1177/1368430217712051</a>.
+</div>
+<div id="ref-mijs_paradox_2019" class="csl-entry">
+Mijs, Jonathan J B. 2019. <span>“The Paradox of Inequality: Income Inequality and Belief in Meritocracy Go Hand in Hand.”</span> <em>Socio-Economic Review</em> 0 (0): 1–29. <a href="https://doi.org/10.1093/ser/mwy051">https://doi.org/10.1093/ser/mwy051</a>.
+</div>
+<div id="ref-mijs_meritocracy_2020" class="csl-entry">
+Mijs, Jonathan J. B., and Mike Savage. 2020. <span>“Meritocracy, Elitism and Inequality.”</span> <em>Political Quarterly</em> 91 (2): 397–404. <a href="https://doi.org/10.1111/1467-923X.12828">https://doi.org/10.1111/1467-923X.12828</a>.
+</div>
+<div id="ref-ministeriodedesarrollosocial_evolucion_2017" class="csl-entry">
+Ministerio de Desarrollo Social, and PNUD. 2017. <span>“Evolución de La Pobreza 1990 - 2017:  Ha Cambiado <span>Chile</span>?. <span>Gobierno</span> de <span>Chile</span>.”</span>
+</div>
+<div id="ref-pnud_desiguales_2017" class="csl-entry">
+PNUD. 2017. <span>“Desiguales. <span>Orígenes</span>, Cambios y Desafíos de La Brecha Social En <span>Chile</span>. <span>Santiago</span>.”</span> In <em>Programa de Las Naciones Unidas Para El Desarrollo.</em>, 11:287–301. <span>Santiago de Chile</span>.
+</div>
+<div id="ref-roex_attitudes_2019" class="csl-entry">
+Roex, Karlijn LA, Tim Huijts, and Inge Sieben. 2019. <span>“Attitudes Towards Income Inequality: <span>‘<span>Winners</span>’</span> Versus <span>‘Losers’</span> of the Perceived Meritocracy.”</span> <em>Acta Sociologica</em> 62 (1): 47–63. <a href="https://doi.org/10.1177/0001699317748340">https://doi.org/10.1177/0001699317748340</a>.
+</div>
+<div id="ref-sainz_where_2019" class="csl-entry">
+Sainz, Mario, Rocío Martínez, Rosa Rodríguez-Bailón, and Miguel Moya. 2019. <span>“Where Does the Money Come from? <span>Humanizing</span> High Socioeconomic Status Groups Undermines Attitudes Toward Redistribution.”</span> <em>Frontiers in Psychology</em> 10 (MAR): 1–10. <a href="https://doi.org/10.3389/fpsyg.2019.00771">https://doi.org/10.3389/fpsyg.2019.00771</a>.
+</div>
+<div id="ref-schneider_poverty_2015" class="csl-entry">
+Schneider, Simone M., and Juan C. Castillo. 2015. <span>“Poverty Attributions and the Perceived Justice of Income Inequality: <span>A</span> Comparison of East and West Germany.”</span> <em>Social Psychology Quarterly</em> 78 (3): 263–82. <a href="https://doi.org/10.1177/0190272515589298">https://doi.org/10.1177/0190272515589298</a>.
+</div>
+<div id="ref-seery_working_2014" class="csl-entry">
+Seery, Emma. 2014. <span>“Working for the <span>Many</span>: <span>Public</span> Services Fight Inequality.”</span> 26.
+</div>
+<div id="ref-worldeconomicforum_global_2014" class="csl-entry">
+World Economic Forum. 2014. <em>Global <span>Risks</span> 2014.</em> Ninth.
+</div>
+<div id="ref-young_rise_1962" class="csl-entry">
+Young, Michael. 1962. <em><span class="nocase">The Rise of the Meritocracy 1870-2033.</span></em> <span>Harmondsworth</span>.
 </div>
 </div>
             </section>
@@ -200,11 +264,10 @@ Figura 1.1: Flujo tesisfacsodown
         </div>
       </div>
 <a href="agradecimientos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="requisitos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="estructura-de-investigación.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -223,6 +286,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
@@ -243,6 +307,10 @@ gitbook.start({
 "text": null
 },
 "download": ["tesis.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "subsection"
 }
@@ -250,6 +318,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

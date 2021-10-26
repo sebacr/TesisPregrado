@@ -1,6 +1,198 @@
+```{r include=FALSE}
+pacman::p_load(dplyr,sjmisc,car,sjlabelled,labelled,stargazer,kableExtra,corrplot,sessioninfo,readxl,
+               pander,xtable,tidyverse,extrafont,ggplot2,forcats,ggpubr,naniar,haven,devtools,
+               summarytools,poLCA,sjPlot,lavaan,knitr,summarytools,psych)
+load("Input/Data_proc/data.RData")
+
+data %>% 
+  dplyr::select(atrib_pob_1,atrib_pob_2,atrib_pob_3,atrib_pob_4,atrib_pob_5,
+                atrib_riq_1,atrib_riq_2,atrib_riq_3,atrib_riq_4,atrib_riq_5) -> atribcor
+
+data %>% 
+  dplyr::select(merit_perc_effort,merit_perc_talent,merit_perc_wpart,merit_perc_netw, 
+                merit_pref_effort,merit_pref_talent,merit_pref_wpart,merit_pref_netw) -> meritcor
+```
+```{r include=FALSE}
+table_format = if(is_html_output()) {
+  "html"
+} else if(is_latex_output()) {
+  "latex"
+}
+
+table_format2 = if(is_html_output()) {
+  T
+} else if(is_latex_output()) {
+  F
+}
+```
+
+
+
 # Análisis
 
 ## Análisis descriptivo
 
+<div style="text-align: justify">
 
-## Modelos
+
+```{r tab-desc, echo=FALSE,results='asis'}
+print(dfSummary(data, headings=FALSE, valid.col = FALSE, na.col = FALSE, varnumbers = FALSE,
+                col.widths = c(170,  # variable
+                              160,  # label
+                              190, # stats/Values 
+                              130, # freqs
+                              130 # graph 
+                              ),graph.magnif = 0.97),
+      max.tbl.height = 800,
+      method="render")
+```
+
+La Tabla anterior presenta los estadísticos descriptivos de las variables con las que se trabaja. Al observar las respuestas para los cuatro indicadores para las atribuciones de pobreza, se da cuenta de distintas distribuciones entre ellas. En primer lugar, la explicación de las causas de la pobreza a partir de la Falta de habilidad muestra una gran concentración de respuestas en la categoría 3 (48,8%), es decir, con la respuesta "Ni de acuerdo ni en desacuerdo". Además, muestra una distribución similar a la distribución normal. En cuanto a la explicación de las causas de la pobreza a partir de la Mala suerte, los resultados se agrupan en las tres primeras respuestas, es decir, entre (1) "Totalmente en desacuerdo" y (3) "Ni de acuerdo ni en desacuerdo", con un mayor porcentaje para esta última (35,1%). En cuanto a las atribuciones de pobreza explicadas por la Falta de esfuerzo, al igual que con la de Falta de habilidad, la respuesta 3 agrupa la mayoría de los casos (41,9%), mostrando igualmente una distribución similar a la distribución normal. En cuanto a la explicación de las causas de la pobreza a partir del Sistema económico y del Sistema educativo, en ambos indicadores se observa que la mayoría de los casos se concentran en las respuestas 4 y 5, es decir, "De acuerdo" y "Totalmente de acuerdo", siendo para el indicador de Sistema económico un 30,9% en "De acuerdo" y 46,7% en "Totalmente de acuerdo", mientras que para la explicación por el Sistema educativo los porcentajes son de 36,9% en "De acuerdo" y 44,8% en "Totalmente de acuerdo".
+
+Respecto a las atribuciones de riqueza, se observa que la explicación de las causas de la riqueza a partir del Talento, Suerte y Trabajo duro se concentran en "Ni de acuerdo ni en desacuerdo", con un 44,9%, 39% y 37,5%, respectivamente. Para los indicadores de Sistema económico y Sistema educativo la mayoría de los casos se agrupan en "De acuerdo" y "Totalmente de acuerdo", siendo de un 29,4% y 47,8% para el primero, mientras que para el segundo de un 27,4% y 39,1%. 
+
+Más abajo en la misma Tabla, se distinguen los cuatro indicadores para el constructo de percepciones meritocráticas, y cuatro para el constructo de preferencias meritocráticas. En el primer constructo, los indicadores de "[se] Obtienen mayores recompensa [por el] Esfuerzo", "Logran salir adelante [quienes tienen] Padres ricos" y "Logran salir adelante [quienes tienen] buenos contactos" concentran la mayoría de los casos en "De acuerdo" y "Totalmente de acuerdo", siendo para el indicador de Esfuerzo 25,1% y 30,9%, para Padres ricos 29,7% y 35,6% y para Buenos contactos 36,9% y 33,8%, respectivamente. Por su parte, el indicador de "[se] Obtienen mayores recompensa [por el] Talento" concentra los casos en "Ni de acuerdo ni en desacuerdo" con 33,8%, mostrando una distribución relativamente normal. En cuanto a las preferencias meritocráticas, el indicador de "[se] Deberían obtener mayores recompensas [por el] Esfuerzo" concentra más de la mitad de los casos en "Totalmente de acuerdo", con un 54,3%. Los indicadores de  "[se] Deberían obtener mayores recompensas [por el] Esfuerzo", "Esta bien que salgan adelante [quienes tienen] Padres ricos" y "Esta bien que salgan adelante [quienes tienen] Buenos contactos" concentran sus casos en "Ni de acuerdo ni en desacuerdo", con un 30,3%, 31,7% y 31,5%, respectivamente. Cabe destacar que el indicador de preferencias meritocráticas basado en el Talento tiene una gran cantidad de casos en "De acuerdo" y "Totalmente de acuerdo", lo cual, junto con el indicador de Esfuerzo, muestra un alto consenso respecto a estar de acuerdo con preferencias basadas en el mérito.  
+
+## Modelo de medición para Atribuciones de pobreza y riqueza
+
+### Modelos de correlación
+
+A continuación se presentan las Figuras N° \@ref(fig:matpearson_dep) y  N° \@ref(fig:matpolycor_dep), las cuales muestran las correlaciones de Person y policloricas, respectivamente, de la variable dependiente, referente a las atribuciones de pobreza y riqueza. Tanto en las correlaciones de Pearson como en las correlaciones policloricas, es posible identificar un primer grupo a partir de correlaciones positivas de niveles medios y medios-altos, en donde se encuentran las Atribuciones de pobreza por Falta de habilidad, Atribuciones de pobreza por Falta de esfuerzo, Atribuciones de riqueza a partir del Talento y Atribuciones de riqueza a partir del Trabajo duro. Cada una de ellas correlaciona entre sí de manera positiva y con niveles medios-altos, en donde destacan los niveles de correlación entre los dos indicadores correspondientes a las atribuciones de pobreza (por Falta de habilidad y por Falta de esfuerzo) y, por el otro lado, entre los dos indicadores de atribuciones de riqueza (por Talento y Trabajo duro). Por otro lado, se identifica otro grupo que correlaciona de manera positiva y con niveles medios y medios-altos entre Atribuciones de pobreza a partir del Sistema económico, Atribuciones de pobreza a partir del Sistema educativo, Atribuciones de riqueza a partir del Sistema económico y Atribuciones de riqueza a partir del Sistema educativo. Cabe destacar que los indicadores del primer grupo, coincidentes con lo que en la literatura se le ha llamado "atribuciones internas", correlacionan de manera negativa con los indicadores del segundo grupo, al cual se le puede denominar, a partir de la literatura, "atribuciones externas". Por último,las Atribuciones de pobreza por Mala suerte y Atribuciones de riqueza por Suerte, muestran una correlación positiva y media-alta solamente entre ellas, lo cual daría cuenta sobre un tercer constructo. Sin embargo, antes de anticiparnos a los constructos, es necesario realizar análisis factoriales.
+
+
+```{r matpearson_dep, echo=FALSE, fig.cap="Matriz de Correlaciones de Pearson  para Atribuciones de pobreza y riqueza", fig.align = 'center', out.width = '100%'}
+cormerit_fondecyt=cor(atribcor, use = "complete.obs")
+windowsFonts(A = windowsFont("Times New Roman"))
+rownames(cormerit_fondecyt) <-c(
+  "(1) Atribuciones pobreza Falta habilidad",
+  "(2) Atribuciones pobreza Mala suerte",
+  "(3) Atribuciones pobreza Falta esfuerzo",
+  "(4) Atribuciones pobreza Sistema económico",
+  "(5) Atribuciones pobreza Sistema educativo",
+  "(6) Atribuciones riqueza Talento",
+  "(7) Atribuciones riqueza Suerte",
+  "(8) Atribuciones riqueza Trabajo duro",
+  "(9) Atribuciones riqueza Sistema económico",
+  "(10) Atribuciones riqueza Sistema educativo")
+colnames(cormerit_fondecyt) <-c("(1)", "(2)","(3)","(4)","(5)", "(6)","(7)","(8)","(9)","(10)")
+corrplot(cormerit_fondecyt,
+         method = "color",
+         type = "upper",
+         tl.col = "black",
+         addCoef.col = "black",
+         diag = TRUE,
+         family = "A",
+         number.font = 6,
+         tl.cex =0.75,
+         number.cex = 1)
+```
+
+```{r matpolycor_dep, echo=FALSE, fig.cap="Matriz de Correlaciones Policlorica para Atribuciones de pobreza y riqueza", fig.align = 'center', out.width = '100%'}
+polycor <- psych::polychoric(atribcor)
+windowsFonts(A = windowsFont("Times New Roman"))
+rownames(polycor$rho) <-c(
+  "(1) Atribuciones pobreza Falta habilidad",
+  "(2) Atribuciones pobreza Mala suerte",
+  "(3) Atribuciones pobreza Falta esfuerzo",
+  "(4) Atribuciones pobreza Sistema económico",
+  "(5) Atribuciones pobreza Sistema educativo",
+  "(6) Atribuciones riqueza Talento",
+  "(7) Atribuciones riqueza Suerte",
+  "(8) Atribuciones riqueza Trabajo duro",
+  "(9) Atribuciones riqueza Sistema económico",
+  "(10) Atribuciones riqueza Sistema educativo"
+  )
+colnames(polycor$rho) <-c("(1)", "(2)","(3)","(4)","(5)", "(6)","(7)","(8)","(9)","(10)")
+corrplot(polycor$rho,
+  method = "color",
+  type = "upper",
+  tl.col = "black",
+  addCoef.col = "black",
+  diag = TRUE,
+  number.font = 6,
+  tl.cex =0.75,
+  number.cex = 1)
+```
+
+### Analisis Factorial Exploratorio (AFE)
+
+<div style="text-align: justify">
+
+
+
+### Análisis multivariado
+
+<div style="text-align: justify">
+
+Para realizar el análisis multivariado, se realiza una regresión ordinal, en donde se asume que la categoría base son las atribuciones externas. De esta forma, se ordena de menor a mayor, en donde las atribuciones externas se posicionan como la categoría "más baja", las atribuciones ambivalentes como intermedia, y las atribuciones internas como la categoría "más alta".
+
+
+En un primer momento, al fijarnos en los signos de los coeficientes y en la significancia estadística, de la Tabla \@ref(tab:tab-reg1) se destaca que la única variable que presenta significancia estadística (en este caso, con un 99% de confianza) es el Estatus social subjetivo. En el modelo 5, que incluye tanto las variables independientes de percepción y preferencias meritocráticas como las variables de control, el coeficiente para la variable de Estatus social subjetivo es de 0.12 en log-odds. Por lo tanto, los log-odds de observar un 3 (atribución interna) frente a un 2 (atribución ambivalente) o 1 (atribución externa), aumentan en aproximadamente 0.12 por un aumento de una unidad en la variable de Estatus social subjetivo. A su vez, las log-odds de observar un 2 (atribución ambivalente) frente a un 1 (atribución externa) aumenta en 0.12 por un aumento unitario del Estatus social subjetivo. 
+
+En términos de odd, se puede decir que por el incremento de una unidad en Estatus social subjetivo (en una escala de 1 a 10), se espera ver un incremento aproximado de un 13% en las odds de establecer atribuciones internas versus atribuciones ambivalentes y externas, manteniendo el resto de las variables constantes. 
+
+Los modelos 2, 3 y 4 son regresiones que consideran a las variables independientes aisladas de las variables de control. En el modelo 2 se incluyen únicamente las variables de percepción meritocrática, en donde no se observa significancia estadística. En el modelo 3 se incluyen únicamente las variables de preferencia meritocrática, en donde tampoco hay coeficientes con significancia estadística. Por último, el modelo 4 que incluye ambos constructos de las creencias meritocráticas, con el objetivo de observar posibles covariaciones, tampoco presenta significancia estadística en ninguna de sus variables. Una de las razones de por qué podría ocurrir esto, es por la poca variabilidad que presentan estas variables.
+
+Finalmente, al fijarnos en los puntos de corte "|", en el modelo 1 se observa una significancia estadística al 99,9% de confianza en las log odds de observar un 3 (atribución interna) versus un 2 (atribución ambivalente) o 1 (atribución externa). El resto de los modelos muestra significancia estadísticas con un máximo de confianza al 95%, lo cual, al basarnos en estándares estadísticos comunes para las ciencias sociales, no es suficiente en términos de inferencia poblacional. 
+
+Del modelo se rescatan dos observaciones. La primera, es que la hipótesis principal de que al aumentar las creencias meritocráticas, aumentan las atribuciones internas, no se cumple en un primer momento. Más específicamente, para el año 2019, las percepciones y preferencias meritocráticas no producen diferencias en las atribuciones de pobreza y riqueza. En segundo lugar, se destaca que el Estatus social subjetivo produce diferencias en las atribuciones de pobreza y riqueza, aún considerando en el modelo las variables de creencias meritocráticas. Es importante destacar que no se utilizaron variables de estratificación social -más que educación-, como por ejemplo ingresos u ocupación. Para generar una interpretación más precisa se incluirán a futuro variables de dicho carácter.
+
+## Relación entre creencias meritocráticas y atribuciones de pobreza y riqueza a través del tiempo (2000, 2009 y 2019)
+
+### Análisis descriptivo
+
+#### Variable dependiente
+
+<div style="text-align: justify">
+
+
+En la Tabla N° \@ref(tab:tab-descpob) se observan descriptivos univariados de las atribuciones de pobreza en los años 2000, 2009 y 2019. Sobre la primera mención en atribuciones, se observa una caída en el porcentaje de respuesta sobre atribuciones internas del 2000 al 2009, en donde para el año 2000 un 75,8% mencionó una atribución interna en su primera mención, mientras que para el 2009 lo hizo un 59,9%. Sin embargo, las respuestas en atribuciones internas vuelven a subir para el año 2019, siendo el porcentaje de respuestas internas para este año un 65,9%. Respecto a la segunda mención, se destacan dos tendencias en las respuestas: en primer lugar, las atribuciones internas experimentan un aumento sostenido en el 2000, 2009 y 2019, en donde se observa que los porcentajes de respuesta son de un 26,9%, 47,8% y 49,% respectivamente. En segundo lugar, existe una tendencia a la disminución en las atribuciones externas, siendo de un 73,1% para el 2000, 52,2% para el 2009 y de 50,8% para el 2019. 
+
+
+
+Respecto de las atribuciones de riqueza, en la Tabla N° \@ref(tab:tab-descriq) se pueden observar los porcentajes de respuesta entre atribuciones internas y externas para los años 2000, 2009 y 2019. Sobre la primera mención de atribuciones, se observa un patrón en donde se mantienen relativamente estables los procentajes de respuesta a lo largo de los tres años tanto para atribuciones internas como externas. Un elemento a destacar es que para los tres años las respuestas internas son considerablemente más altas a las externas, siendo las primeras casi el doble respecto de las segundas. Sobre la segunda mención, se observan cambios entre el año 2000 y 2009, pero se mantienen estables entre 2009 y 2019. De manera más específica, las atribuciones externas disminuyen de 59,3% a un 46,2% entre el 2000 y el 2009, pero para el 2019 se mantiene relativamente estable, presentando un 46,8% de las respuestas. Por el otro lado, en cuanto a las atribuciones internas, se observa un aumento de respuestas entre el 2000 y el 2009, pasando de un 40,7% a un 53,8%, respectivamente, pero se mantiene en un 53,2% para el 2019.
+
+#### Analisis de clases latentes
+
+<div style="text-align: justify">
+
+Al igual que en el proceso de análisis de clases latentes para el año 2019, para la selección de clases se consideraron los estadísticos BIC y AIC. Los modelos LCA con mejores resultados fueron de dos y tres clases. Para el modelo de dos clases se obtuvo un BIC de 21472 y un AIC de 21415. Para el modelo de tres clases se obtuvo un BIC de 21464 y un AIC de 21376. Con más de tres clases los modelos comienzan a presentar problemas. 
+
+Si bien el estadístico BIC presenta mejores resultados para el modelo de dos clases, tanto el estadístico BIC como AIC presentan resultados similares para el modelo de dos y tres clases, siendo incluso mayor los resultados del AIC para el modelo de tres clases. En este sentido, la elección del modelo de tres clases se fundamenta primordialmente en los antecedentes sobre atribuciones de pobreza y riqueza, la cual apunta a la existencia de tres categorías, siendo estas las clases externas, ambivalentes e internas. Además ello entrega más herramientas para la posterior comparación entre investigaciones.
+
+
+En la Figura N° \@ref(fig:clases2) se observan las frecuencias relativas de las tres clases predichas separadas en los tres años en cuestión. Para los dos últimos años, es decir, del 2009 al 2019, se observa una disminución en atribuciones externas y un aumento en atribuciones ambivalentes e internas. Sin embargo, para el año 2000 se puede observar un gran número de atribuciones ambivalentes. Esto puede deberse a que la respuesta "La falta de educación" en atribuciones de pobreza, como también la respuesta "El nivel educacional alcanzado" en atribuciones de riqueza, concentran una gran cantidad de respuestas para el año 2000, siendo para ambos casos aproximadamente un cuarto de las respuestas -considerando las dos menciones-. En distintas investigaciones se ha señalado el carácter ambiguo de la variable educación, sobre todo al tratar temas subjetivos. En este sentido, la educación puede pensarse tanto en términos estructuralistas como agencialistas -por ejemplo, señalar que la pobreza se debe a la falta de educación puede referir, por un lado, a la falta de esfuerzo y dedicación para alcanzar cierto nivel educativo, como también puede referir a las deficiencias del sistema educativo-. 
+
+#### Variables independientes
+
+<div style="text-align: justify">
+
+
+En la tabla anterior se observan los descriptivos para las variables de percepción y preferencias meritocráticas. Para las percepciones, en donde se responde en una escala del 1 al 5 sobre la importancia de (1) el trabajo duro para surgir en la vida y (2) el tener un buen nivel de educación para surgir en la vida, se observa en ambas variables una media superior a 3, lo cual indica una tendencia media-alta en la percepción meritocrática en la sociedad chilena. Para las preferencias meritocráticas, en donde se responde con la misma escala de importancia a la pregunta cuán importante debería ser (1) el nivel de responsabilidad en el trabajo, (2) los años dedicados a educación y capacitacion y (3) lo bien que realiza su trabajo al momento de decidirse cuánto debería ganar la gente. Para las tres variables se tiene una media de 4, por lo que existe cierto consenso en la población en la preferencia de mecanismos meritocráticos a la hora de decidir las ganancias monetarias de la gente. 
+
+Se debe destacar que las percepciones meritocráticas presentan una desviación estándar (sd) más alta que para el caso de las preferencias meritocráticas. Con esto se puede concluir que existe mayor homogeneidad a la hora de responder sobre las preguntas de preferencia meritocrática, respecto de las percepciones meritocráticas.
+
+
+
+En la Tabla N° \@ref(tab:tab-descmerit2) se observan la media seguida de la desviasión estándar entre paréntesis para las variables independientes en los tres años. De dicha tabla se destaca un aumento en las percepciones meritocráticas entre el año 2000 y el 2009, pasando de un 2,9 a un 3,8 en la variable de percepción meritocrática basado en el esfuerzo, y de un 2,9 a un 4,1 en la percepción meritocrática basado en inteligencia y capacidades. En el año 2019 las medias se mantiene relativamente estables respecto de la fecha anterior, en donde ambas variables presentan una media de 3,8. 
+
+Para el caso de las preferencias meritocráticas, las tres variables se mantienen estables a lo largo de los años 2000, 2009 y 2019, con valores cercanos al 4.
+
+
+
+En la Figura N° \@ref(fig:matpearson) se observan las correlaciones de pearson entre las variables independientes. Los niveles de correlación entre las variables de percepción meritocrática basada en el esfuerzo y percepción meritocrática basado en inteligencia y capacidades son positivas y medias-altas. De lo anterior se puede concluir que pertenecen a un mismo constructo (o que al menos se diferencian del constructo de preferencias meritocráticas, con las cuales tienen una correlación casi nula), pero que de todas maneras vale la pena considerar ambas variables por separadas en un posible modelo de regresión. Por otra parte, las tres variables de preferencias meritocráticas también presentan niveles de correlación positivas y medianas entre ellas. Ello indica una posible pertenencia al mismo constructo de preferencias meritocráticas, pero al igual que con las percecpiones, es conveniente considerar la influencia de las tres variables por separado sobre la variable dependiente.
+
+### Análisis multivariado
+
+<div style="text-align: justify">
+
+Para el análisis multivariado se asumirá que la variable dependiente se comporta como una variable ordinal, siendo las atribuciones externas el valor más bajo, las atribuciones mixtas/ambivalentes el valor intermedio y las atribuciones internas el valor más alto. A continuación se aplicará una regresión logística ordinal.
+
+Considerando los avances presentados en la sección de análisis descriptivo, al aplicar el modelo de regresión se asume que tanto el valor esperado de Y -variable dependiente- como de la relación entre X e Y varían en el tiempo. Debido a que los datos se agrupan como datos agrupados de sección transversal -pooled cross sectional data- y basándonos en la evidencia del manual de @wooldridge_introductory_2013, no se aplicarán efectos fijos. En este sentido, para el caso en que observaciones no se repiten en los diferentes años, se recomienda el método de Mínimos Cuadrados Ordinarios (MCO) agrupados -o en inglés 'pooled OLS'-. 
+
+
+La Tabla \@ref(tab:tab-reg2) [^3] es un primer acercamiento a una regresión ordinal con cambios en el intercepto y en la relación entre variables independientes -de interés- y dependiente. Debido a que no es el modelo definitivo, la interpretación se ve postergada. [^4]
+
+[^3]: Hay una serie de decisiones tomadas tras el modelo que me gustaría discutir. Primero algunas dudas a raíz de que no encontré ejemplos reproducibles de regresiones ordinales con pooled data. Para regresión ordinal conozco las librerías MMCO y ordinal, mientras que la librería que conozco para pooled OLS es plm, la cual da la opción de especificar model = 'pooling'. Las dudas son (a) no estoy seguro de si la variación de los coeficientes por año está bien ingresada en el código. Esto lo hice basado en ejemplos reproducibles de pooled OLS con variable dependiente continua -ejemplo en Wooldridge (2010, pág. 451)-. (b) Debido a que en el ejemplo de Wooldridge se trabaja con dos años, no estoy seguro de si es adecuada la operacionalización como dummies de los tres años (es decir, si es correcto simplemente omitir el año 2000 para considerarlo como variable referencia/intercepto). 
+
+[^4]: La visualización de tablas y gráficos utilizados hasta el momento no es la definitiva.

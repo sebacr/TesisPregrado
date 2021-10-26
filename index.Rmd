@@ -1,11 +1,11 @@
 ---
-title: 'Título completo de la tesis o seminario de grado'
-subtitle: "Tesis para optar al grado de ...."
-author: "Mi nombre"
-date: "Fecha" # o para fecha actual: "`r Sys.Date()`"
+title: 'Tesis de grado'
+subtitle: "El efecto de las creencias meritocráticas sobre las atribuciones de pobreza y riqueza"
+author: "Sebastián Cortínez Rojas"
+date: "`r Sys.Date()`" # o para fecha actual: "`r Sys.Date()`"
 institution: "Universidad de Chile"
-degree: "Seminario / Memoria / Tesis de Grado - Carrera de Sociología"
-advisor: "Profesor/a guía: mi supervisor/a"
+degree: "Memoria de Título - Carrera de Sociología"
+advisor: "Profesor guía: Juan Carlos Castillo"
 bibliography: [tesis.bib]
 biblio-style: apalike
 link-citations: yes
@@ -15,15 +15,15 @@ documentclass: book
 fontsize: 14pt
 lof: True
 lot: True
-
 ---
-
 
 # Resumen {-}
 
-Resumen  aquí
+<div style="text-align: justify">
+
+Las investigaciones sociológicas sobre atribuciones de pobreza y riqueza -esto es, cómo se explican las causas de dichas situaciones- suelen asociar las explicaciones basadas en factores individuales con valores meritocráticos sin comprobar dicha relación de manera empírica. Por ello, se torna relevante la pregunta de ¿Cómo se relacionan las creencias meritocráticas con las atribuciones de pobreza y riqueza en el Chile de las últimas décadas? Es común que tanto en el discurso público como en las ciencias sociales se sostenga la idea de justicia de mercado, afirmando que más y mejores mecanismos meritocráticos combatirían las desigualdades socioeconómicas. La presente investigación debate con esta lógica, y se posiciona bajo la idea de que las creencias meritocráticas legitiman las desigualdades socioeconómicas. Para ello, se plantea que a mayor percepción meritocrática, mayores serán las atribuciones internas para la pobreza y la riqueza. Este documento presenta avances descriptivos, de análisis de clases latentes y modelos multivariados sobre las variables mencionadas, utilizando las bases de datos CEP Nº 39 (Marzo-Abril 2000), N° 59 (Mayo-Junio 2009) y N° 83 (Mayo 2019).
 
 
 # Agradecimientos {-}
 
-Agradecimientos aquí.
+

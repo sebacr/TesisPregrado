@@ -1,0 +1,6 @@
+﻿concept;items_spa;cats
+Sexo;Sexo del encuestado/a;(1) Hombre / (2) Mujer
+"Edad;Edad del encuestado/a;(1) 18-24, (2) 25-34, (3) 35-44, (4) 45-54, (5) 55-64 y (6) 65 o más"
+"Educación;Nivel de escolarización del encuestado/a;(1) ""Primaria incompleta o completa"", (2) ""Secundaria incompleta o completa"", (3) ""Superior no universitaria completa o incompleta"" y (4) ""Universitaria o postgrados completa o incompleta"""
+"Ingresos;Tramo de ingresos del encuestado/a;(1) ""Menos de $179.000"", (2) ""De $179.001 a $358.000"", (3) ""De $358.001 a $448.000"", (4) ""De $448.001 a $1.000.000"", (5) ""De $1.000.001 a $2.000.000"", (6) ""De $2.000.001 a $3.000.000"" y (7) ""Más de $3.000.000"""
+Estatus social subjetivo (ESS);Estatus social subjetivo del encuestado/a;(0) Nivel más bajo / (10) Nivel más alto
