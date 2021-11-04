@@ -5,66 +5,17 @@ install.packages("webshot",dependencies = TRUE)
 library(webshot)
 webshot::install_phantomjs(force = TRUE)
 
-data_original <- read_spss("Input/factorial_ola2.sav")
 load("Input/Data_proc/data.RData") 
-# Asociacion variables
-data_cor <- data %>% dplyr::select(merit_perc_effort,merit_perc_talent,merit_pref_effort,merit_pref_talent,
-                                              atrib_pob_1,atrib_pob_3,
-                                              atrib_riq_1,atrib_riq_3)
-cormerit_fondecyt=cor(data_cor, use = "complete.obs")
-windowsFonts(A = windowsFont("Times New Roman"))
-rownames(cormerit_fondecyt) <-c(
-  "(1) Percepción meritocratica basado en esfuerzo",
-  "(2) Percepción meritocratica basado en talento",
-  "(3) Preferencia meritocratica basado en esfuerzo",
-  "(4) Preferencia meritocratica basado en talento",
-  "(5) Atribucion pobreza Falta habilidad",
-  "(6) Atribucion pobreza Falta esfuerzo",
-  "(7) Atribucion riqueza Talento",
-  "(8) Atribucion riqueza Trabajo duro")
-colnames(cormerit_fondecyt) <-c("(1)", "(2)","(3)","(4)","(5)", "(6)","(7)","(8)")
-corrplot(cormerit_fondecyt,
-         method = "color",
-         type = "upper",
-         tl.col = "black",
-         addCoef.col = "black",
-         diag = TRUE,
-         family = "A",
-         number.font = 6,
-         tl.cex =0.75,
-         number.cex = 1)
 
 
-at_pob <- data %>% dplyr::select(atrib_pob_1,atrib_pob_2,atrib_pob_3,atrib_pob_4,atrib_pob_5)
-at_riq <- data %>% dplyr::select(atrib_riq_1,atrib_riq_2,atrib_riq_3,atrib_riq_4,atrib_riq_5)
-percep_merit <- data %>% dplyr::select(merit_perc_effort,merit_perc_talent,merit_perc_wpart,merit_perc_netw)
-pref_merit <- data %>% dplyr::select(merit_pref_effort,merit_pref_talent,merit_pref_wpart,merit_pref_netw)
 
 
-# Factor analisis WLSMV
-
-## Atribuciones internas pobreza
-
-cfa.pob.int <- '
-pobint =~ NA*atrib_riq_1+atrib_riq_2+atrib_riq_3+atrib_riq_4+atrib_riq_5
-pobint ~~ 1*pobint
-'
-
-pob_int_mlsmv <-
-  cfa(model = cfa.pob.int, data = data,
-      mimic = "Mplus", estimator = "WLSMV",
-      ordered = c("atrib_riq_1", "atrib_riq_2", "atrib_riq_3", "atrib_riq_4", "atrib_riq_5"))
-
-lavaan::summary(pob_int_mlsmv, fit.measures = TRUE, standardized = TRUE)
+# Modelos de regresion con variables observables (sin latentes)
 
 
 
 
 
-
-
-
-# Modelos de regresion
 
 # Modelo atribuciones pobreza: Falta habilidad
 mp1_percep_merit<-lm(atrib_pob_1 ~ merit_perc_effort+merit_perc_talent, data=data)
@@ -115,3 +66,118 @@ sjPlot::tab_model(list(mr3_percep_merit, mr3_pref_merit,mr3_merit,mr3_total), sh
                   dv.labels = c("Modelo 1", "Modelo 2", "Modelo 3", "Modelo 4"),string.pred = "Predictores", 
                   string.est = "β", file = "Output/reg4_tab.html")
 webshot::webshot("Output/reg4_tab.html","Output/reg4_tab.png")
+
+
+
+
+
+
+
+
+
+# SEM
+
+# Regresión estructural
+
+#model6c (manual specification) 
+m6cc <- '
+# measurement model (latent)
+  
+  AI=~atrib_pob_1+atrib_pob_3+atrib_riq_1+atrib_riq_3
+  perc_merit=~merit_perc_effort+merit_perc_talent
+
+    
+#single indicator factor
+  
+  edadf =~ 1*edad
+  
+#variance of exogenous (if dep observable=0) variable to 0
+  
+    edad ~~ 0*edad
+    
+# cov
+  
+  atrib_pob_1 ~~ atrib_pob_3
+
+# regressions
+ 
+  AI ~ perc_merit + edadf
+'
+fit6cc <- sem(m6cc, data=data,optim.method=list("BFGS"))
+summary(fit6cc)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#model6c (manual specification) 
+m6cc <- '
+# measurement model (latent)
+  
+  perc_merit=~merit_perc_effort+merit_perc_talent
+
+    
+#single indicator factor
+  
+  edadf =~ 1*edad
+  atrib_pob_1f =~ 1*atrib_pob_1
+  
+#variance of exogenous (if dep observable=0) variable to 0
+  
+  edad ~~ 0*edad
+  atrib_pob_1 ~~ 0*atrib_pob_1
+    
+# cov
+
+
+# regressions
+ 
+  atrib_pob_1f ~ perc_merit + edadf
+'
+fit6cc <- sem(m6cc, data=data,optim.method=list("BFGS"))
+summary(fit6cc)
+
+
+# Regresion multiple con lavaan
+
+
+m2 <- '
+  # regressions
+    atrib_pob_1 ~ 1 + merit_perc_effort + merit_perc_talent + edad
+ # covariance
+    merit_perc_effort ~~ merit_perc_effort + edad
+    merit_perc_talent ~~ edad
+'
+fit2 <- sem(m2, data=data)
+summary(fit2)
+
+
+
+
+# Modelo atribuciones riqueza: Trabajo duro
+model_merit<-lm(atrib_pob_1 ~ merit_perc_effort+merit_perc_talent+edad, data=data)
+
+sjPlot::tab_model(list(model_merit), show.ci=FALSE, p.style = "stars", 
+                  dv.labels = c("Modelo 1"),string.pred = "Predictores", 
+                  string.est = "β")
