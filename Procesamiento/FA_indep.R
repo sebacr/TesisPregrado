@@ -148,29 +148,28 @@ meritcor_fa<-as.data.frame(meritcor_fa)
 #psych::alpha(cor_df_fa1, keys=NULL,cumulative=FALSE, title=NULL,na.rm = TRUE,
 #             check.keys=TRUE,n.iter=1,delete=TRUE)
 ## Normality test
-is.recursive(meritcor_fa)
-lillie.test(meritcor_fa$merit_perc_effort)
-lillie.test(meritcor_fa$merit_perc_talent)
-lillie.test(meritcor_fa$merit_perc_wpart)
-lillie.test(meritcor_fa$merit_perc_netw)
-lillie.test(meritcor_fa$merit_pref_effort)
-lillie.test(meritcor_fa$merit_pref_talent)
-lillie.test(meritcor_fa$merit_pref_wpart)
-lillie.test(meritcor_fa$merit_pref_netw)
-jarque.bera.test(na.omit(meritcor_fa$merit_perc_effort))
-jarque.bera.test(na.omit(meritcor_fa$merit_perc_talent))
-jarque.bera.test(na.omit(meritcor_fa$merit_perc_wpart))
-jarque.bera.test(na.omit(meritcor_fa$merit_perc_netw))
-jarque.bera.test(na.omit(meritcor_fa$merit_pref_effort))
-jarque.bera.test(na.omit(meritcor_fa$merit_pref_talent))
-jarque.bera.test(na.omit(meritcor_fa$merit_pref_wpart))
-jarque.bera.test(na.omit(meritcor_fa$merit_pref_netw))
+is.recursive(meritcor)
+lillie.test(meritcor$merit_perc_effort)
+lillie.test(meritcor$merit_perc_talent)
+lillie.test(meritcor$merit_perc_wpart)
+lillie.test(meritcor$merit_perc_netw)
+lillie.test(meritcor$merit_pref_effort)
+lillie.test(meritcor$merit_pref_talent)
+lillie.test(meritcor$merit_pref_wpart)
+lillie.test(meritcor$merit_pref_netw)
+jarque.bera.test(na.omit(meritcor$merit_perc_effort))
+jarque.bera.test(na.omit(meritcor$merit_perc_talent))
+jarque.bera.test(na.omit(meritcor$merit_perc_wpart))
+jarque.bera.test(na.omit(meritcor$merit_perc_netw))
+jarque.bera.test(na.omit(meritcor$merit_pref_effort))
+jarque.bera.test(na.omit(meritcor$merit_pref_talent))
+jarque.bera.test(na.omit(meritcor$merit_pref_wpart))
+jarque.bera.test(na.omit(meritcor$merit_pref_netw))
 ## Determinant
-meritcor_fa<-as.matrix(meritcor_fa)
 det(meritcor_fa) # Resultado: 0.3133191 This value is greater than the necessary value of 0.00001 (see section 17.5). As such, our determinant does not seem problematic.
 
 ## KMO
-KMO(meritcor_fa) # 0.6
+KMO(meritcor) # 0.6
 
 # Barletts test
 print(cortest.bartlett(meritcor_fa,nrow(data)))

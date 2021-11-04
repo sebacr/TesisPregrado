@@ -257,8 +257,8 @@ fa.diagram(fa_pa.1) # Diagrama
 # Modelo 2 factores 
 fa_pa.2_fatal<- fa(r=df_fa1, nfactors = 2, rotate = "oblimin", fm="pa")
 fa_ml.2_fatal<- fa(r=df_fa1, nfactors = 2, rotate = "oblimin", fm="ml")
-colnames(fa_pa.2_fatal$loadings) <- c("AT. Int", "AT. Ext")
-colnames(fa_ml.2_fatal$loadings) <- c("AT. Int", "AT. Ext")
+colnames(fa_pa.2_fatal$loadings) <- c("Atrib. Internas", "Atrib. Externas")
+colnames(fa_ml.2_fatal$loadings) <- c("Atrib. Internas", "Atrib. Externas")
 #rownames(fa_pa.2_fatal$loadings) <- c("Carab. Represión", "Carab. Desalojo", "Est. Piedras.", "Dano Inmobiliario.", "Dano Transporte.", "Dano Locales")
 fa.sort(fa_pa.2_fatal)
 fa.sort(fa_ml.2_fatal)
@@ -269,7 +269,7 @@ fa.diagram(fa_pa.2_fatal)
 
 #Modelo 3 factores
 fa_pa.3<- fa(r=df_fa1, nfactors = 3, rotate = "oblimin", fm="pa")
-colnames(fa_pa.3$loadings) <- c("AT. Int", "AT. Ext", "AT. Fatalis")
+colnames(fa_pa.3$loadings) <- c("Atrib. Internas", "Atrib. Externas", "Atrib. Fatalistas")
 #rownames(fa_pa.3$loadings) <- c("Carab. Represión", "Carab. Desalojo", "Est. Piedras.", "Dano Inmobiliario.", "Dano Transporte.", "Dano Locales")
 fa.sort(fa_pa.3)
 fa.diagram(fa_pa.3)

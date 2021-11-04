@@ -1,6 +1,9 @@
 tab:tab-dep
 tab:tab-indep
 tab:tab-control
+tab:f2t
+tab:f3t
+tab:tab-cfa-indep
 introducción
 estructura-de-investigación
 antecedentes
@@ -26,11 +29,8 @@ análisis-descriptivo
 modelo-de-medición-para-atribuciones-de-pobreza-y-riqueza
 modelos-de-correlación
 analisis-factorial-exploratorio-afe
-análisis-multivariado
-relación-entre-creencias-meritocráticas-y-atribuciones-de-pobreza-y-riqueza-a-través-del-tiempo-2000-2009-y-2019
-análisis-descriptivo-1
-variable-dependiente
-analisis-de-clases-latentes
-variables-independientes-1
-análisis-multivariado-1
+análisis-factorial-confirmatorio
+modelo-de-medición-para-percepciones-y-preferencias-meritocráticas
+modelos-de-correlación-1
+análisis-factorial-confirmatorio-1
 comentarios-finales-y-autoevaluación

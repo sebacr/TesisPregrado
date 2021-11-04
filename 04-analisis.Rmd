@@ -11,6 +11,25 @@ data %>%
 data %>% 
   dplyr::select(merit_perc_effort,merit_perc_talent,merit_perc_wpart,merit_perc_netw, 
                 merit_pref_effort,merit_pref_talent,merit_pref_wpart,merit_pref_netw) -> meritcor
+
+df_fa1 <- data %>% dplyr::select(atrib_pob_1,atrib_pob_2,atrib_pob_3,atrib_pob_4,atrib_pob_5,
+                            atrib_riq_1,atrib_riq_2,atrib_riq_3,atrib_riq_4,atrib_riq_5) # Con variables fatalistas
+
+df_fa2 <- data %>% dplyr::select(atrib_pob_1,atrib_pob_3,atrib_pob_4,atrib_pob_5,
+                                 atrib_riq_1,atrib_riq_3,atrib_riq_4,atrib_riq_5) # Sin variables fatalistas
+
+
+cor_df_fa1 =cor(df_fa1, use = "complete.obs")
+cor_df_fa2 =cor(df_fa2, use = "complete.obs")
+
+# Modelo 2 factores 
+fa_pa.2_fatal<- fa(r=df_fa1, nfactors = 2, rotate = "oblimin", fm="pa")
+colnames(fa_pa.2_fatal$loadings) <- c("Atrib. Internas", "Atrib. Externas")
+
+#Modelo 3 factores
+fa_pa.3<- fa(r=df_fa1, nfactors = 3, rotate = "oblimin", fm="pa")
+colnames(fa_pa.3$loadings) <- c("Atrib. Internas", "Atrib. Externas", "Atrib. Fatalistas")
+
 ```
 ```{r include=FALSE}
 table_format = if(is_html_output()) {
@@ -81,6 +100,8 @@ Más abajo en la misma Tabla se encuentran las variables independientes, disting
 ## Modelo de medición para Atribuciones de pobreza y riqueza
 
 ### Modelos de correlación
+
+<div style="text-align: justify">
 
 A continuación se presentan las Figuras N° \@ref(fig:matpearson_dep) y  N° \@ref(fig:matpolycor_dep), las cuales muestran las correlaciones de Person y policloricas, respectivamente, de la variable dependiente, referente a las atribuciones de pobreza y riqueza. Tanto en las correlaciones de Pearson como en las correlaciones policloricas, es posible identificar un primer grupo a partir de correlaciones positivas de niveles medios y medios-altos, en donde se encuentran las Atribuciones de pobreza por Falta de habilidad, Atribuciones de pobreza por Falta de esfuerzo, Atribuciones de riqueza a partir del Talento y Atribuciones de riqueza a partir del Trabajo duro. Cada una de ellas correlaciona entre sí de manera positiva y con niveles medios-altos, en donde destacan los niveles de correlación entre los dos indicadores correspondientes a las atribuciones de pobreza (por Falta de habilidad y por Falta de esfuerzo) y, por el otro lado, entre los dos indicadores de atribuciones de riqueza (por Talento y Trabajo duro). Por otro lado, se identifica otro grupo que correlaciona de manera positiva y con niveles medios y medios-altos entre Atribuciones de pobreza a partir del Sistema económico, Atribuciones de pobreza a partir del Sistema educativo, Atribuciones de riqueza a partir del Sistema económico y Atribuciones de riqueza a partir del Sistema educativo. Cabe destacar que los indicadores del primer grupo, coincidentes con lo que en la literatura se le ha llamado "atribuciones internas", correlacionan de manera negativa con los indicadores del segundo grupo, al cual se le puede denominar, a partir de la literatura, "atribuciones externas". Por último,las Atribuciones de pobreza por Mala suerte y Atribuciones de riqueza por Suerte, muestran una correlación positiva y media-alta solamente entre ellas, lo cual daría cuenta sobre un tercer constructo. Sin embargo, antes de anticiparnos a los constructos, es necesario realizar análisis factoriales.
 
@@ -156,7 +177,7 @@ Los modelos AFE coinciden con lo señalado por la literatura. Por un lado, el mo
 ```{r f2t, echo=FALSE, message=FALSE, warning=FALSE}
 f2_table <- fa_table(fa_pa.2_fatal, -10)
 rownames(f2_table)  <- c("Atribuciones riqueza Talento","Atribuciones pobreza Falta esfuerzo","Atribuciones riqueza Trabajo duro","Atribuciones pobreza Falta habilidad","Atribuciones pobreza Mala suerte","Atribuciones riqueza Suerte","Atribuciones pobreza Sistema económico","Atribuciones pobreza Sistema educativo","Atribuciones riqueza Sistema económico","Atribuciones riqueza Sistema educativo")
-f2_table <- select(f2_table, -item)
+f2_table <- dplyr::select(f2_table, -item)
 knitr::kable(f2_table,
              caption = "Cargas factoriales Modelo 2 Factores")
 ```
@@ -164,7 +185,7 @@ knitr::kable(f2_table,
 ```{r f3t, echo=FALSE, message=FALSE, warning=FALSE}
 f3_table <- fa_table(fa_pa.3, -10)
 rownames(f3_table)  <- c("Atribuciones riqueza Trabajo duro","Atribuciones riqueza Talento","Atribuciones pobreza Falta esfuerzo","Atribuciones pobreza Falta habilidad","Atribuciones pobreza Sistema económico","Atribuciones pobreza Sistema educativo","Atribuciones riqueza Sistema económico","Atribuciones riqueza Sistema educativo","Atribuciones pobreza Mala suerte","Atribuciones riqueza Suerte")
-f3_table <- select(f3_table, -item)
+f3_table <- dplyr::select(f3_table, -item)
 knitr::kable(f3_table,
              caption = "Cargas factoriales Modelo 3 Factores")
 ```
@@ -176,6 +197,8 @@ knitr::kable(f3_table,
 ## Modelo de medición para Percepciones y Preferencias meritocráticas
 
 ### Modelos de correlación
+
+<div style="text-align: justify">
 
 Las Figuras N° \@ref(fig:matpearson_indep) y  N° \@ref(fig:matpolycor_indep) muestran las correlaciones de Pearson y policloricas respectivamente, en donde se observa que los valores medios-altos, especificamente, correlaciones en torno al valor 0.5, se dan entre (1) [se] Obtienen mayores recompensas por el Esfuerzo y [se] Obtienen mayores recompensas por el Talento, (2) Logran a salir adelante [quienes tienen] Padres ricos y Logran a salir adelante [quienes tienen] buenos contactos, (3) Deberían obtener mayores recompensas [quienes] se Esfuerzan y Deberían tener mayores recompensas [quienes tienen] Talento y (4) Está bien que salgan adelante [quienes tienen] Padres ricos y Está bien que salgan adelante [quienes tienen] Buenos contactos. De esta forma, es posible subdividir en cuatro grupos, a los cuales se les puede llamar de (1) Percepción meritocráctica, (2) Percepción no-meritocrática, (3) Preferencias meritocráticas y (4) Preferencias no-meritocráticas. Además, existen correlaciones bajas-medias distinguibles entre varias de los indicadores de carácter meritocrático, ya sean del grupo de Percepciones o del de Preferencias, no así entre indicadores de carácter no-meritocrático. La categorización que se logra distinguir a partir del modelo de correlación coincide con la literatura [@Castillo2020] en cuanto a la existencia de cuatro sub-grupos y que las variables meritocráticas no son necesariamente opuestas a las no-meritocráticas al no existir grandes niveles de correlación negativa e incluso presentando ciertos niveles de correlación entre indicadores meritocráticos y no-meritocráticos. Debido a los resultados que se obtuvieron a partir de los modelos de correlación y a la literatura existente que señala la posibilidad de subdividir en percepciones y preferencias merticoráticas y no-meritocráticas [@castillo_meritocracia_2019a; @Castillo2020; @Iturra2019] es que se procede a un Análisis Factorial Confirmatorio (CFA) para poner a prueba la viabilidad de los cuatro constructos. 
 
@@ -207,7 +230,7 @@ corrplot(pearson_merit,
          number.cex = 1)
 ```
 
-```{r matpolycor_dep, echo=FALSE, fig.cap="Matriz de Correlaciones Policlorica para Percepciones y Preferencias meritocráticas", fig.align = 'center', out.width = '100%'}
+```{r matpolycor_indep, echo=FALSE, fig.cap="Matriz de Correlaciones Policlorica para Percepciones y Preferencias meritocráticas", fig.align = 'center', out.width = '100%'}
 # Correlación policlorica 
 
 polycor_merit <- psych::polychoric(meritcor)
@@ -237,7 +260,7 @@ corrplot(polycor_merit$rho,
 
 ### Análisis Factorial Confirmatorio
 
-
+<div style="text-align: justify">
 
 ```{r tab-cfa-indep, echo=FALSE, fig.cap="Matriz de Correlaciones Policlorica para Percepciones y Preferencias meritocráticas", fig.align = 'center', out.width = '100%'}
 
