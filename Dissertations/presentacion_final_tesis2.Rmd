@@ -1,0 +1,844 @@
+---
+title: "El efecto de las creencias meritocráticas sobre atribuciones de pobreza y riqueza"
+subtitle: "Sebastián Cortínez"
+author: "Profesor guía: Juan Carlos Castillo"
+institute: "Sociología, Universidad de Chile"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+---
+class: inverse, center, middle
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+```{r packages-data, include=FALSE}
+pacman::p_load(dplyr,sjmisc,car,sjlabelled,labelled,stargazer,kableExtra,corrplot,sessioninfo,readxl,pander,xtable,tidyverse,extrafont,ggplot2,forcats,ggpubr,naniar,haven,devtools,summarytools,poLCA,sjPlot,lavaan,knitr,summarytools,psych,DT,semTable,tidySEM,lavaanPlot,semPlot,diagram)
+load("../Input/Data_proc/data.RData")
+load("../Output/Tablas/tb.atrib.fit.2f.RData")
+load("../Output/Tablas/tb.merit.fit.4f.RData")
+```
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_light(base_color = "#23395b",
+  header_font_google = google_font("Merriweather"),
+  text_font_google   = google_font("Poppins", "350", "350i"),
+  code_font_google   = google_font("Fira Mono")
+)
+```
+```{r include=FALSE}
+table_format = if(is_html_output()) {
+  "html"
+} else if(is_latex_output()) {
+  "latex"
+}
+
+table_format2 = if(is_html_output()) {
+  T
+} else if(is_latex_output()) {
+  F
+}
+fa_table <- function(x, cut) {
+  #get sorted loadings
+  loadings <- fa.sort(x)$loadings %>% round(3)
+  #supress loadings
+  loadings[loadings < cut] <- ""
+  #get additional info
+  add_info <- cbind(x$communality, 
+                    x$uniquenesses,
+                    x$complexity) %>%
+    # make it a data frame
+    as.data.frame() %>%
+    # column names
+    rename("Communality" = V1,
+           "Uniqueness" = V2,
+           "Complexity" = V3) %>%
+    #get the item names from the vector
+    rownames_to_column("item")
+  #build table
+  loadings %>%
+    unclass() %>%
+    as.data.frame() %>%
+    rownames_to_column("item") %>%
+    left_join(add_info) %>%
+    mutate(across(where(is.numeric), round, 3))
+}
+```
+```{css, echo = FALSE}
+.regression table {
+  font-size: 12px;     
+}
+
+.red { color: red; }
+
+.tiny-text {
+  font-size: 16px;
+}
+
+remark.macros.scale = function (percentage) {
+  var url = this;
+  return '<img src="' + url + '" style="width: ' + percentage + '" />';
+}
+.med-tiny-text {
+  font-size: 10px;
+}
+.very-tiny-text {
+  font-size: 8px;
+}
+```
+```{r include=FALSE}
+
+# Variable dependiente
+
+data %>% 
+  dplyr::select(atrib_pob_1,atrib_pob_2,atrib_pob_3,atrib_pob_4,atrib_pob_5,
+                atrib_riq_1,atrib_riq_2,atrib_riq_3,atrib_riq_4,atrib_riq_5) -> atribcor
+
+data %>% 
+  dplyr::select(merit_perc_effort,merit_perc_talent,merit_perc_wpart,merit_perc_netw, 
+                merit_pref_effort,merit_pref_talent,merit_pref_wpart,merit_pref_netw) -> meritcor
+
+dep_fa1 <- data %>% dplyr::select(atrib_pob_1,atrib_pob_2,atrib_pob_3,atrib_pob_4,atrib_pob_5,
+                            atrib_riq_1,atrib_riq_2,atrib_riq_3,atrib_riq_4,atrib_riq_5) # Con variables fatalistas
+
+dep_fa2 <- data %>% dplyr::select(atrib_pob_1,atrib_pob_3,atrib_pob_4,atrib_pob_5,
+                                 atrib_riq_1,atrib_riq_3,atrib_riq_4,atrib_riq_5) # Sin variables fatalistas
+
+
+cor_dep_fa1 =cor(dep_fa1, use = "complete.obs")
+cor_dep_fa2 =cor(dep_fa2, use = "complete.obs")
+
+
+# EFA 2 factores 
+fa_pa.2_fatal<- fa(r=dep_fa1, nfactors = 2, rotate = "oblimin", fm="pa")
+colnames(fa_pa.2_fatal$loadings) <- c("Atribuciones Internas", "Atribuciones Externas")
+
+f2_table <- fa_table(fa_pa.2_fatal, -10)
+rownames(f2_table)  <- c("Atribuciones riqueza Talento","Atribuciones pobreza Falta esfuerzo","Atribuciones riqueza Trabajo duro","Atribuciones pobreza Falta habilidad","Atribuciones pobreza Mala suerte","Atribuciones riqueza Suerte","Atribuciones pobreza Sistema económico","Atribuciones pobreza Sistema educativo","Atribuciones riqueza Sistema económico","Atribuciones riqueza Sistema educativo")
+f2_table <- dplyr::select(f2_table, -item)
+
+# EFA 3 factores
+fa_pa.3<- fa(r=dep_fa1, nfactors = 3, rotate = "oblimin", fm="pa")
+colnames(fa_pa.3$loadings) <- c("Atribuciones Internas", "Atribuciones Externas", "Atribuciones Fatalistas")
+
+f3_table <- fa_table(fa_pa.3, -10)
+rownames(f3_table)  <- c("Atribuciones riqueza Trabajo duro","Atribuciones riqueza Talento","Atribuciones pobreza Falta esfuerzo","Atribuciones pobreza Falta habilidad","Atribuciones pobreza Sistema económico","Atribuciones pobreza Sistema educativo","Atribuciones riqueza Sistema económico","Atribuciones riqueza Sistema educativo","Atribuciones pobreza Mala suerte","Atribuciones riqueza Suerte")
+f3_table <- dplyr::select(f3_table, -item)
+
+
+# CFA
+
+msf_3<-'
+Atribuciones_Internas=~atrib_pob_1+atrib_pob_3+atrib_riq_1+atrib_riq_3
+Atribuciones_Externas=~atrib_pob_4+atrib_pob_5+atrib_riq_4
+
+# Cov
+atrib_riq_1 ~~ atrib_riq_3
+'
+
+msf_3.fit<-cfa(msf_3,data=data,ordered=T)
+
+
+
+
+# Variable independiente
+
+merit_fa =cor(meritcor, use = "complete.obs")
+merit_fa<-as.data.frame(merit_fa)
+
+# EFA 3 factores
+
+fa_merit_pa.3<- fa(r=merit_fa, nfactors = 3, rotate = "oblimin", fm="pa")
+colnames(fa_merit_pa.3$loadings) <- c("Percepción+Preferencias meritocráticas", "Percepción No meritocráticas", "Preferencias No meritocráticas")
+
+
+merit_f3_table <- fa_table(fa_merit_pa.3, -10)
+rownames(merit_f3_table)  <- c("Obtienen mayores recompensas: Esfuerzo","Obtienen mayores recompensas: Talento","Logran salir adelante: Padres ricos","Logran salir adelante: Buenos contactos","Deberían obtener mayores recompensas: Esfuerzo","Deberían obtener mayores recompensas: Talento","Esta bien que salgan adelante: Padres ricos","Esta bien que salgan adelante: Buenos contactos")
+merit_f3_table <- dplyr::select(merit_f3_table, -item)
+
+# EFA 4 factores 
+fa_merit_pa.4<- fa(r=merit_fa, nfactors = 4, rotate = "oblimin", fm="pa", max.iter = 500)
+colnames(fa_merit_pa.4$loadings) <- c("Percepción meritocráticas", "Preferencias meritocráticas","Percepción No meritocráticas", "Preferencias No meritocráticas")
+
+merit_f4_table <- fa_table(fa_merit_pa.4, -10)
+rownames(merit_f4_table)  <- c("Obtienen mayores recompensas: Esfuerzo","Obtienen mayores recompensas: Talento","Logran salir adelante: Padres ricos","Logran salir adelante: Buenos contactos","Deberían obtener mayores recompensas: Esfuerzo","Deberían obtener mayores recompensas: Talento","Esta bien que salgan adelante: Padres ricos","Esta bien que salgan adelante: Buenos contactos")
+merit_f4_table <- dplyr::select(merit_f4_table, -item)
+
+# CFA
+
+m_merit.4<-'
+perc_merit=~merit_perc_effort+merit_perc_talent
+pref_merit=~merit_pref_talent+merit_pref_effort
+perc_nmerit=~merit_perc_wpart+merit_perc_netw
+pref_nmerit=~merit_pref_netw+merit_pref_wpart
+'
+m_merit.4_ord.fit <- cfa(model = m_merit.4,data = data,ordered = T)
+
+
+
+# Structural Regression Models
+
+load("../Output/Modelos/regmodel1.rda")
+load("../Output/Modelos/regmodel2.rda")
+
+
+# Mediation analysis models
+
+med1 <- "
+# Endogenous factor variable
+Atribuciones_Internas=~atrib_pob_1+atrib_pob_3+atrib_riq_1+atrib_riq_3
+Atribuciones_Externas=~atrib_pob_4+atrib_pob_5+atrib_riq_4
+
+# Exogenous factor variable
+perc_merit=~merit_perc_effort+merit_perc_talent
+pref_merit=~merit_pref_talent+merit_pref_effort
+perc_nmerit=~merit_perc_wpart+merit_perc_netw
+pref_nmerit=~merit_pref_netw+merit_pref_wpart
+
+# Cov
+atrib_riq_1 ~~ atrib_riq_3
+
+         # a path
+         ess_ind ~ a*perc_merit
+
+         # b path
+         Atribuciones_Internas ~ b*ess_ind
+
+         # c prime path 
+         Atribuciones_Internas ~ cp*perc_merit
+
+         # indirect and total effects
+         ab := a*b
+         total := cp + ab
+"
+f.med1 <- sem(med1, data = data, se = "bootstrap", bootstrap = 500)
+
+
+med2 <- "
+# Endogenous factor variable
+Atribuciones_Internas=~atrib_pob_1+atrib_pob_3+atrib_riq_1+atrib_riq_3
+Atribuciones_Externas=~atrib_pob_4+atrib_pob_5+atrib_riq_4
+
+# Exogenous factor variable
+perc_merit=~merit_perc_effort+merit_perc_talent
+pref_merit=~merit_pref_talent+merit_pref_effort
+perc_nmerit=~merit_perc_wpart+merit_perc_netw
+pref_nmerit=~merit_pref_netw+merit_pref_wpart
+
+# Cov
+atrib_riq_1 ~~ atrib_riq_3
+
+         # a path
+         perc_merit ~ a*ess_ind
+
+         # b path
+         Atribuciones_Internas ~ b*perc_merit
+
+         # c prime path 
+         Atribuciones_Internas ~ cp*ess_ind
+
+         # indirect and total effects
+         ab := a*b
+         total := cp + ab
+"
+f.med2 <- sem(med2, data = data, se = "bootstrap", bootstrap = 500)
+```
+
+# Contenido:
+
+
+1. Problema de investigación
+1. Antecedentes
+1. Pregunta, objetivos e hipótesis
+1. Datos, variables y métodos
+1. Análisis
+1. Discusión y conclusiones
+1. Bibliografía
+---
+class: inverse, middle, center
+
+# 1. Problema de investigación
+---
+
+#### Contexto
+
+- Cambios estructurales (PNUD, 2017; OCDE, 2018; MIDESO y PNUD, 2017)
+
+- Altos niveles de desigualdad socioeconómica en Chile se han mantenido constantes (PNUD, 2017; Rodríguez Weber, 2017).
+    
+- Cambios en la experiencia, subjetividades y valores (Araujo, 2017; Mac-Clure et al., 2019; Frei et al., 2020; Dubet, 2021).
+
+    
+#### Problema social: ¿Cómo se sostienen estas desigualdades?
+
+- Enaltecimiento del mérito individual y la igualdad de oportunidades como principios de justicia social (Cociña 2013a; Araujo, 2017; Dubet, 2021). 
+    - **Lógica liberal de la justicia de mercado (Lane, 1986)**
+
+- Algunas creencias de la población tienen como efecto la legitimación de desigualdades (Kluegel y Smith, 1986). 
+
+- Creencia en la ideología meritocrática cumple rol central en justificación de sistemas (Jost y Hunyady, 2005). **Meritocracia tiene el problema de ambigüedad** (Dubet, 2021; Castillo, Atria y Maldonado, 2019)
+
+- Se ha visto que, en parte, las creencias que legitiman las desigualdades resulta de las creencias y actitudes negativas hacia la pobreza (Hunt y Bullock, 2016; Hoyt et al., 2021).
+
+---
+
+#### Problema de investigación: ¿Qué influye en estas creencias "negativas" hacia la pobreza?
+
+- A partir de la década de los noventa, Chile aumenta sus atribuciones internas y ambivalentes hacia la pobreza y riqueza y disminuye atribuciones externas. Ello apunta a la adopción de un ethos más individualista. (Frei et al., 2020). 
+
+- La "ficción meritocrática" afecta en mayor medida a los pobres y termina materializandose en instituciones (Dubet, 2021) o en atribuciones y actitudes negativas hacia la pobreza (Hoyt et al., 2021).
+
+### ¿Cómo se relacionan las creencias meritocráticas con las atribuciones de pobreza y riqueza? 
+
+---
+
+
+class: inverse, middle, center
+
+# 2. Antecedentes
+
+---
+
+# Variable dependiente: .red[ Atribuciones de pobreza y riqueza]
+
+- El cómo las personas se representan y explican que ciertos grupos sociales sufran carencias o disfruten de grandes ventajas (Kluegel y Smith, 1986).
+
+- **Atribuciones internas**: se responsabiliza al individuo
+
+- **Atribuciones externas**: explicaciones por causas estructurales
+
+- **Atribuciones ambivalentes**: combinación de ambas
+
+---
+
+## Medición: atribuciones de pobreza y riqueza
+
+- Ausencia de escala común
+
+    + Lista de causas de pobreza y riqueza con respuesta liker de acuerdo-desacuerdo.
+    
+    + Lista de causas de pobreza y riqueza en la que se selecciona una o dos respuestas.
+
+- Ausencia de agenda investigativa clara
+
+- Ambigüedad en algunas categorías
+
+---
+
+##  ¿Por qué estudiar atribuciones de pobreza y riqueza?
+
+Las atribuciones internas se han relacionado con distintas variables, jugando un rol importante en la legitimación de las desigualdades socioeconómicas. Algunas de ellos son: 
+
+- Estigmatización y deshumanización de grupos sociales (Sainz et al., 2019; Sainz et al., 2020)
+
+- Actitudes negativas inter-grupales (Madeira et al., 2019)
+
+- Legitimación de desigualdades socioeconómicas (Stephenson,2000; Lepianka, van Oorschot y Gelissen, 2009)
+
+- Disposición hacia políticas redistributivas (Bullock et al., 2003; Kornbluh et al., 2019; Sainz et al., 2019; Sainz et al., 2020)
+
+---
+
+## Antecedentes atribuciones de pobreza y riqueza
+
+#### .red[Determinantes objetivos-estructurales]
+
+- *Variables sociodemográficas*
+    - Baja correlación (Kluegel y Smith, 1981)
+    - Edad: a mayor edad, más atribuciones internas (Frei et al., 2019)
+
+- *Variables de estratificación social*
+    - Perspectiva de legitimación
+    - Perspectiva de la culpabilización propia
+    - Hipótesis ilustrada
+
+#### .red[Determinantes subjetivos]
+
+- Creencias en estratificación, experiencia personal y valores e ideología
+    
+    - Dentro de valores e ideología, destacan las creencias meritocráticas y el mérito como variable explicativa de las atribuciones de pobreza y riqueza
+
+---
+
+# Variable independiente: .red[Creencias meritocráticas]
+
+M. Young (1962): meritocracia como un orden social que basa la distribución de los recursos a partir del mérito individual. A su vez, el mérito opera a partir de los criterios de **esfuerzo y talento**. Concepto ambiguo (Sen, 2000)
+
+Las creencias de las personas acerca de cómo operan los mecanismos meritocráticos en la sociedad.
+
+- **Percepciones meritocráticas**: cómo la gente percibe -lo que son- de meritocracia en la sociedad
+
+- **Preferencias meritocrácticas**: cómo debiesen funcionar los mecanismos meritocráticos en la sociedad
+
+
+No se identifica una agenda clara en torno a su medición: 
+
+- Confusión en la definición conceptual meritocracia
+
+- Confusión en lo que se entiende por creencias meritocráticas
+
+- Uni-multidimensional
+
+---
+
+### Antecedentes en la relación entre meritocracia y atribuciones de pobreza y riqueza
+
+- Primer acercamiento en Lepianka (2007): aquellos que adhieren con mayor fuerza a este valor mantienen más atribuciones internas. Sin embargo, varía drásticamente entre regiones y países.
+
+- Posteriormente, Lepianka y colegas (2010) concluyen que a medida que la gente respalda con más fuerza el principio de mérito como justicia, es más probable que se atribuya la pobreza a la pereza antes que a causas estructurales
+
+- Madeira y colegas (2019) plantean que las percepciones meritocráticas cumplen un rol legitimador sobre las desigualdades entre grupos sociales.
+    - Mayores niveles de preferencia meritocrática tienen un menor efecto en actitudes negativas hacia grupos desfavorables
+      
+- Reciente estudio de **Hoyt y colegas (2021)** muestra que a mayor **percepción** meritocrática, más se culpa a los pobres. A su vez, la culpabilización de la pobreza media la relación entre percepciones meritocráticas y actitudes negativas hacia la pobreza. 
+      
+
+---
+
+## Relevancia del estudio
+
+- Discute con la *lógica de la justicia de mercado*, la cual sostiene que la posición que ocupan los individuos en la jerarquía social es producto de sus esfuerzos y méritos (Lane, 1986). 
+    - Implicancias políticas
+
+- La presente investigación releva que sostener y enaltecer valores meritocráticos no es inocuo para la sociedad ni para las desigualdades socioeconómicas.
+
+- Además, se busca distinguir entre ambos conceptos y a analizar su relación de manera empírica. En ocasiones, se utilizan ambos conceptos de manera indiscriminada sin fundamento empírico -como es el caso de la investigación de **Bucca (2016)**-. 
+
+- Estudio reciente (Hoyt et al., 2021) relaciona percepciones meritocráticas con culpabilización de la pobreza. El presente estudio complementa con otras dimensiones de las creencias meritocráticas y de las atribuciones.
+
+
+---
+class: inverse, middle, center
+
+# 3. Preguntas, objetivos e hipótesis
+
+---
+
+### Pregunta de investigación:
+
+¿Cómo se relacionan las percepciones y las preferencias meritocráticas con las atribuciones de pobreza y riqueza? 
+
+### Objetivos:
+
+1.	Analizar la relación entre atribuciones de pobreza y riqueza con las creencias meritocráticas.
+
+### Hipótesis:
+
+**H1**: A mayor percepción de meritocracia, mayores serán las atribuciones internas hacia la pobreza y la riqueza.
+
+**H2**: El efecto de las variables de estatus objetivo y subjetivos sobre las atribuciones internas hacia la pobreza y la riqueza es mediado por las creencias meritocráticas. 
+
+---
+class: inverse, middle, center
+
+# 4. Datos, variables y método
+
+---
+
+## Datos
+
+- Encuesta ola 2 del proyecto Fondecyt 1160921: "Economía Moral De La Meritocracia Y Preferencias Redistributivas"
+
+- 1400 casos válidos
+
+#### Pros 
+
+- Atribuciones operacionalizada como escala likert.
+
+#### Contras
+
+- No representativa de la población chilena
+
+- En un momento y pre-estalldio de 2019
+
+---
+
+class: title title-8, tiny-text
+
+#### Variables dependientes: Atribuciones de pobreza y riqueza
+
+.very-tiny[
+| Descripción|       Respuesta/valores|
+|------------|------------|
+| **Atribuciones de pobreza** |          |
+| **En su opinión, ¿con qué frecuencia las siguientes razones podrían ser la causa de la pobreza en Chile?** |    Escala 1 a 5: (1) Nunca / (5) Siempre |
+| Falta de habilidad |Escala 1 a 5   |
+| Mala suerte | Escala 1 a 5 |
+| Falta de esfuerzo | Escala 1 a 5 |
+| Sistema económico | Escala 1 a 5 |
+| Sistema educativo | Escala 1 a 5 |
+|  **Atribuciones de riqueza** |  |
+| **En su opinión, ¿con qué frecuencia las siguientes razones podrían ser la causa de la pobreza en Chile?** |  Escala 1 a 5: (1) Nunca / (5) Siempre |
+| Talento | Escala 1 a 5 |
+| Suerte | Escala 1 a 5 |
+| Trabajo duro | Escala 1 a 5 |
+| Sistema económico | Escala 1 a 5 |
+| Sistema educativo | Escala 1 a 5 |
+]
+
+
+---
+
+class: title title-8, tiny-text
+
+#### Variables independientes: percepciones y preferencias meritocráticas
+
+.very-tiny[
+| Descripción|       Respuesta/valores|
+|------------|------------|
+| **Percepciones meritocráticas** |          |
+| **Pensando en la sociedad chilena, ¿En qué medida se encuentra usted de acuerdo o en desacuerdo con cada una de las siguientes afirmaciones?** |    *Escala 1 a 5: Totalmente en desacuerdo / Totalmente de acuerdo  |
+| Quienes más se esfuerzan logran obtener mayores recompensas que quienes se esfuerzan menos. |Escala 1 a 5   |
+| Quienes poseen más talento logran obtener mayores recompensas que quienes se esfuerzan menos. | Escala 1 a 5 |
+| Quienes tienen padres ricos logran salir adelante. | Escala 1 a 5 |
+| Quienes tienen buenos contactos logran salir adelante. | Escala 1 a 5 |
+|  **Atribuciones de riqueza** |  |
+| **Pensando en la sociedad chilena, ¿En qué medida se encuentra usted de acuerdo o en desacuerdo con cada una de las siguientes afirmaciones?** |  *Escala 1 a 5: Totalmente en desacuerdo / Totalmente de acuerdo¨* |
+| Quienes más se esfuerzan deberían obtener mayores recompensas que quienes se esfuerzan menos. | Escala 1 a 5 |
+| Quienes poseen más talento deberían obtener mayores recompensas que quienes se esfuerzan menos. | Escala 1 a 5 |
+| Está bien que quienes tienen padres ricos salgan adelante. | Escala 1 a 5 |
+| Está bien que quienes tienen padres ricos salgan adelante. | Escala 1 a 5 |
+]
+
+---
+
+## Variables de control
+
+.very-tiny[
+| Variable    | Descripción|       Respuesta/valores|
+|------------|:-----------:|------------|
+| Sexo | Sexo del encuestado/a | Hombre (0) / Mujer (1) |
+| Edad | Edad del encuestado/a | Escala continua |
+| Escolarización | Nivel educacional alcanzado por el/la encuestado/a | **"Secundaria completa o menos" = 1**; "Superior no universitaria completa o incompleta" = 2; **"Universitaria o postgrados completa o incompleta" = 3** |
+| Ingreso del encuestado | Tramos de ingreso |  **"Menos de $179.000" = 1**, "De $179.001 a $358.000" = 2, **"De $358.001 a $448.000"= 3**, "De $448.001 a $1.000.000" = 4, **"De $1.000.001 a $2.000.000" = 5**, "De $2.000.001 a $3.000.000" = 6, **"Más de $3.000.000" = 7** |
+| Estatus social subjetivo | En nuestra sociedad, hay grupos que tienden a ubicarse en los niveles más altos y grupos que tienden a ubicarse en los niveles más bajos. ¿Dónde se ubicaría usted? | Escala de 1 a 10 |
+]
+
+---
+
+# Método
+
+- En un primer momento se realiza un análisis 
+
+- Luego, se revisarán los descriptivos de las variables dependientes e independientes, con el objetivo de caracterizar ...
+
+- Finalmente se realizará un Modelo de Ecuación Estructural (SEM, por sus siglas en inglés), para probar y estimar relaciones causales, incluyendo variables latentes y mediadoras.
+
+---
+
+class: inverse, middle, center
+
+# 5. Avances
+
+---
+
+#### Descriptivos 
+
+```{r tab-desc1, echo=FALSE}
+
+print(dfSummary(data, headings=FALSE, valid.col = FALSE, na.col = FALSE, varnumbers = FALSE,
+                col.widths = c(170,  # variable
+                              160,  # label
+                              190, # stats/Values 
+                              130, # freqs
+                              130 # graph 
+                              ),graph.magnif = 0.97),
+      max.tbl.height = 500,
+      method="render")
+
+```
+
+---
+
+class: middle, center
+
+## Modelo de medición para Atribuciones de pobreza y riqueza
+
+---
+
+.pull-left[
+#### Correlación de pearson
+```{r echo=FALSE, results='asis'}
+pearson_atrib=cor(atribcor, use = "complete.obs")
+windowsFonts(A = windowsFont("Times New Roman"))
+rownames(pearson_atrib) <-c(
+  "(1) Atribuciones pobreza Falta habilidad",
+  "(2) Atribuciones pobreza Mala suerte",
+  "(3) Atribuciones pobreza Falta esfuerzo",
+  "(4) Atribuciones pobreza Sistema económico",
+  "(5) Atribuciones pobreza Sistema educativo",
+  "(6) Atribuciones riqueza Talento",
+  "(7) Atribuciones riqueza Suerte",
+  "(8) Atribuciones riqueza Trabajo duro",
+  "(9) Atribuciones riqueza Sistema económico",
+  "(10) Atribuciones riqueza Sistema educativo")
+colnames(pearson_atrib) <-c("(1)", "(2)","(3)","(4)","(5)", "(6)","(7)","(8)","(9)","(10)")
+corrplot(pearson_atrib,
+         method = "color",
+         type = "upper",
+         tl.col = "black",
+         addCoef.col = "black",
+         diag = TRUE,
+         family = "A",
+         number.font = 6,
+         tl.cex =0.75,
+         number.cex = 1)
+```
+]
+
+.pull-right[
+#### Correlación policlorica
+```{r echo=FALSE, results='asis'}
+polycor_atrib <- psych::polychoric(atribcor)
+windowsFonts(A = windowsFont("Times New Roman"))
+rownames(polycor_atrib$rho) <-c(
+  "(1) Atribuciones pobreza Falta habilidad",
+  "(2) Atribuciones pobreza Mala suerte",
+  "(3) Atribuciones pobreza Falta esfuerzo",
+  "(4) Atribuciones pobreza Sistema económico",
+  "(5) Atribuciones pobreza Sistema educativo",
+  "(6) Atribuciones riqueza Talento",
+  "(7) Atribuciones riqueza Suerte",
+  "(8) Atribuciones riqueza Trabajo duro",
+  "(9) Atribuciones riqueza Sistema económico",
+  "(10) Atribuciones riqueza Sistema educativo"
+  )
+colnames(polycor_atrib$rho) <-c("(1)", "(2)","(3)","(4)","(5)", "(6)","(7)","(8)","(9)","(10)")
+corrplot(polycor_atrib$rho,
+  method = "color",
+  type = "upper",
+  tl.col = "black",
+  addCoef.col = "black",
+  diag = TRUE,
+  number.font = 6,
+  tl.cex =0.75,
+  number.cex = 1)
+```
+]
+
+---
+
+class: very-tiny-text
+
+## AFE
+
+.pull-left[
+```{r results='asis',echo=FALSE, message=FALSE, warning=FALSE}
+knitr::kable(f2_table,
+             caption = "Cargas factoriales Modelo 2 Factores")
+```
+]
+
+.pull-right[
+```{r results='asis', echo=FALSE, message=FALSE, warning=FALSE}
+knitr::kable(f3_table,
+             caption = "Cargas factoriales Modelo 3 Factores")
+```
+]
+
+---
+
+class: tiny-text 
+
+## CFA
+
+```{r echo=FALSE, results='asis',warning=FALSE, message=FALSE}
+lay_dep <- get_layout("", "", "Atribuciones_Internas","","","Atribuciones_Externas","",
+                  "atrib_pob_1", "atrib_pob_3", "atrib_riq_1", "atrib_riq_3", "atrib_pob_4", "atrib_pob_5", "atrib_riq_4", rows = 2)
+graph_sem(msf_3.fit, layout = lay_dep)
+```
+
+---
+
+```{r echo=FALSE, results='asis',warning=FALSE, message=FALSE}
+datatable(tb.atrib.fit.2f,colnames = c('Variables', 'Atribuciones internas', 'Atribuciones externas'), options = list(
+  pageLength = 12))
+```
+
+---
+
+
+class: middle, center
+
+## Modelo de medición para Percepciones y Preferencias meritocráticas
+
+---
+
+
+.pull-left[
+#### Correlación de pearson
+```{r echo=FALSE, results='asis'}
+
+pearson_merit=cor(meritcor, use = "complete.obs")
+windowsFonts(A = windowsFont("Times New Roman"))
+rownames(pearson_merit) <-c(
+  "(1) Obtienen mayores recompensas: Esfuerzo",
+  "(2) Obtienen mayores recompensas: Talento",
+  "(3) Logran salir adelante: Padres ricos",
+  "(4) Logran salir adelante: Buenos contactos",
+  "(5) Deberían obtener mayores recompensas: Esfuerzo",
+  "(6) Deberían obtener mayores recompensas: Talento",
+  "(7) Esta bien que salgan adelante: Padres ricos",
+  "(8) Esta bien que salgan adelante: Buenos contactos")
+colnames(pearson_merit) <-c("(1)", "(2)","(3)","(4)","(5)", "(6)","(7)","(8)")
+corrplot(pearson_merit,
+         method = "color",
+         type = "upper",
+         tl.col = "black",
+         addCoef.col = "black",
+         diag = TRUE,
+         family = "A",
+         number.font = 6,
+         tl.cex =0.75,
+         number.cex = 1)
+```
+]
+
+.pull-right[
+#### Correlación policlorica
+```{r echo=FALSE, results='asis'}
+polycor_merit <- psych::polychoric(meritcor)
+windowsFonts(A = windowsFont("Times New Roman"))
+rownames(polycor_merit$rho) <-c(
+  "(1) Obtienen mayores recompensas: Esfuerzo",
+  "(2) Obtienen mayores recompensas: Talento",
+  "(3) Logran salir adelante: Padres ricos",
+  "(4) Logran salir adelante: Buenos contactos",
+  "(5) Deberían obtener mayores recompensas: Esfuerzo",
+  "(6) Deberían obtener mayores recompensas: Talento",
+  "(7) Esta bien que salgan adelante: Padres ricos",
+  "(8) Esta bien que salgan adelante: Buenos contactos")
+colnames(polycor_merit$rho) <-c("(1)", "(2)","(3)","(4)","(5)", "(6)","(7)","(8)")
+corrplot(polycor_merit$rho,
+         method = "color",
+         type = "upper",
+         tl.col = "black",
+         addCoef.col = "black",
+         diag = TRUE,
+         number.font = 6,
+         tl.cex =0.75,
+         number.cex = 1)
+```
+]
+
+---
+
+class: very-tiny-text
+
+## AFE
+
+.pull-left[
+```{r results='asis',echo=FALSE, message=FALSE, warning=FALSE}
+knitr::kable(merit_f3_table,
+             caption = "Cargas factoriales Modelo 3 Factores")
+```
+]
+
+.pull-right[
+```{r results='asis', echo=FALSE, message=FALSE, warning=FALSE}
+knitr::kable(merit_f4_table,
+             caption = "Cargas factoriales Modelo 4 Factores")
+```
+]
+
+---
+
+class: very-tiny-text 
+
+## CFA
+
+
+```{r echo=FALSE, results='asis',warning=FALSE, message=FALSE}
+lay_indep <- get_layout("", "perc_merit", "","pref_merit","perc_nmerit","","pref_nmerit","",
+                  "merit_perc_effort", "merit_perc_talent", "merit_pref_talent", "merit_pref_effort", "merit_perc_wpart", "merit_perc_netw", "merit_pref_netw", "merit_pref_wpart", rows = 2)
+graph_sem(m_merit.4_ord.fit, layout = lay_indep)
+
+```
+
+---
+
+class: tiny-text
+
+```{r echo=FALSE, results='asis',warning=FALSE, message=FALSE}
+datatable(tb.merit.fit.4f,colnames = c('Variables', 'Percepciones merit', 'Preferencias merit', 'Percepciones No merit', 'Preferencias No merit'), options = list(
+  pageLength = 15))
+```
+
+---
+
+class: middle, center
+
+## Modelo de ecuaciones estructurales
+
+---
+
+class: med-tiny-text, center
+
+.pull.left[#### Modelos de regresión
+]
+```{r echo=FALSE, results='asis',warning=FALSE, message=FALSE}
+semoutput::sem_paths(reg.control.fit, standardized = TRUE, ci = "standardized", print = T)
+```
+
+
+```{r echo=FALSE, results='asis',warning=FALSE, message=FALSE}
+semoutput::sem_paths(reg.indeps.fit, standardized = TRUE, ci = "standardized", print = T)
+```
+
+---
+
+class: middle, center
+
+## Modelo de Ecuaciones Estructurales
+
+---
+
+.pull-left[
+**Estatus subjetivo mediando relación entre percepción meritocrática y atribuciones internas**
+]
+
+.pull-right[
+**Percepción meritocrática mediando relación entre estatus subjetivo y atribuciones internas**
+]
+```{r echo=FALSE, results='asis',warning=FALSE,fig.show="hold", out.width="50%"}
+med_per_to_ess <- c(0, "'.25**'", 0,
+          0, 0, 0, 
+          "'.04**'", "'.56*** (.06)'", 0)
+matrix_per_to_ess<- matrix (nrow=3, ncol=3, byrow = TRUE, data=med_per_to_ess)
+med_plot1<- plotmat (matrix_per_to_ess, pos=c(1,2), 
+                name= c( "Estatus Social Subjetivo","Percepción meritocrática", "Atribuciones internas"), 
+                box.type = "rect", box.size = 0.165, box.prop=0.5,  curve=0)
+
+
+
+med_ess_to_per <- c(0, "'.04'", 0,
+                    0, 0, 0, 
+                    "'.44***'", "'.06*** (.01)'", 0)
+matrix_ess_to_per<- matrix (nrow=3, ncol=3, byrow = TRUE, data=med_ess_to_per)
+med_plot2 <- plotmat (matrix_ess_to_per, pos=c(1,2), 
+                     name= c( "Percepción meritocrática","Estatus Social Subjetivo", "Atribuciones internas"), 
+                     box.type = "rect", box.size = 0.165, box.prop=0.5,  curve=0)
+```
+
+---
+
+## Discusión y conclusiones:
+
+1. 
+
+1. 
+
+
+---
+
+## 6.- Bibliografía
+
+Ministerio de Desarrollo Social, and PNUD. 2017. “Evolución de La Pobreza 1990 - 2017: Ha Cambiado Chile?. Gobierno de Chile.”
+
+Hunt, Matthew O., and Heather Bullock. 2016. Ideologies and Beliefs about Poverty. Oxford, UK: Oxford University Press.

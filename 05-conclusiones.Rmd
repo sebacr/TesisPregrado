@@ -1,16 +1,17 @@
 
-# Comentarios finales y autoevaluación
+# Conclusiones
 
 <div style="text-align: justify">
 
-La presente entrega corresponde a un primer avance del borrador de tesis de pregrado de sociología, Universidad de Chile. Diferentes aspectos deben corregirse durante el segundo semestre del 2021. En primer lugar, respecto a los antecedentes, se debe dar mayor énfasis a (1) los vacíos empíricos sobre la relación entre creencias meritocráticas y atribuciones de pobreza y riqueza, (2) desarrollar con mayor profundidad la idea de justicia de mercado, una de las tesis con la que se discute en esta investigación y (3) pensar si incluir discusión sobre teoría de interés racional, sobretodo si se piensa plantear variables de creencias meritocráticas como mecanismo mediador entre variables de estratificación y atribuciones de pobreza.
 
-Por otro lado, respecto a método y análisis, se destacan las plantean las siguientes observaciones y dudas: (1) probar con otras formas de construir variable dependiente (la cual por su forma de medición, no existe consenso de la mejor forma de operacionalizarla). En este sentido, los avances descriptivos muestran problemas con la dimensión de educación en las variables de atribuciones de pobreza. (2) Debido a que hay variables que se miden de distintas maneras entre las bases de datos de los distintos años, como también a que algunas variables no aparecen en años específicos, se debe replantear el trabajar de manera longitudinal y/o con los tres años. Estos problemas son mayores para los datos del año 2000 respecto a los del 2009 y 2019. (3) Revisar nueva base de datos con otra forma de medición de creencias meritocráticas y atribuciones de pobreza (bbdd será proporcionada por el profesor).
+## Apunter preliminares
 
-**Autoevaluación**: me gustaría considerar para esta sección tres aspectos. El primero refiere a la corrección de comentarios del seminario, enfocados en introducción y antecedentes. Creo que el producto no cumple con las expectativas y lo exigido en estas secciones, sobretodo por no incorporar mucho contenido nuevo y modificar estructura. Sin embargo, lo trabajado intentó despejar cada uno de los comentarios de la mejor forma posible, con tal de que quedara un producto más coherente. La nota en este aspecto es 5.8. 
+### En torno a justificación de sistemas/desigualdad 
 
-El segundo es sobre lo realizado en análisis. Dejando de lado la presentación/visualización, se dedicó mucho tiempo a esta sección, como también a explorar, limpiar y codificar datos. En este sentido, se presentan algunos resultados aunque no definitivos. La nota en este aspecto es 6.6.
+La discusión en torno a la teoría de justificación de sistemas, la cual comienza con @kluegel_beliefs_1986 pero que se desarrolla en profundidad en @jost_role_1994, toma relevancia en el contexto de la sociedad chilena actual, la cual se ve enfrentada a grandes cambios pero que, al mismo tiempo, es resiliente a ellos. Esto se ve, por ejemplo, en las elecciones [mencionar ascenso del candidato de ultraderecha]
 
-El último refiere al tiempo y la forma en que se abordó el trabajo de la tesis. No hubo constancia en el trabajo por distintas razones, y el proceso de autoaprendizaje -autodidacta- se vió estancado, sobre todo al meterme en temas metodológicos y más estadísticos. De todas maneras, cumplí con mis expectativas en este sentido, logrando varias metas. La nota en este aspecto es 7.0. 
+### En torno a la igualdad de oportunidades y agenda liberal 
 
-Nota de autoevaluación final: 6.5.
+Creer en la igualdad de oportunidades ayuda a defender la ideología meritocrática: si todos comenzamos con el mismo conjunto de oportunidades, es justo que el sistema recompense el esfuerzo, la capacidad y la motivación individuales. Por lo tanto, atribuir resultados económicos a fallas y deficiencias individuales no solo representa una falta de conciencia estructural, sino que puede estar motivado por la necesidad de justificar el sistema. (Godfrey and Wolf, 2016)
+
+Se ha criticado a la meritocracia en sociedades altamente meritocráticas como es Estados Unidos y el Reino Unido de ni siquiera cumplir con su cometido de movilidad social, en el sentido de que simplemente reproduce el estatus ya existente a través de la educación (Bourdieu y Passeron, 1990; Warikoo y Fuhr, 2013 (en Alex Torres,p.52); alex torres). Por ello, muchas veces se ha señalado que la misma meritocracia produce las condiciones para que su cometido sea imposible de cumplirse (Page, 2013a;2013b (en Alex Torres,p.53); Alex Torres). 

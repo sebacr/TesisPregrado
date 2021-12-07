@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>4.4 Análisis de Modelos Estructurales | Tesis de grado</title>
+  <meta name="description" content="4.4 Análisis de Modelos Estructurales | Tesis de grado" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="4.4 Análisis de Modelos Estructurales | Tesis de grado" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="4.4 Análisis de Modelos Estructurales | Tesis de grado" />
+  
+  
+  
+
+<meta name="author" content="Sebastián Cortínez Rojas" />
+
+
+<meta name="date" content="2021-12-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="modelo-de-medición-para-percepciones-y-preferencias-meritocráticas.html"/>
+<link rel="next" href="conclusiones.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">tesisfacsodown</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Resumen</a></li>
+<li class="chapter" data-level="" data-path="agradecimientos.html"><a href="agradecimientos.html"><i class="fa fa-check"></i>Agradecimientos</a></li>
+<li class="chapter" data-level="1" data-path="introducción.html"><a href="introducción.html"><i class="fa fa-check"></i><b>1</b> Introducción:</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="estructura-de-investigación.html"><a href="estructura-de-investigación.html"><i class="fa fa-check"></i><b>1.1</b> Estructura de investigación</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="antecedentes.html"><a href="antecedentes.html"><i class="fa fa-check"></i><b>2</b> Antecedentes</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="atribuciones-de-pobreza-y-riqueza.html"><a href="atribuciones-de-pobreza-y-riqueza.html"><i class="fa fa-check"></i><b>2.1</b> Atribuciones de pobreza y riqueza</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="atribuciones-de-pobreza-y-riqueza.html"><a href="atribuciones-de-pobreza-y-riqueza.html#conceptualización-y-medición-de-atribuciones"><i class="fa fa-check"></i><b>2.1.1</b> Conceptualización y medición de atribuciones</a></li>
+<li class="chapter" data-level="2.1.2" data-path="atribuciones-de-pobreza-y-riqueza.html"><a href="atribuciones-de-pobreza-y-riqueza.html#antecedentes-de-las-atribuciones-de-pobreza-y-riqueza"><i class="fa fa-check"></i><b>2.1.2</b> Antecedentes de las atribuciones de pobreza y riqueza</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="creencias-meritocráticas.html"><a href="creencias-meritocráticas.html"><i class="fa fa-check"></i><b>2.2</b> Creencias meritocráticas</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="creencias-meritocráticas.html"><a href="creencias-meritocráticas.html#el-principio-meritocrático"><i class="fa fa-check"></i><b>2.2.1</b> El principio meritocrático</a></li>
+<li class="chapter" data-level="2.2.2" data-path="creencias-meritocráticas.html"><a href="creencias-meritocráticas.html#las-creencias-meritocráticas-en-las-ciencias-sociales"><i class="fa fa-check"></i><b>2.2.2</b> Las creencias meritocráticas en las ciencias sociales</a></li>
+<li class="chapter" data-level="2.2.3" data-path="creencias-meritocráticas.html"><a href="creencias-meritocráticas.html#relación-de-la-meritocracia-con-las-creencias-sobre-desigualdad-y-sobre-la-pobreza"><i class="fa fa-check"></i><b>2.2.3</b> Relación de la meritocracia con las creencias sobre desigualdad y sobre la pobreza</a></li>
+<li class="chapter" data-level="2.2.4" data-path="creencias-meritocráticas.html"><a href="creencias-meritocráticas.html#antecedentes-en-la-relación-entre-meritocracia-y-atribuciones-de-pobreza-y-riqueza"><i class="fa fa-check"></i><b>2.2.4</b> Antecedentes en la relación entre meritocracia y atribuciones de pobreza y riqueza</a></li>
+<li class="chapter" data-level="2.2.5" data-path="creencias-meritocráticas.html"><a href="creencias-meritocráticas.html#estatus-creencias-meritocráticas-y-atribuciones-de-pobreza-y-riqueza"><i class="fa fa-check"></i><b>2.2.5</b> Estatus, creencias meritocráticas y atribuciones de pobreza y riqueza</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="datos-variables-y-métodos.html"><a href="datos-variables-y-métodos.html"><i class="fa fa-check"></i><b>3</b> Datos, variables y métodos</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="datos.html"><a href="datos.html"><i class="fa fa-check"></i><b>3.1</b> Datos</a></li>
+<li class="chapter" data-level="3.2" data-path="variables.html"><a href="variables.html"><i class="fa fa-check"></i><b>3.2</b> Variables</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="variables.html"><a href="variables.html#variables-dependientes"><i class="fa fa-check"></i><b>3.2.1</b> Variables dependientes</a></li>
+<li class="chapter" data-level="3.2.2" data-path="variables.html"><a href="variables.html#variables-independientes"><i class="fa fa-check"></i><b>3.2.2</b> Variables independientes</a></li>
+<li class="chapter" data-level="3.2.3" data-path="variables.html"><a href="variables.html#variables-de-control"><i class="fa fa-check"></i><b>3.2.3</b> Variables de control</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="métodos.html"><a href="métodos.html"><i class="fa fa-check"></i><b>3.3</b> Métodos</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="análisis.html"><a href="análisis.html"><i class="fa fa-check"></i><b>4</b> Análisis</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="análisis-descriptivo.html"><a href="análisis-descriptivo.html"><i class="fa fa-check"></i><b>4.1</b> Análisis descriptivo</a></li>
+<li class="chapter" data-level="4.2" data-path="modelo-de-medición-para-atribuciones-de-pobreza-y-riqueza.html"><a href="modelo-de-medición-para-atribuciones-de-pobreza-y-riqueza.html"><i class="fa fa-check"></i><b>4.2</b> Modelo de medición para Atribuciones de pobreza y riqueza</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="modelo-de-medición-para-atribuciones-de-pobreza-y-riqueza.html"><a href="modelo-de-medición-para-atribuciones-de-pobreza-y-riqueza.html#modelos-de-correlación"><i class="fa fa-check"></i><b>4.2.1</b> Modelos de correlación</a></li>
+<li class="chapter" data-level="4.2.2" data-path="modelo-de-medición-para-atribuciones-de-pobreza-y-riqueza.html"><a href="modelo-de-medición-para-atribuciones-de-pobreza-y-riqueza.html#análisis-factorial-confirmatorio"><i class="fa fa-check"></i><b>4.2.2</b> Análisis factorial confirmatorio</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="modelo-de-medición-para-percepciones-y-preferencias-meritocráticas.html"><a href="modelo-de-medición-para-percepciones-y-preferencias-meritocráticas.html"><i class="fa fa-check"></i><b>4.3</b> Modelo de medición para Percepciones y Preferencias meritocráticas</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="modelo-de-medición-para-percepciones-y-preferencias-meritocráticas.html"><a href="modelo-de-medición-para-percepciones-y-preferencias-meritocráticas.html#modelos-de-correlación-1"><i class="fa fa-check"></i><b>4.3.1</b> Modelos de correlación</a></li>
+<li class="chapter" data-level="4.3.2" data-path="modelo-de-medición-para-percepciones-y-preferencias-meritocráticas.html"><a href="modelo-de-medición-para-percepciones-y-preferencias-meritocráticas.html#análisis-factorial-confirmatorio-1"><i class="fa fa-check"></i><b>4.3.2</b> Análisis Factorial Confirmatorio</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="análisis-de-modelos-estructurales.html"><a href="análisis-de-modelos-estructurales.html"><i class="fa fa-check"></i><b>4.4</b> Análisis de Modelos Estructurales</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="análisis-de-modelos-estructurales.html"><a href="análisis-de-modelos-estructurales.html#atribuciones-internas-de-pobreza-y-riqueza"><i class="fa fa-check"></i><b>4.4.1</b> Atribuciones internas de pobreza y riqueza</a></li>
+<li class="chapter" data-level="4.4.2" data-path="análisis-de-modelos-estructurales.html"><a href="análisis-de-modelos-estructurales.html#atribuciones-externas-de-pobreza-y-riqueza"><i class="fa fa-check"></i><b>4.4.2</b> Atribuciones externas de pobreza y riqueza</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="conclusiones.html"><a href="conclusiones.html"><i class="fa fa-check"></i><b>5</b> Conclusiones</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="apunter-preliminares.html"><a href="apunter-preliminares.html"><i class="fa fa-check"></i><b>5.1</b> Apunter preliminares</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="apunter-preliminares.html"><a href="apunter-preliminares.html#en-torno-a-justificación-de-sistemasdesigualdad"><i class="fa fa-check"></i><b>5.1.1</b> En torno a justificación de sistemas/desigualdad</a></li>
+<li class="chapter" data-level="5.1.2" data-path="apunter-preliminares.html"><a href="apunter-preliminares.html#en-torno-a-la-igualdad-de-oportunidades-y-agenda-liberal"><i class="fa fa-check"></i><b>5.1.2</b> En torno a la igualdad de oportunidades y agenda liberal</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bibliografía.html"><a href="bibliografía.html"><i class="fa fa-check"></i>Bibliografía</a></li>
+<li class="chapter" data-level="6" data-path="apendice.html"><a href="apendice.html"><i class="fa fa-check"></i><b>6</b> Apéndice</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="cfa-creencias-meritocráticas.html"><a href="cfa-creencias-meritocráticas.html"><i class="fa fa-check"></i><b>6.1</b> CFA: creencias meritocráticas</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado con bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Tesis de grado</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="análisis-de-modelos-estructurales" class="section level2" number="4.4">
+<h2><span class="header-section-number">4.4</span> Análisis de Modelos Estructurales</h2>
+<div style="text-align: justify">
+
+<p>En esta sección se presentan los resultados de los modelos de ecuaciones estructurales, a partir del análisis de diferentes modelos de regresión. Para mayor claridad, se subdivide en dos apartados. En el primero se analiza la influencia de las variables exógenas sobre la variable latente referente a atribuciones internas de la pobreza y la riqueza. En el segundo se analiza la influencia de las variables exógenas sobre la variable latente referente a atribuciones externas de la pobreza y la riqueza.</p>
+<p>Siguiendo la hipótesis, en un primer momento se analizan las variables de interés racional y sociodemográficas, considerando que son los factores que más se han incluido en la literatura para estudiar la variación en las atribuciones de pobreza y riqueza. Luego se incluyen las variables independientes, siendo estas las percepciones y preferencias meritocráticas. Finalmente, a modo de control, se agregan percepciones y preferencias no meritocráticas, las cuales refieren a la percepción de que quienes tienen padres ricos o buenos contactos logran salir adelante, o a la preferencia de que quienes tienen padres ricos o buenos contactos salgan adelante.</p>
+<p>El orden en que se presentarán los resultados responden a un problema de relevancia en el área de las atribuciones de pobreza y riqueza, siendo las atribuciones internas un tipo de explicación que ha sido relacionado con la legitimación de desigualdades, mientras que las externas se vinculan más a una visión crítica.</p>
+<div id="atribuciones-internas-de-pobreza-y-riqueza" class="section level3" number="4.4.1">
+<h3><span class="header-section-number">4.4.1</span> Atribuciones internas de pobreza y riqueza</h3>
+<div style="text-align: justify">
+
+
+
+<table class="texreg" style="margin: 10px auto;border-collapse: collapse;border-spacing: 0px;color: #000000;border-top: 2px solid #000000;">
+<caption>Modelos de ecuaciones estructurales para variables independientes con la variable latente <b>Atribuciones internas (1)<b></caption>
+<thead>
+<tr>
+<th style="padding-left: 5px;padding-right: 5px;">&nbsp;</th>
+<th style="padding-left: 5px;padding-right: 5px;">Modelo 1</th>
+<th style="padding-left: 5px;padding-right: 5px;">Modelo 2</th>
+<th style="padding-left: 5px;padding-right: 5px;">Modelo 3</th>
+<th style="padding-left: 5px;padding-right: 5px;">Modelo 4</th>
+<th style="padding-left: 5px;padding-right: 5px;">Modelo 5</th>
+<th style="padding-left: 5px;padding-right: 5px;">Modelo 6</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">Sexo (Ref=hombre)</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.143<sup>**</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.139<sup>**</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.127<sup>**</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-2.904)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-2.806)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-2.660)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Edad</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.078<sup>***</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">0.072<sup>***</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.073<sup>***</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(3.783)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(3.524)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(3.702)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;"><b>Educaci&oacuten (ref: Media completa o menos)<b></td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Educaci&oacuten t&eacutecnica</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.075</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.078</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.076</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-1.268)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-1.323)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-1.321)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Educaci&oacuten universitaria incompleta</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.033</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.045</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.045</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-0.374)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-0.516)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-0.533)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Educaci&oacuten universitaria y postgrado</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.029</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.080</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.083</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-0.432)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-1.186)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-1.264)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;"><b>Rango ingresos mensuales hogar (ref: $358.000 o menos )<b></td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;De $358.001 a $448.000</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.112</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.132</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.136</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-1.431)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-1.676)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-1.788)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;De $448.001 a $1.000.000 mensuales</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.006</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.068</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.068</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-0.093)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-1.029)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-1.071)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;De $1.000.001 a $2.000.000</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.065</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.181<sup>*</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.181<sup>*</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-0.842)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-2.286)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-2.342)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M&aacutes de $2.000.001</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.022</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.198</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.197</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-0.192)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-1.671)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-1.716)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;"><b>Actividad principal (ref: Trabajo jornada completa o parcial)<b></td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No remunerada</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.012</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.029</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.026</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.150)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.363)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.331)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Desempleado</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.039</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.018</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.015</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-0.539)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-0.248)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-0.218)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Trabaja y estudia</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.064</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.109</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.104</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-0.556)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-0.931)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-0.926)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Estudia</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.227<sup>*</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.307<sup>**</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.293<sup>**</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-2.127)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-2.858)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-2.766)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jubliado</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.113</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.101</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.093</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(1.076)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.961)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.918)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Estatus Social Subjetivo</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.102<sup>***</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.099<sup>***</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(6.436)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(6.538)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Percepci&oacuten meritocr&aacutetica</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.862<sup>***</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.447<sup>***</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">0.443<sup>***</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(12.798)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(6.885)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(7.109)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Preferencia meritocr&aacutetica</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.257<sup>***</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.134</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.113</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-3.488)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(1.845)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(1.620)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Percepci&oacuten no meritocr&aacutetica</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.358<sup>***</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.163<sup>***</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.143<sup>***</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-7.904)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-3.739)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-3.329)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Preferencia no meritocr&aacutetica</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.915<sup>***</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">0.186<sup>***</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">0.176<sup>***</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(14.207)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(4.794)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(4.737)</td>
+</tr>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;"><b>&#88&sup2<b></td>
+<td style="padding-left: 5px;padding-right: 5px;">143.953</td>
+<td style="padding-left: 5px;padding-right: 5px;">161.120</td>
+<td style="padding-left: 5px;padding-right: 5px;">359.298</td>
+<td style="padding-left: 5px;padding-right: 5px;">558.208</td>
+<td style="padding-left: 5px;padding-right: 5px;">323.621</td>
+<td style="padding-left: 5px;padding-right: 5px;">697.487</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;"><b>gl<b></td>
+<td style="padding-left: 5px;padding-right: 5px;">82</td>
+<td style="padding-left: 5px;padding-right: 5px;">87</td>
+<td style="padding-left: 5px;padding-right: 5px;">78</td>
+<td style="padding-left: 5px;padding-right: 5px;">78</td>
+<td style="padding-left: 5px;padding-right: 5px;">74</td>
+<td style="padding-left: 5px;padding-right: 5px;">269</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;"><b>CFI<b></td>
+<td style="padding-left: 5px;padding-right: 5px;">0.997</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.997</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.967</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.943</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.969</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.984</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;"><b>RMSEA<b></td>
+<td style="padding-left: 5px;padding-right: 5px;">0.025</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.026</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.054</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.071</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.052</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.036</td>
+</tr>
+<tr style="border-bottom: 2px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;"><b>Num. obs.<b></td>
+<td style="padding-left: 5px;padding-right: 5px;">1228</td>
+<td style="padding-left: 5px;padding-right: 5px;">1228</td>
+<td style="padding-left: 5px;padding-right: 5px;">1228</td>
+<td style="padding-left: 5px;padding-right: 5px;">1228</td>
+<td style="padding-left: 5px;padding-right: 5px;">1228</td>
+<td style="padding-left: 5px;padding-right: 5px;">1228</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="font-size: 0.8em;" colspan="7"><sup>***</sup>p &lt; 0.001; <sup>**</sup>p &lt; 0.01; <sup>*</sup>p &lt; 0.05</td>
+</tr>
+</tfoot>
+</table>
+
+<p>Respecto a las variables de interés racional, no se observan coeficientes significativos tanto en educación como en rango de ingresos. Si se es sumamente flexible con la significancia, con un 95% de confianza, el rango de 1 millón a 2 millones de pesos presenta un coeficiente negativo, lo cual indicaría que este grupo, respecto de quienes pertenecen al tramo de $380.000 o menos, mantienen menos atribuciones internas sobre la pobreza y la riqueza.</p>
+<p>A diferencia de las variables referentes a estratificación social, las variables sociodemográficas mostraron resultados más contundentes en cuanto a significancia. Sexo, con hombre como categoría de referencia, presente un coeficiente negativo a un 99% de confianza, lo que indica que las mujeres mantienen menos atribuciones internas que los hombres. Esto coincide con la hipótesis de los desvalidos <em>o tiene otro nombre? de legitimacioN?</em> que se observa en algunos trabajos (), en donde el que los hombres mentengan más atribuciones internas funciona para legitimizar su superioridad y su propia posición en la jerarquía social. Por su parte, edad presenta un efecto positivo al 99,9% de confianza, lo cual indica que quienes presentan más edad mantienen más atribuciones internas. <em>explicar porque puede ser | ver si se recodifica por rangos</em>. Finalmente, en actividad princiapl no se observan efectos significativos, a excepción de la de estudiante, que muestra un efecto negativo pero débil en significancia (95% de confianza), lo que indicaría que aquellos que se encuentran estudiando mantienen menos atribuciones internas respecto de aquellos que se encuentran trabajando con joranada completa o parcial.</p>
+<p>En el modelo 2, además de las variables de estratificación objetivas, se agrega el estatus social subjetivo del sujeto. El estatus social subjetivo muestra un efecto positivo y significativo al 99,9% de confianza, indicando que aquellos que se ubican a sí mismos más arriba en la sociedad mantienen más atribuciones internas. <em>buscar explicación</em>. Además, al agregar el indicador de estatus social subjetivo aumenta la significancia en la actividad princial de estudiante a un 99% de confianza.</p>
+<p>En el modelo 3 se observa únicamente el efecto de las percepciones y preferencias meritocráticas sobre las atribuciones internas. Para el caso de las percepciones, este presenta un efecto alto y positivo a un 99,9% de confianza, lo cual indicaría que a medida que se percibe más meritocracia, mayores serán las atribuciones internas. Por su parte, las preferencias meritocráticas presentan un efecto negativo a un 99,9% de confianza, es decir, a mayor preferencia por la meritocracia, menos atribuciones internas. En el modelo 5 se observan los efectos de las creencias meritocráticas controladas por creencias no meritocráticas, en donde las percepciones meritocráticas mantienen la significancia y el sentido del efecto, pero disminuye la magnitud del efecto, mientras que para las preferencias cambia el sentido del efecto, disminuye su magnitud y pierde toda significancia.</p>
+<p>El modelo 6 incluye las variables de creencias meritocráticas junto a todos los otros indicadores analizados anteriormente a modo de control. Tanto en percepciones y preferencias meritocráticas se mantienen los valores relativamente estables respecto del modelo 5, lo cual indicaría que su efecto se ve afectado al agregar variables de percepciones y preferencias no meritocráticas. En cuanto a las percepciones no meritocráticas, muestran un efecto negativo y significativo sobre las atribuciones de internas, mientras que las preferencias no meritocráticas muestran un efecto positivo y significativo sobre las atribuciones internas.</p>
+<p>A modo de síntesis, los resultados se muestran a favor de la hipótesis central de la investigación, es decir, que las atribuciones de pobreza y riqueza se explican parcialmente por las creencias meritocráticas. Por otro lado, las hipótesis específicas se cumplen en parte. La hipótesis 1, de que a mayor percepción meritocrática mayor atribuciones internas hacia la pobreza y la riqueza, se cumple. Tal como se esperaba, mayores niveles en la percepción de meritocracia presenta un efecto positivo con las atribuciones internas de pobreza y riqueza, &amp;Beta 0.443***. La hipótesis 2, que plantea que a mayores preferencias meritocráticas menores atribuciones internas, no se cumple, ya que al agregar variables de creencias no meritocráticas el efecto cambia de sentido, de negativo a positivo, y pierde toda significancia. En este sentido, un resultado que llama la atención es el efecto de las creencias no meritocráticas sobre las atribuciones internas, encontrándose una significancia a un 99,9% de confianza tanto para percepciones como preferencias no meritocráticas. En el modelo 6 se observa que aquellos que perciben más mecanismos no meritocráticos operando en la sociedad mantienen menos atribuciones internas, mientras que quienes prefieren más mecanismos no meritocráticos mantienen más atribuciones internas. Una posible conclusión sería que quienes perciben más mecanismos no meritocráticos poseen una visión más crítica acerca de cómo se distribuyen los bienes, recursos y títulos en la sociedad, por lo que no atribuyen a características individuales las causas de que personas se encuentren en desventaja o disfruten de grandes ventajas. Para el caso de las preferencias no meritocráticas el análisis es inverso, en el sentido de que quienes prefieren mecanismos no meritocráticos legitiman las desigualdades socioeconómicas al culpabilizar a los pobres y atribuir a características individuales los logros de los ricos.</p>
+</div>
+<div id="atribuciones-externas-de-pobreza-y-riqueza" class="section level3" number="4.4.2">
+<h3><span class="header-section-number">4.4.2</span> Atribuciones externas de pobreza y riqueza</h3>
+<div style="text-align: justify">
+
+
+
+<table class="texreg" style="margin: 10px auto;border-collapse: collapse;border-spacing: 0px;color: #000000;border-top: 2px solid #000000;">
+<caption>Modelos de ecuaciones estructurales para variables independientes con la variable latente <b>Atribuciones externas (2)<b></caption>
+<thead>
+<tr>
+<th style="padding-left: 5px;padding-right: 5px;">&nbsp;</th>
+<th style="padding-left: 5px;padding-right: 5px;">Modelo 1</th>
+<th style="padding-left: 5px;padding-right: 5px;">Modelo 2</th>
+<th style="padding-left: 5px;padding-right: 5px;">Modelo 3</th>
+<th style="padding-left: 5px;padding-right: 5px;">Modelo 4</th>
+<th style="padding-left: 5px;padding-right: 5px;">Modelo 5</th>
+<th style="padding-left: 5px;padding-right: 5px;">Modelo 6</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">Sexo (Ref=hombre)</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.228<sup>**</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">0.222<sup>**</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.218<sup>**</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(3.183)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(3.113)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(3.095)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Edad</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.010</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.006</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.005</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-0.342)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-0.202)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-0.188)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;"><b>Educaci&oacuten (ref: Media completa o menos)<b></td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Educaci&oacuten t&eacutecnica</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.088</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.090</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.088</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(1.024)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(1.051)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(1.055)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Educaci&oacuten universitaria incompleta</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.105</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.114</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.114</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.888)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.968)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.981)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Educaci&oacuten universitaria y postgrado</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.050</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.085</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.085</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.513)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.853)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.866)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;"><b>Rango ingresos mensuales hogar (ref: $358.000 o menos )<b></td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;De $358.001 a $448.000</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.028</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.038</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.038</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.250)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.334)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.341)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;De $448.001 a $1.000.000 mensuales</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.025</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.013</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.013</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-0.256)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.128)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.136)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;De $1.000.001 a $2.000.000</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.069</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.006</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.008</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-0.620)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.050)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.067)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M&aacutes de $2.000.001</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.346<sup>*</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.231</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.226</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-2.198)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-1.421)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-1.415)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;"><b>Actividad principal (ref: Trabajo jornada completa o parcial)<b></td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No remunerada</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.130</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.139</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.138</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-1.118)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-1.205)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-1.208)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Desempleado</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.119</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.132</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.130</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-1.167)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-1.304)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-1.308)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Trabaja y estudia</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.136</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.108</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.102</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-0.757)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-0.598)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-0.574)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Estudia</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.233</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.183</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.180</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-1.475)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-1.155)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-1.157)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jubliado</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.114</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.099</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.097</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-0.845)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-0.734)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-0.725)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Estatus Social Subjetivo</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.066<sup>**</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.065<sup>**</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-3.047)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-3.023)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Percepci&oacuten meritocr&aacutetica</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.806<sup>***</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.054</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.069</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-8.745)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-0.544)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-0.726)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Preferencia meritocr&aacutetica</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.828<sup>***</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.016</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.012</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(6.948)</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-0.138)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.101)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Percepci&oacuten no meritocr&aacutetica</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.431<sup>***</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">0.380<sup>***</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">0.381<sup>***</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(8.431)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(5.588)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(5.699)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Preferencia no meritocr&aacutetica</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.448<sup>***</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.275<sup>***</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.243<sup>***</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-6.157)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-4.607)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(-4.256)</td>
+</tr>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;"><b>&#88&sup2<b></td>
+<td style="padding-left: 5px;padding-right: 5px;">143.953</td>
+<td style="padding-left: 5px;padding-right: 5px;">161.120</td>
+<td style="padding-left: 5px;padding-right: 5px;">359.298</td>
+<td style="padding-left: 5px;padding-right: 5px;">558.208</td>
+<td style="padding-left: 5px;padding-right: 5px;">323.621</td>
+<td style="padding-left: 5px;padding-right: 5px;">697.487</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;"><b>gl<b></td>
+<td style="padding-left: 5px;padding-right: 5px;">82</td>
+<td style="padding-left: 5px;padding-right: 5px;">87</td>
+<td style="padding-left: 5px;padding-right: 5px;">78</td>
+<td style="padding-left: 5px;padding-right: 5px;">78</td>
+<td style="padding-left: 5px;padding-right: 5px;">74</td>
+<td style="padding-left: 5px;padding-right: 5px;">269</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;"><b>CFI<b></td>
+<td style="padding-left: 5px;padding-right: 5px;">0.997</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.997</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.967</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.943</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.969</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.984</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;"><b>RMSEA<b></td>
+<td style="padding-left: 5px;padding-right: 5px;">0.025</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.026</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.054</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.071</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.052</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.036</td>
+</tr>
+<tr style="border-bottom: 2px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;"><b>Num. obs.<b></td>
+<td style="padding-left: 5px;padding-right: 5px;">1228</td>
+<td style="padding-left: 5px;padding-right: 5px;">1228</td>
+<td style="padding-left: 5px;padding-right: 5px;">1228</td>
+<td style="padding-left: 5px;padding-right: 5px;">1228</td>
+<td style="padding-left: 5px;padding-right: 5px;">1228</td>
+<td style="padding-left: 5px;padding-right: 5px;">1228</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="font-size: 0.8em;" colspan="7"><sup>***</sup>p &lt; 0.001; <sup>**</sup>p &lt; 0.01; <sup>*</sup>p &lt; 0.05</td>
+</tr>
+</tfoot>
+</table>
+
+<p>Al igual que con las atribuciones internas de pobreza y riqueza, en las atribuciones externas no se observan efectos significativos por parte de variables de estartificación, como el ingreso y la educación. En este sentido, se descarta la hipótesis de interés racional tanto para las atribuciones internas como externas. En cuanto a las variables sociodemográficas, sexo presenta un efecto positivo y significativo al 99% de confianza. Esto quiere decir que las mujeres, en comparación de los hombres, mantienen más atribuciones externas. Este resultado dialoga con los resultados del apartado anterior, en donde se observa que las mujeres mantienen menos atribuciones internas que los hombres. Lo anterior indica una visión más crítica por parte de las mujeres, en cuanto explican las causas de la pobreza y la riqueza a partir de factores externos a los individuos y, si se quiere, de las estructuras sociales.</p>
+<p>El estatus social subjetivo aparece nuevamente como un factor influyente en las atribuciones, aunque esta vez con una significancia al 99% de confianza. Los resultados muestran un efecto bajo y negativo sobre las atribuciones de riqueza, lo que indica que el posicionarte a ti mismo más arriba en la escala de estatus subjetivo tiene como efecto mantener menos atribuciones externas. Nuevamente coincide con los datos del apartado anterior ….</p>
+
+</div>
+</div>
+<!-- </div> -->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="modelo-de-medición-para-percepciones-y-preferencias-meritocráticas.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="conclusiones.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/04-analisis.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["tesis.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

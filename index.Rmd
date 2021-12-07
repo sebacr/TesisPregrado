@@ -11,6 +11,10 @@ biblio-style: apalike
 link-citations: yes
 site: bookdown::bookdown_site
 output: bookdown::gitbook
+header-includes:
+   - \usepackage{float}
+   - \usepackage{booktabs}
+   - \usepackage{dcolumn}  
 documentclass: book
 fontsize: 14pt
 lof: True

@@ -1,0 +1,58 @@
+# Crear base de datos sin outliers #  No se usará en análisis
+data %>% 
+  dplyr::select(merit_perc_effort,merit_perc_talent,merit_perc_wpart,merit_perc_netw,
+                merit_pref_effort,merit_pref_talent,merit_pref_wpart,merit_pref_netw,
+                atrib_pob_1,atrib_pob_2,atrib_pob_3,atrib_pob_4,atrib_pob_5,
+                atrib_riq_1,atrib_riq_2,atrib_riq_3,atrib_riq_4,atrib_riq_5) -> dep_indep
+
+mardiaSkew(meritcor, use = "everything")
+mardiaKurtosis(meritcor, use = "everything")
+# Definition of a `keep` function that only selects data points that are between 
+# +/- 3 standard deviations of a variable
+keep <- function(x) {
+  (x >= mean(x) - 3*sd(x)) & 
+    (x <= mean(x) + 3*sd(x))  
+}
+# Selecting these data points with `filter` and assigning them to a new data set
+merit_clean <- meritcor %>% 
+  filter(keep(merit_perc_effort) &
+           keep(merit_perc_talent) &
+           keep(merit_perc_wpart) &
+           keep(merit_perc_netw) &
+           keep(merit_pref_effort) &
+           keep(merit_pref_talent) &
+           keep(merit_pref_wpart) &
+           keep(merit_pref_netw))
+mardiaSkew(merit_clean, use = "everything")
+mardiaKurtosis(merit_clean, use = "everything")
+
+?mahalanobis
+mahal = mahalanobis(merit_clean, colMeans(merit_clean, na.rm=T), 
+                    cov(merit_clean, use="pairwise.complete"))
+summary(mahal)
+cutoff = qchisq(1-.001,ncol(merit_clean))
+summary(mahal < cutoff)
+
+df_noout = subset(merit_clean,mahal < cutoff)
+correl = cor(df_noout, use="pairwise.complete.obs")
+correl
+symnum(correl)
+corrplot.mixed(correl)
+
+# examinar linealidad
+
+random=rchisq(nrow(df_noout),7)
+fake=lm(random~.,data=df_noout)
+standarized=rstudent(fake)
+qqnorm(standarized)
+abline(0,1)
+
+# examinar normalidad multivariada
+hist(standarized)
+
+# Examinar homogeneidad y homocedasticidad 
+fitted=scale(fake$fitted.values)
+
+plot(fitted,standarized)
+abline(0,0)
+abline(v=0)

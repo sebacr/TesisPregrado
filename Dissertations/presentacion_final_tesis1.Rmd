@@ -1,0 +1,495 @@
+---
+title: "El efecto de las creencias meritocráticas sobre atribuciones de pobreza y riqueza"
+subtitle: "Sebastián Cortínez"
+author: "Profesor guía: Juan Carlos Castillo"
+institute: "Sociología, Universidad de Chile"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+---
+class: inverse, center, middle
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+```{r packages-data, include=FALSE}
+pacman::p_load(kableExtra,summarytools,plm,lmtest,texreg,ggplot2,GGally,tidyverse,dplyr,haven,gtsummary,nnet,psych, psy, nFactors, sjlabelled, sjmisc, car, corrplot, polycor, GPArotation, nortest, tseries, lavaan, palmerpenguins, tibble,sjPlot, ggpubr,knitr,fastDummies,ordinal,stargazer,MASS,poLCA) 
+
+load(file = "../Input/Data_proc/2019/proc_cep_2019.RData")
+load(file = "../Input/Data_proc/2019/data_naomit2019.RData")
+load(file = "../Input/Data_proc/proc_data.RData")
+```
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_light(base_color = "#23395b",
+  header_font_google = google_font("Merriweather"),
+  text_font_google   = google_font("Poppins", "350", "350i"),
+  code_font_google   = google_font("Fira Mono")
+)
+```
+```{r include=FALSE}
+table_format = if(is_html_output()) {
+  "html"
+} else if(is_latex_output()) {
+  "latex"
+}
+
+table_format2 = if(is_html_output()) {
+  T
+} else if(is_latex_output()) {
+  F
+}
+```
+```{css, echo = FALSE}
+.regression table {
+  font-size: 12px;     
+}
+
+.red { color: red; }
+
+.tiny-text {
+  font-size: 16px;
+}
+```
+```{r include=FALSE}
+furniture::table1(proc_data,
+  "Primera mención Atribuciones de pobreza" = Att_p1, "Segunda mención Atribuciones de pobreza" = Att_p2,bold = TRUE,
+  splitby = ~año,
+  test = TRUE,
+  na.rm = FALSE,
+  format_number = TRUE) -> tab_pob
+
+furniture::table1(proc_data,
+  "Primera mención Atribuciones de riqueza" = Att_r1, "Segunda mención Atribuciones de riqueza" = Att_r2,bold = TRUE,
+  splitby = ~año,
+  test = TRUE,
+  na.rm = FALSE,
+  format_number = TRUE) -> tab_riq
+
+furniture::table1(proc_data,
+  "Percepcion de merito esfuerzo" = percep_esfuerzos, "Percepcion de merito inteligencia y capacidades" = percep_inteligencia,"Preferencia meritocracia: responsabilidad" = pref_responsabilidad,"Preferencia meritocracia: educacion" = pref_educacion,"Preferencia meritocracia: trabajo duro" = pref_trabajo,bold = TRUE,
+  splitby = ~año,
+  test = TRUE,
+  na.rm = FALSE,
+  format_number = TRUE) -> tab_merit
+
+furniture::table1(proc_data,
+  "Clases predichas" = clases_factor,bold = TRUE,
+  splitby = ~año,
+  test = TRUE,
+  na.rm = FALSE,
+  format_number = TRUE) -> tab_clases
+
+cap3 <- ""
+cap4 <- ""
+cap5 <- ""
+```
+
+# Contenido:
+
+
+1. Introducción
+2. Antecedentes
+3. Pregunta, objetivos e hipótesis
+4. Datos, variables y métodos
+5. Avances de análisis
+6. Discusión
+7. Bibliografía
+---
+class: inverse, middle, center
+
+# 1. Introducción
+---
+
+##  1.1. Contexto y problema social
+
+- Cambios estructurales durante las últimas décadas en Chile: reducción de pobreza, mantención niveles de desigualdad y acceso a la educación terciaria (PNUD, 2017; Rodríguez Weber, 2017).
+
+- Cambios en la experiencia, subjetividades y valores: identificación con clase media (Castillo, Madero-Cabib y Miranda 2013), individualización (Araujo, 2017, Frei et al., 2020) y aumento de valores meritocráticos ()
+
+- Dentro de estudios sociológicos sobre desigualdades surge el estudio de las  **desigualdes subjetivas**
+
+     - Creencias y explicaciones sobre desigualdades sociales, y los valores y principios que las sostienen. Atiende diversos problemas, entre ellos, el de la justificación y legitimación de las desigualdades.
+     
+     - Estudios sobre las creencias y explicaciones de la pobreza y la riqueza. La pregunta general que ha guiado estos estudios es:
+     
+       *¿Qué explica las diferencias entre individuos en atribuciones de pobreza y riqueza?* 
+
+---
+
+.center[
+<img src="clase subjetiva elsoc.png">
+]
+
+---
+
+## 1.2. ¿Por qué estudiar atribuciones de pobreza y riqueza?
+
+Atribuciones internas se han relacionado con distintos fenómenos de la desigualdad social. Algunos de ellos son: 
+
+- Estigmatización y deshumanización 
+
+- Actitudes inter grupales
+
+- Legitimación de desigualdades socioeconómicas
+
+- Disposición hacia políticas redistributivas -aunque de manera indirecta-
+
+---
+
+
+class: inverse, middle, center
+
+# 2. Antecedentes
+
+---
+
+## 2.1. Variable dependiente: atribuciones de pobreza y riqueza:
+
+- Cómo las personas se representan y explican que ciertos grupos sociales sufran carencias o disfruten de grandes ventajas. *Clásico en la investigación de las creencias sobre la desigualdad* (Kluegel y Smith 1986). 
+
+- **Atribuciones internas**: se culpa al individuo
+
+- **Atribuciones externas**: se explica por consecuencias estructurales
+
+---
+## 2.1. Variable dependiente: atribuciones de pobreza y riqueza:
+
+### Medición
+
+- Ausencia de escala común
+
+    + Lista de causas de pobreza y riqueza con respuesta liker de acuerdo-desacuerdo.
+    
+    + Lista de causas de pobreza y riqueza en la que se selecciona una o dos respuestas.
+
+- Escacez y poca claridad en agenda investigativa
+
+---
+### 2.1.2. Cambios de atribuciones de pobreza y riqueza en Chile
+
+Entre 1996 y 2015 existe un aumento en atribuciones internas, aunque es más claro en atribuciones mixtas o ambivalentes (Frei et al., 2020). 
+
+**Figura 1** 
+
+*Porcentaje de tres clases de atribuciones de pobreza y riqueza.*
+
+.center[
+<img src="tres_clases_frei.png">
+]
+
+**Nota**: El gráfico es extraído de: Frei, Castillo y Herrera (2020). *¿Fruto del esfuerzo? Los cambios en las atribuciones sobre pobreza y riqueza en chile entre 1996 y 2015*. 
+---
+
+## 2.1.3. Antecedentes atribuciones de pobreza y riqueza
+
+### .red[Determinantes objetivos-estructurales]
+
+Sociodemográficas y de estratificación social:
+
+- Variable raza/etnia (Kluegel y Smith, 1981)
+
+- Variable ingreso: Evidencia internacional señala que en estratos más altos se tienen más atribuciones internas (). Para el caso chileno, a ingresos más bajos, más atribuciones internas (Frei et al. 2019). 
+
+- Variable edad: a mayor edad, más atribuciones internas (*ibid*).
+
+- Variable educación: más escolarización, más atribuciones internas (*ibid*).
+
+---
+
+## 2.1.3. Antecedentes atribuciones de pobreza y riqueza
+
+### .red[Determinantes subjetivos]
+
+- Valores y experiencia individual. (Frei et al. 2019)
+      
+- Meritocracia:
+      
+     1. Lepianka et al. (2009): A medida que la gente respalda con más fuerza el principio de mérito como justicia, es más probable que se atribuya la pobreza a la pereza antes que a causas estructurales.
+
+     1. Madeira et al. (2019): Mayores niveles en la meritocracia descriptiva -**percepciones**- está relacionada con actitudes negativas hacia grupos marginalizados, mientras que la meritocracia prescriptiva -**preferencias**- no lo está.
+    + Mayores niveles de **preferencia** meritocrática tienen un menor efecto en actitudes negativas hacia grupos muy desfavorables versus grupos medianamente desfavorables, como también que favorecen la aceptación de políticas sociales.
+      
+---
+
+# 2.2. Variable independiente: creencias meritocráticas
+
+M. Young (1962): meritocracia como un orden social que basa la distribución de los recursos a partir del mérito individual. A su vez, el mérito opera a partir de los criterios de **esfuerzo y talento**.
+
+Sen (2000): combinación de esfuerzo y habilidades individuales.
+
+**Creencias meritocráticas**: las creencias de las personas acerca de cómo operan los mecanismos meritocráticos en la sociedad.
+
+- **Percepciones meritocráticas**: cómo la gente percibe -lo que son- de meritocracia en la sociedad
+
+- **Preferencias meritocrácticas**: cómo debiesen funcionar los mecanismos meritocráticos en la sociedad
+
+---
+
+![Cambios percepción meritocracia](../images/grafico meritocracia internacional MIJS.png)
+
+---
+
+## Relevancia del estudio
+
+**.red[Teórica]**
+
+- En el área de las ciencias sociales, surgen estudios bajo la lógica de la justicia de mercado, la cual sostiene que la posición que ocupan los individuos en la jerarquía social es producto de sus esfuerzos y méritos (Lane, 1986). -**they say**-
+
+- Considerando que las creencias meritocráticas no se oponen a la desigualdad, sino más bien a un tipo de discriminación (Mijs y Savage, 2020), la presente investigación discute con la lógica de justicia de mercado. -**I say**- 
+
+**.red[Académica]**
+
+- Se ha asociado la idea de creencias meritocráticas a las atribuciones de carácter interno sin escrutinio empírico previo -como es el caso de la investigación de Bucca (2016)-, siendo pertinente el profundizar en la relación que mantienen las creencias meritocráticas y las atribuciones de pobreza y riqueza.
+---
+class: inverse, middle, center
+
+# 3. Preguntas, objetivos e hipótesis
+
+---
+
+### Pregunta de investigación:
+
+¿Cómo se relacionan las percepciones y las preferencias meritocráticas con las atribuciones de pobreza y riqueza? 
+
+### Objetivos:
+
+**Objetivo general**: 
+
+Analizar la relación entre las creencias meritocráticas y las atribuciones de pobreza y riqueza
+
+**Objetivos específicos**:
+1. Analizar cómo se relacionan las percepciones meritocráticas con las atribuciones de pobreza y riqueza.
+
+1. Analizar cómo se relacionan las preferencias meritocráticas con las atribuciones de pobreza y riqueza.
+
+### Hipótesis:
+
+**H1**: A mayor percepción de meritocracia, mayores serán las atribuciones internas hacia la pobreza y la riqueza.
+
+**H2**: Conforme avancen los años, se fortalece la relación entre percepciones meritocráticas y atribuciones internas hacia la pobreza y la riqueza.
+
+---
+class: inverse, middle, center
+
+# 4. Datos, variables y método
+
+---
+
+## Datos
+
+- Se utilizan los datos correspondientes a la Encuesta Nacional de Opinión Pública Nº 39 (Marzo-Abril 2000), N° 59 (Mayo-Junio 2009) y N° 83 (Mayo 2019) llevada a cabo por el Centro de Estudios Públicos (CEP). 
+
+- La base de datos del 2000 tiene una muestra compuesta por 1380 encuestados. Para el 2009, la muestra 1505 casos. Por último, para el 2019 la muestra cuenta con 1380 casos. 
+
+- Los procesos de selección de las muestras son probabilísticos, por conglomerados y de multietapas.
+
+---
+
+## Variables dependientes
+
+.pull-left[| Atribuciones de pobreza                                     | Categorización |
+|------------------------------------------------------------------------------------------------------------------------------------|
+|La mala suerte            | Externa | 
+|La flojera y falta de iniciativa                  | **Interna** |
+| La falta de educación       | **Interna** |
+| La falta de ayuda econ. del gobierno       | Externa |
+| Los vicios y el alcoholismo           | **Interna** | 
+| Las malas pp. econ. del gobierno | Externa |
+| Falta de generosidad de los que tienen más   | Externa |
+| Las pocas oportunidades de empleo    | Externa |
+| Porque los padres también eran pobres  | Externa |
+| Abusos/injusticias del sistema econ. | Externa | 
+]
+
+
+.pull-right[| Atribuciones de riqueza                                     | Categorización |
+|------------------------------------------------------------------------------------------------------------------------------------|
+|Iniciativa Personal | **Interna** | 
+|La suerte           | Externa |
+| La Fe en Dios       | Externa |
+| Trabajo responsable   | **Interna** |
+| Contactos o pitutos       | Externa |
+|Nivel educacional alcanzado | **Interna** |
+| La situación económica de los padres          | Externa |
+| La ayuda económica del Estado  | Externa |
+| Las políticas económicas del gobierno | Externa |
+| Tener una familia unida que apoya | Externa |
+| Haciendo dinero a la mala, con manejos deshonestos o incorrectos | Externa |
+]
+
+
+---
+
+class: title title-8
+
+## Variables independientes
+
+.very-tiny[
+| Variable    | Descripción|       Respuesta/valores|
+|------------|:-----------:|------------|
+| |       **A. Percepciones meritocrática**   |              |
+| Tener un buen nivel de educación |   Actualmente en Chile, ¿cuán importante es para surgir en la vida tener un buen nivel de educación? |Likert 1/5: No es importante / Esencial  |
+| El trabajo duro | Actualmente en Chile, ¿cuán importante es para surgir en la vida el trabajo duro? | Likert 1/5: No es importante / Esencial |
+|  |    **B. Preferencias meritocráticas**     |       |
+|El nivel de responsabilidad que tiene su trabajo |  Al decidir cuánto debería ganar la gente, ¿cuán importante debería ser, a su juicio, el nivel de responsabilidad que tiene su trabajo? |Likert 1/5: No es importante / Esencial   |
+| El número de años dedicados a educación y capacitación| Al decidir cuánto debería ganar la gente, ¿cuán importante debería ser, a su juicio, el número de años dedicados a educación y capacitación?  | Likert 1/5: No es importante / Esencial  |
+| Lo bien que él o ella realiza su trabajo | Al decidir cuánto debería ganar la gente, ¿cuán importante debería ser, a su juicio, lo bien que él o ella realiza su trabajo?  |Likert 1/5: No es importante / Esencial  |
+]
+
+---
+
+## Variables de control
+
+.very-tiny[
+| Variable    | Descripción|       Respuesta/valores|
+|------------|:-----------:|------------|
+| Sexo | Sexo del encuestado/a | Hombre (0) / Mujer (1) |
+| Edad | Edad del encuestado/a | Escala continua |
+| Escolarización | Nivel educacional alcanzado por el/la encuestado/a | "Primaria incompleta menos" = 1, "Primaria y secundaria baja" = 2, "Secundaria alta" = 3, "Terciaria ciclo corto" = 4, "Terciaria y Postgrado" = 5 |
+| Estatus social subjetivo | En nuestra sociedad, hay grupos que tienden a ubicarse en los niveles más altos y grupos que tienden a ubicarse en los niveles más bajos. ¿Dónde se ubicaría usted? | Escala de 1 a 10 |
+| *Ingresos familiares* | *Tramos de ingresos en los cuales el/la encuestado/a ubica a su hogar* | *Escala de 1 a 10* |
+]
+
+---
+
+# Método
+
+- En un primer momento se realiza un análisis de clases latentes (LCA) para identificar y agrupar las variables dependientes según patrones. Para ello, se utilizó la librería “poLCA” de R, versión 1.4.1.
+
+- Luego, se revisarán los descriptivos de las variables independientes en los años 2000, 2009 y 2019, con el objetivo de caracterizar el cambio en las percepciones y preferencias meritocráticas en el tiempo a partir de medidas de tendencia central, de dispersión y proporciones.
+
+- Finalmente se realizará un modelo de regresión ordinal utilizando como variable dependiente las clases obtenidas a partir del LCA. El optar por una regresión ordinal entrega ventajas de parsimonia a la hora de analizar e interpretar el modelo, como también failidades en la comparación de estudios.
+
+---
+
+class: inverse, middle, center
+
+# 5. Avances
+
+---
+
+### 5.1. Variables dependientes
+
+.center[**Atribuciones de pobreza**
+```{r tab-descpob, echo=FALSE}
+kbl(tab_pob,table_format, caption = cap3, "html", booktabs = T) %>%
+kable_styling(
+    full_width = T,
+    latex_options = c("hold_position"),
+    position = "center",
+    font_size = 16,
+    bootstrap_options=c("striped", "bordered")) %>%
+  add_header_above(c("Respuestas"=1, "Descrpitivos" = 3),bold = T)  %>%
+  column_spec(column = 1, width = "4 cm", ) %>%
+  column_spec(column = 2,width = "2 cm") %>%
+  column_spec(column = 3,width = "2 cm") %>%
+  column_spec(column = 4,width = "2 cm") #%>%
+#  save_kable("Output/Tablas/atribuciones_pobreza_interna_externa.html")
+```
+]
+
+---
+
+### 5.1. Variables dependientes
+
+.center[**Atribuciones de riqueza**
+
+```{r tab-descriq, echo=FALSE}
+kbl(tab_riq,table_format, caption = cap4, "html", booktabs = T) %>%
+kable_styling(latex_options = c("striped", "HOLD_position"),font_size = 16,
+    bootstrap_options=c("striped", "bordered")) %>%
+  add_header_above(c("Respuestas"=1, "Descrpitivos" = 3),bold = T)  %>%
+  column_spec(column = 1, width = "4 cm", ) %>%
+  column_spec(column = 2,width = "2 cm") %>%
+  column_spec(column = 3,width = "2 cm") %>%
+  column_spec(column = 4,width = "2 cm") #%>%
+#  save_kable("Output/Tablas/atribuciones_riqueza_interna_externa.html")
+```
+]
+
+---
+
+### 5.2. Variables independientes
+
+**Percepciones y preferencias meritocraticas en el tiempo**
+
+```{r tab-descmerit2, echo=FALSE}
+
+
+kbl(tab_merit,table_format, caption = cap5, "html", booktabs = T) %>%
+kable_styling(latex_options = c("striped", "HOLD_position"),font_size = 16,
+    bootstrap_options=c("striped", "bordered")) %>%
+  add_header_above(c("Respuestas"=1, "Descrpitivos" = 3),bold = T)  %>%
+  column_spec(column = 1, width = "4 cm", ) %>%
+  column_spec(column = 2,width = "2 cm") %>%
+  column_spec(column = 3,width = "2 cm") %>%
+  column_spec(column = 4,width = "2 cm") #%>%
+#  save_kable("../Output/Tablas/meritocracia_en_tres_años.html")
+```
+
+---
+
+### 5.3. Clases latentes
+
+**Modelo de tres clases para diferentes años**
+
+```{r tab-clases, echo=FALSE}
+
+
+kbl(tab_clases,table_format, caption = cap5, "html", booktabs = T) %>%
+kable_styling(latex_options = c("striped", "HOLD_position"),font_size = 16,
+    bootstrap_options=c("striped", "bordered")) %>%
+  add_header_above(c("Respuestas"=1, "Descrpitivos" = 3),bold = T)  %>%
+  column_spec(column = 1, width = "4 cm", ) %>%
+  column_spec(column = 2,width = "2 cm") %>%
+  column_spec(column = 3,width = "2 cm") %>%
+  column_spec(column = 4,width = "2 cm")
+```
+
+---
+
+## Discusión:
+1. Recomendaciones para trabajar variable dependiente (LCA, K-mean cluster)
+1. Dependiendo de lo anterior, métodos para analizar relación (LCR, LCR 3 pasos, regresión ordinal)
+1. Variablees que no se repiten entre años
+1. Variable ingresos
+1. Comparación modelos entre años
+1. Otros
+
+---
+
+# 6.- Bibliografía
+
+- Araujo, K. (2017). Sujeto y neoliberalismo en Chile: rechazos y apegos. Nuevo Mundo Mundos Nuevos, February. https://doi.org/10.4000/nuevomundo.70649
+
+
+- Barozet, E. (2017). Serie sobre la clase media chilena (2): Ese gran miedo a resbalar. Publicado: 13.04.2017. https://www.ciperchile.cl/2017/04/13/66957/
+
+- Bucca, Mauricio. 2016. “Merit and Blame in Unequal Societies: Explaining Latin Americans’ Beliefs about Wealth and Poverty”. Research in Social Stratification and Mobility 44: 98–112. DOI: https://doi.org/ 10.1016/j.rssm.2016.02.005
+
+- Castillo, J. C., Torres, A., Atria, J., y Maldonado, L. (2019). Meritocracy and economic inequality: Perceptions, preferences and implications. Revista Internacional de Sociologia, 77(1), 1–15. https://doi.org/10.3989/ris.2019.77.1.17.114
+
+- Cociña, M. (2013a). ¿Cree usted que la meritocracia es buena? Publicado el  05.06.2013. https://www.ciperchile.cl/2013/06/05/%C2%BFcree-usted-que-la-meritocracia-es-buena/
+
+- Frei, R., Castillo, J. C., Herrera, R., y Suárez, J. I. (2020). ¿Fruto del esfuerzo? Los cambios en las atribuciones sobre pobreza y riqueza en chile entre 1996 y 2015. Latin American Research Review, 55(3), 477–495. https://doi.org/10.25222/larr.464
+
+- Kluegel, J. R., Smith, E. R. (1986). Social Institutions and Social Change. Beliefs About Inequality: Americans’ Views ofWhat Is and What Ought to be. Hawthorne, NY: Aldine de Gruyter.
+
+---
+
+- Lepianka, D., van Oorschot, W. y Gelissen, J. (2009). Popular explanations of poverty: A critical discussion of empirical research. Journal of Social Policy, 38, 421-438. https://doi.org/10.1017/S0047279409003092
+
+- Mijs, J. J. B., & Savage, M. (2020). Meritocracy, Elitism and Inequality. Political Quarterly, 91(2), 397–404. https://doi.org/10.1111/1467-923X.12828
+
+- PNUD (2017). Desiguales. Orígenes, cambios y desafíos de la brecha social en Chile. Santiago de Chile, Programa de las Naciones Unidas para el Desarrollo.
+
+- Sainz, M., Martínez, R., Sutton, R. M., Rodríguez-Bailón, R., y Moya, M. (2020). Less human, more to blame: Animalizing poor people increases blame and decreases support for wealth redistribution. Group Processes and Intergroup Relations, 23(4), 546–559. https://doi.org/10.1177/1368430219841135
+
+- Young, M. (1962). The Rise of the Meritocracy. Baltimore: Penguin Books.

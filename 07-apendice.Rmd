@@ -1,0 +1,28 @@
+# Apéndice {#apendice}
+
+## CFA: creencias meritocráticas
+
+<div style="text-align: justify">
+
+En el proceso de creación de variables latentes para la variable independiente, se da cuenta de un modelo con mejor ajuste que el modelo de cuatro factores. En la Tabla N° \@ref(tab:tab-fit2) se compara el modelo original con el nuevo modelo, representado en la Figura N° \@ref(fig:cfa-plot3). El cambio fue excluir el factor de preferencias meritocráticas, puesto que mostraban una alta concentración de respuestas, y una alta covarianza con varias de las otras variables pertenecientes a otros factores. El modelo de cuatro factores que finalmente se utilizó como variable independiente en la investigación responde a su coherencia respecto a la literatura, en donde se identifican estos cuatro constructos latentes. Sin embargo, cabe preguntarse en futuras investigaciones si existe un problema de medición en la construcción de índice, o si es un problema de los constructos. Tal como se señala en , el índice de ajuste RMSEA puede mejorar al aumentar el número de indicadores en el modelo, como también con un N más grande. Estos puntos deben tenerse en consideración para futuras investigaciones y en la creación de cuestionarios.
+
+
+```{r tab-fit2,echo=FALSE, results='asis'}
+sum_fit2<- bind_rows(fitmeasures(m_merit.4_ord.fit)[c("chisq.scaled","df","cfi.scaled","rmsea","rmsea.scaled")],
+                    fitmeasures(m4_rmsea_adj.fit)[c("chisq.scaled","df","cfi.scaled","rmsea","rmsea.scaled")])
+sum_fit2$mod <- c("Modelo 1","Modelo 2")
+sum_fit2$est <- c("DWLS","DWLS")
+sum_fit2 <- dplyr::select(sum_fit2,mod,est,everything())
+colnames <- c("Modelo","Estimador","$\\chi^2$","df","CFI.sca","RMSEA","RMSEA.sca")
+
+sumtable02<- kable(sum_fit2,digits = 3,format = "html",row.names = F,booktabs=T, caption = "Summary fit indices",col.names = colnames,escape = FALSE) %>%
+  kable_styling(full_width = F)  %>%
+  collapse_rows(columns = 1,valign = "middle")  %>%
+  footnote(number = c("Modelo 1: cuatro factores: percepciones y preferencias meritocráticas y no meritocráticas",
+                      "Modelo 2: tres factores: percepciones meritocrática y percepciones y preferencias no meritocráticas"));sumtable02
+```
+
+
+```{r cfa-plot3, fig.align = 'center', fig.cap = "Clases latentes para percepciones meritocráticas y percepciones y preferencias no meritocráticas"}
+knitr::include_graphics(here::here("Output/images/merit_cfa_nopref_path.png"))
+```

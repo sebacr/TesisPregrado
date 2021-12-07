@@ -33,6 +33,8 @@ La encuesta cuenta con la gran ventaja de que la variable dependiente, es decir,
 
 <div style="text-align: justify">
 
+Volviendo al a discusión sobre medición, se han identificado ventajas y desventajas tanto para las atribuciones medidas con escala likert como para la medición a partir de una lista de opciones. La principal crítica hacia la forma de escala likert es la discrecionalidad del investigador o investigadora a la hora de priorizar las baterías de indicadores que se utilizarán en la encuesta, lo cual es menos problemático al medir las atribuciones con una lista de opciones, ya que se suelen presentar más opciones. También están los problemas de interpretación, en donde el significado de los diferentes puntos en las escalas difieren de sujeto en sujeto [@ross_intuitive_1977]. El problema de interpretación ocurre de igual forma al medir las atribuciones con una lista de opciones, en donde se ha visto por ejemplo que el fraseo de la pregunta sobre atribución de pobreza por falta de educación, o atribución de riqueza por su nivel educativo, es ambiguo y podría ser clasificada tanto como atribución interna como externa [@Frei2020a], lo cual puede resultar en problemas posteriores al analizar las atribuciones junto a otras variables. En este sentido, al trabajar las atribuciones de pobreza y riqueza mediante diferentes items con una escala de preferencias común deja menos espacio para errores de medición y de interpretabilidad. 
+
 Los indicadores que se utilizarán para construir las variables dependientes de atribuciones de pobreza y atribuciones de riqueza corresponde a cinco preguntas para las atribuciones de pobreza y cinco para las atribuciones de riqueza. Para las atribuciones de pobreza, se pregunta: En su opinión, ¿con qué frecuencia las siguientes razones podrían ser la causa de la pobreza en Chile?, siendo las razones: (1) Falta de habilidad, (2) Mala suerte, (3) Falta de esfuerzo, (4) Sistema económico y (5) Sistema educativo. En el caso de las atribuciones de riqueza, se pregunta: En su opinión, ¿con qué frecuencia las siguientes razones podrían ser la causa de la riqueza en Chile?, siendo las razones: (1) Talento, (2) Suerte, (3) Trabajo duro, (4) Sistema económico y (5) Sistema educativo. La respuesta a estas preguntas es en forma de escala likert de 1 a 5, siendo 1 Nunca, 2 Casi nunca, 3 A veces, 4 Casi siempre y 5 Siempre. Estos diez indicadores pueden observarse en la Tabla N° \@ref(tab:tab-dep)
 
 ```{r include=FALSE}
@@ -41,7 +43,7 @@ cap1 <- "Variables dependientes"
 ```
 
 ```{r tab-dep, echo=FALSE}
-tab01 <- read.csv(file = "Output/table01.csv",header = 1,sep = ";",encoding = "UTF-8")
+tab01 <- read.csv(file = "Output/Tablas/table01.csv",header = 1,sep = ";",encoding = "UTF-8")
 cnames <- c("Concepto","Indicador", "Categorías de respuesta")
 kable(tab01,table_format,booktabs = T, linesep = "",col.names = cnames, caption = cap1) %>%
   kable_styling(
@@ -69,7 +71,7 @@ cap2 <- "Variables independientes"
 ```
 
 ```{r tab-indep, echo=FALSE}
-tab02 <- read.csv(file = "Output/table02.csv",header = 1,sep = ";",encoding = "UTF-8")
+tab02 <- read.csv(file = "Output/Tablas/table02.csv",header = 1,sep = ";",encoding = "UTF-8")
 cnames <- c("Concepto","Indicador", "Categorías de respuesta")
 kable(tab02,table_format,booktabs = T, linesep = "",col.names = cnames, caption = cap2) %>%
   kable_styling(
@@ -99,7 +101,7 @@ cap3 <- "Variables de control"
 ```
 
 ```{r tab-control, echo=FALSE}
-tab03 <- read.csv(file = "Output/table03.csv",header = 1,sep = ";",encoding = "UTF-8")
+tab03 <- read.csv(file = "Output/Tablas/table03.csv",header = 1,sep = ";",encoding = "UTF-8")
 cnames <- c("Concepto","Indicador", "Categorías de respuesta")
 
 kable(tab03,table_format,booktabs = T, linesep = "",col.names = cnames, caption = cap3) %>%
@@ -121,11 +123,13 @@ kable(tab03,table_format,booktabs = T, linesep = "",col.names = cnames, caption 
 
 Cómo método, se trabajará de manera transversal desde un enfoque cuantitativo. Si bien los conceptos y fenómenos tratados en la investigación no se agotan trabajándolos sólamente desde lo cuantitativo, siendo recomendable complementar la investigación con análisis cualitativo y/o mixto, trabajar el problema de las atribuciones de pobreza y riqueza con herramientas cuantitativas nos permitirá contrastar resultados con diferentes estudios del área, tanto para profundizar en temas de operacionalización y medición, como en los resultados empíricos de la relación entre las variables independientes y dependiente.
 
-En primer lugar se trabajará en torno a las variables dependientes. Una de las grandes tareas del trabajo cuantitativo sobre atribuciones de pobreza y riqueza es la operacionalización. La propuesta consiste en que las atribuciones de pobreza y riqueza puede ser medida en base a dos grandes dimensiones, siendo estas las atribuciones internas y las atribuciones externas. Si bien esta forma de operacionalizar las atribuciones de pobreza y riqueza -utilizando escalas likert- ha sido probada a partir de análisis factoriales en estudios previos (CASTILLO ), se estima conveniente generar un análisis para comprobar dicha construcción de la variable.
+En primer lugar se trabajará en torno a las variables dependientes. Una de las grandes tareas del trabajo cuantitativo sobre atribuciones de pobreza y riqueza es la operacionalización. La propuesta consiste en que las atribuciones de pobreza y riqueza puede ser medida en base a dos grandes dimensiones, siendo estas las atribuciones internas y las atribuciones externas. El análisis empírico da cuenta de dos constructos latentes, uno para atribuciones internas y otro para atribuciones externas.
 
-El procedimiento fue explorar en primera instancia la correlación entre los indicadores referentes a atribuciones, para generar una primera aproximación a las asociaciones que se den. A continuación, se realizó un Análisis Factorial Exploratorio (AFE), con la finalidad de constatar de manera empírica los posibles factores que explican a los indicadores. Conforme a los resultados, se determinó una estructura de dos factores, la cual es sometida a un Análisis Factorial Confirmatorio (CFA), lo cual da cuenta de una estructura factorial de dos factores. En la siguiente sección se presentan los detalles.
+En el caso de la variable independiente, las creencias meritocráticas, el procedimiento es similar. La literatura revisada da cuenta de dos dimensiones en las creencias meritocráticas, siendo estas la dimensión de percepción meritocrática -descriptiva- y la dimensión de preferencias meritocráticas -prescriptiva-. En el análisis empírico se incluyen también indicadores de creencias no meritocráticas, en consideración de que conforman un grupo latente aparte a las creencias meritocráticas [@Castillo2020]. Cabe destacar que también se ha constatado la existencia de dos constructos aparte de los de percecpión y preferencias, en donde uno refiere a quienes obtienen mayores recompensas, mientras que la otra refiere a los criterios para determinar quienes logran salir adelante [@Iturra2019]. Se considera necesario un análisis empírico para la construcción de las variables latentes, el cual determina la existencia de cuatro factores latentes, siendo estos el de percepción meritocrática, preferencia meritocrática, percepción no meritocrática y preferencia no meritocrática.  
 
-En segundo lugar, se procede a un tratamiento similar al de las variables dependientes pero con las variables independientes, con la finalidad de buscar factores explicativos referidos a las variables sobre meritocracia, teniendo en consideración la literatura previa sobre los constructos conceptuales de percepciones y preferncias meritocráticas. Además, se ha constatado que en las percepciones meritocráticas existen dos constructos, en donde uno refiere a quienes obtienen mayores recompensas, mientras que la otra refiere a los criterios para determinar quienes logran salir adelante (ITURRA). En este sentido, para la construcción de las variables, primero se observan las correlaciones, luego se realiza un AFE y CFA para determinar la cantidad de factores y cuales operan como variables independientes. --> terminar mencionando cómo quedó construida
+El procedimiento para ambas variables fue explorar en primera instancia la correlación entre los indicadores, para generar una primera aproximación a las asociaciones que se dan entre indicadores y una posible agrupación de estos. A continuación, se realiza un Análisis Factorial Confirmatorio (CFA). Este método es adecuado tanto para las variables dependientes como independientes, el cual, a diferencia del análisis factorial exploratorio, es guiado por una hipótesis que busca validar la construcción de variables latentes [@_confirmatory_2007]. Para ello se utiliza la librería lavaan de R [@rosseel_lavaan_2012]. Debido a la naturaleza de los indicadores (ordinales), se utiliza el estimador de mínimos cuadrados ponderados y varianza ajustada (WLSMV, por sus siglas en inglés). 
 
-En tercer lugar se da paso al análisis multivariado, basado principalmente en la técnica de regresiones lineales múltiples. 
+Para evaluar el ajuste del modelo se utilizan medidas de ajuste global como el estadístico χ2, junto a medidas menos sensibles al tamaño muestral. Para este caso se utilizan el índice Tucker-Lewis (TLI), el índice Bentler-Bonett (CFI) y la raíz del error cuadrático medio de aproximación (RMSEA). Los criterios establecidos son, para χ2, una no significancia de p > 0,05, un RMSEA ≤ 0,06 (aunque existe literatura en donde el criterio es más flexible, siendo los valores ≤ a 0,07 o 0,08 aceptables [@coughlanjoseph_structural_2008]) y valores superiores a 0,95 en los índices CFI y TLI [@_confirmatory_2007]. 
+
+En tercer y último lugar se da paso al análisis multivariado, basado principalmente en la técnica de regresiones lineales múltiples. 
 

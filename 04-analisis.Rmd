@@ -1,37 +1,12 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
 ```{r include=FALSE}
 pacman::p_load(dplyr,sjmisc,car,sjlabelled,labelled,stargazer,kableExtra,corrplot,sessioninfo,readxl,
                pander,xtable,tidyverse,extrafont,ggplot2,forcats,ggpubr,naniar,haven,devtools,
-               summarytools,poLCA,sjPlot,lavaan,knitr,summarytools,psych)
-load("Input/Data_proc/data.RData")
-
-data %>% 
-  dplyr::select(atrib_pob_1,atrib_pob_2,atrib_pob_3,atrib_pob_4,atrib_pob_5,
-                atrib_riq_1,atrib_riq_2,atrib_riq_3,atrib_riq_4,atrib_riq_5) -> atribcor
-
-data %>% 
-  dplyr::select(merit_perc_effort,merit_perc_talent,merit_perc_wpart,merit_perc_netw, 
-                merit_pref_effort,merit_pref_talent,merit_pref_wpart,merit_pref_netw) -> meritcor
-
-df_fa1 <- data %>% dplyr::select(atrib_pob_1,atrib_pob_2,atrib_pob_3,atrib_pob_4,atrib_pob_5,
-                            atrib_riq_1,atrib_riq_2,atrib_riq_3,atrib_riq_4,atrib_riq_5) # Con variables fatalistas
-
-df_fa2 <- data %>% dplyr::select(atrib_pob_1,atrib_pob_3,atrib_pob_4,atrib_pob_5,
-                                 atrib_riq_1,atrib_riq_3,atrib_riq_4,atrib_riq_5) # Sin variables fatalistas
-
-
-cor_df_fa1 =cor(df_fa1, use = "complete.obs")
-cor_df_fa2 =cor(df_fa2, use = "complete.obs")
-
-# Modelo 2 factores 
-fa_pa.2_fatal<- fa(r=df_fa1, nfactors = 2, rotate = "oblimin", fm="pa")
-colnames(fa_pa.2_fatal$loadings) <- c("Atrib. Internas", "Atrib. Externas")
-
-#Modelo 3 factores
-fa_pa.3<- fa(r=df_fa1, nfactors = 3, rotate = "oblimin", fm="pa")
-colnames(fa_pa.3$loadings) <- c("Atrib. Internas", "Atrib. Externas", "Atrib. Fatalistas")
-
-```
-```{r include=FALSE}
+               summarytools,poLCA,sjPlot,lavaan,knitr,summarytools,psych,semTable,texreg,pandoc)
 table_format = if(is_html_output()) {
   "html"
 } else if(is_latex_output()) {
@@ -69,6 +44,544 @@ fa_table <- function(x, cut) {
     mutate(across(where(is.numeric), round, 3))
 }
 ```
+```{r include=FALSE}
+#remotes::install_github('rstudio/bookdown')
+load("Input/Data_proc/data.RData") # Data
+load("Output/Tablas/m2_4.fit.RData")
+load("Output/Tablas/m3_3.fit.RData")
+load("Output/Tablas/msf_3.fit.RData")
+load("Output/Tablas/m_merit.4_ord.fit.RData")
+load("Output/Tablas/m4_rmsea_adj.fit.RData")
+
+# Variable dependiente
+
+data %>% 
+  dplyr::select(atrib_pob_1,atrib_pob_2,atrib_pob_3,atrib_pob_4,atrib_pob_5,
+                atrib_riq_1,atrib_riq_2,atrib_riq_3,atrib_riq_4,atrib_riq_5) -> atribcor
+
+data %>% 
+  dplyr::select(merit_perc_effort,merit_perc_talent,merit_perc_wpart,merit_perc_netw, 
+                merit_pref_effort,merit_pref_talent,merit_pref_wpart,merit_pref_netw) -> meritcor
+
+dep_fa1 <- data %>% dplyr::select(atrib_pob_1,atrib_pob_2,atrib_pob_3,atrib_pob_4,atrib_pob_5,
+                            atrib_riq_1,atrib_riq_2,atrib_riq_3,atrib_riq_4,atrib_riq_5) # Con variables fatalistas
+
+dep_fa2 <- data %>% dplyr::select(atrib_pob_1,atrib_pob_3,atrib_pob_4,atrib_pob_5,
+                                 atrib_riq_1,atrib_riq_3,atrib_riq_4,atrib_riq_5) # Sin variables fatalistas
+
+
+cor_dep_fa1 =cor(dep_fa1, use = "complete.obs")
+cor_dep_fa2 =cor(dep_fa2, use = "complete.obs")
+
+# EFA 2 factores 
+fa_pa.2_fatal<- fa(r=dep_fa1, nfactors = 2, rotate = "oblimin", fm="pa")
+colnames(fa_pa.2_fatal$loadings) <- c("Atribuciones Internas", "Atribuciones Externas")
+
+f2_table <- fa_table(fa_pa.2_fatal, -10)
+rownames(f2_table)  <- c("Atribuciones riqueza Talento","Atribuciones pobreza Falta esfuerzo","Atribuciones riqueza Trabajo duro","Atribuciones pobreza Falta habilidad","Atribuciones pobreza Mala suerte","Atribuciones riqueza Suerte","Atribuciones pobreza Sistema económico","Atribuciones pobreza Sistema educativo","Atribuciones riqueza Sistema económico","Atribuciones riqueza Sistema educativo")
+f2_table <- dplyr::select(f2_table, -item)
+
+# EFA 3 factores
+fa_pa.3<- fa(r=dep_fa1, nfactors = 3, rotate = "oblimin", fm="pa")
+colnames(fa_pa.3$loadings) <- c("Atribuciones Internas", "Atribuciones Externas", "Atribuciones Fatalistas")
+
+f3_table <- fa_table(fa_pa.3, -10)
+rownames(f3_table)  <- c("Atribuciones riqueza Trabajo duro","Atribuciones riqueza Talento","Atribuciones pobreza Falta esfuerzo","Atribuciones pobreza Falta habilidad","Atribuciones pobreza Sistema económico","Atribuciones pobreza Sistema educativo","Atribuciones riqueza Sistema económico","Atribuciones riqueza Sistema educativo","Atribuciones pobreza Mala suerte","Atribuciones riqueza Suerte")
+f3_table <- dplyr::select(f3_table, -item)
+
+
+
+# Variable independiente
+
+merit_fa =cor(meritcor, use = "complete.obs")
+merit_fa<-as.data.frame(merit_fa)
+
+# EFA 3 factores
+
+fa_merit_pa.3<- fa(r=merit_fa, nfactors = 3, rotate = "oblimin", fm="pa")
+colnames(fa_merit_pa.3$loadings) <- c("Percepción+Preferencias meritocráticas", "Percepción No meritocráticas", "Preferencias No meritocráticas")
+
+# EFA 4 factores 
+fa_merit_pa.4<- fa(r=merit_fa, nfactors = 4, rotate = "oblimin", fm="pa", max.iter = 500)
+colnames(fa_merit_pa.4$loadings) <- c("Percepción meritocráticas", "Preferencias meritocráticas","Percepción No meritocráticas", "Preferencias No meritocráticas")
+
+
+
+
+ajuste <- c("<b>&#88&sup2<b>","<b>gl<b>","<b>CFI<b>","<b>RMSEA<b>","<b>Num. obs.<b>")
+
+# Structural Regression Model
+
+################################ Modelo 1 (variables objetivas) ###################################
+
+m.obj <- '
+# measurement model
+## Endogenous factors 
+Atribuciones_Internas=~atrib_pob_1+atrib_pob_3+atrib_riq_1+atrib_riq_3
+Atribuciones_Externas=~atrib_pob_4+atrib_pob_5+atrib_riq_4
+
+# Cov
+atrib_riq_1 ~~ atrib_riq_3
+
+# regressions
+
+Atribuciones_Internas ~ sexo + edad + educ_tecnica + educ_uni_incomp + educ_uni_post + 
+ingresos_1 + ingresos_2 + ingresos_3 + ingresos_4 +
+act_prin_no_remunerado + act_prin_desempleado + act_prin_trabaja_estudia + act_prin_estudia + act_prin_jubliado
+Atribuciones_Externas ~ sexo + edad + educ_tecnica + educ_uni_incomp + educ_uni_post + 
+ingresos_1 + ingresos_2 + ingresos_3 + ingresos_4 +
+act_prin_no_remunerado + act_prin_desempleado + act_prin_trabaja_estudia + act_prin_estudia + act_prin_jubliado
+'
+fit_m.obj <- sem(m.obj, data=data,ordered = T)
+#semoutput::sem_paths(fit_m.obj, standardized = TRUE)
+
+#x <-  parameterEstimates(fit_m.obj) #Para saber la posición de las filas
+#options(max.print=999999)
+#x
+int.obj <- as.data.frame(parameterEstimates(fit_m.obj)[9:22,  ])
+ext.obj <- as.data.frame(parameterEstimates(fit_m.obj)[23:36,  ])
+fit.messem.inc <- fitMeasures(fit_m.obj,c("chisq","df","pvalue","cfi","rmsea"))
+#----Crear la tabla-----
+m.int.obj <- texreg::createTexreg(coef.names  = int.obj$rhs ,
+                                coef = int.obj$est,
+                                se = int.obj$z,
+                                pvalues = int.obj$pvalue,
+                                gof = c(fitmeasures(fit_m.obj)[[c(3)]],
+                                        fitmeasures(fit_m.obj)[[c(4)]],
+                                        fitmeasures(fit_m.obj)[[c(18)]],
+                                        fitmeasures(fit_m.obj)[[c(36)]],
+                                        nobs(fit_m.obj)),
+                                gof.names = ajuste,
+                                gof.decimal =c (TRUE, FALSE,TRUE, TRUE, FALSE))
+m.ext.obj <- texreg::createTexreg(coef.names  = ext.obj$rhs ,
+                                  coef = ext.obj$est,
+                                  se = ext.obj$z,
+                                  pvalues = ext.obj$pvalue,
+                                  gof = c(fitmeasures(fit_m.obj)[[c(3)]],
+                                          fitmeasures(fit_m.obj)[[c(4)]],
+                                          fitmeasures(fit_m.obj)[[c(18)]],
+                                          fitmeasures(fit_m.obj)[[c(36)]],
+                                          nobs(fit_m.obj)),
+                                  gof.names = ajuste,
+                                  gof.decimal =c (TRUE, FALSE,TRUE, TRUE, FALSE))
+
+
+################################ Modelo 2 (variable subjetiva) ###################################
+
+m.subj <- '
+# measurement model
+## Endogenous factors 
+Atribuciones_Internas=~atrib_pob_1+atrib_pob_3+atrib_riq_1+atrib_riq_3
+Atribuciones_Externas=~atrib_pob_4+atrib_pob_5+atrib_riq_4
+
+# Cov
+atrib_riq_1 ~~ atrib_riq_3
+
+# regressions
+
+Atribuciones_Internas ~ ess_ind 
+Atribuciones_Externas ~ ess_ind
+'
+fit_m.subj <- sem(m.subj, data=data,ordered = T)
+#semoutput::sem_paths(fit_m.subj, standardized = TRUE, ci = "standardized")
+#x <-  parameterEstimates(fit_m.subj) #Para saber la posición de las filas
+#x
+int.subj <- as.data.frame(parameterEstimates(fit_m.subj)[9,  ])
+ext.subj <- as.data.frame(parameterEstimates(fit_m.subj)[10,  ])
+fit.messem.inc <- fitMeasures(fit_m.subj,c("chisq","df","pvalue","cfi","rmsea"))
+#----Crear la tabla-----
+m.int.subj <- texreg::createTexreg(coef.names  = int.subj$rhs ,
+                                  coef = int.subj$est,
+                                  se = int.subj$z,
+                                  pvalues = int.subj$pvalue,
+                                  gof = c(fitmeasures(fit_m.subj)[[c(3)]],
+                                          fitmeasures(fit_m.subj)[[c(4)]],
+                                          fitmeasures(fit_m.subj)[[c(18)]],
+                                          fitmeasures(fit_m.subj)[[c(36)]],
+                                          nobs(fit_m.subj)),
+                                  gof.names = ajuste,
+                                  gof.decimal =c (TRUE, FALSE,TRUE, TRUE, FALSE))
+m.ext.subj <- texreg::createTexreg(coef.names  = ext.subj$rhs ,
+                                   coef = ext.subj$est,
+                                   se = ext.subj$z,
+                                   pvalues = ext.subj$pvalue,
+                                   gof = c(fitmeasures(fit_m.subj)[[c(3)]],
+                                           fitmeasures(fit_m.subj)[[c(4)]],
+                                           fitmeasures(fit_m.subj)[[c(18)]],
+                                           fitmeasures(fit_m.subj)[[c(36)]],
+                                           nobs(fit_m.subj)),
+                                   gof.names = ajuste,
+                                   gof.decimal =c (TRUE, FALSE,TRUE, TRUE, FALSE))
+
+############################# Modelo 3 (variables objetivas y subjetiva) ##############################
+
+m.obj.subj <- '
+# measurement model
+## Endogenous factors 
+Atribuciones_Internas=~atrib_pob_1+atrib_pob_3+atrib_riq_1+atrib_riq_3
+Atribuciones_Externas=~atrib_pob_4+atrib_pob_5+atrib_riq_4
+
+# Cov
+atrib_riq_1 ~~ atrib_riq_3
+
+# regressions
+
+Atribuciones_Internas ~ sexo + edad + educ_tecnica + educ_uni_incomp + educ_uni_post + 
+ingresos_1 + ingresos_2 + ingresos_3 + ingresos_4 +
+act_prin_no_remunerado + act_prin_desempleado + act_prin_trabaja_estudia + act_prin_estudia + act_prin_jubliado 
++ ess_ind
+Atribuciones_Externas ~ sexo + edad + educ_tecnica + educ_uni_incomp + educ_uni_post + 
+ingresos_1 + ingresos_2 + ingresos_3 + ingresos_4 +
+act_prin_no_remunerado + act_prin_desempleado + act_prin_trabaja_estudia + act_prin_estudia + act_prin_jubliado
++ ess_ind
+'
+fit_m.obj.subj <- sem(m.obj.subj, data=data,ordered = T)
+#semoutput::sem_paths(fit_m.obj.subj, standardized = TRUE, ci = "standardized")
+#x <-  parameterEstimates(fit_m.obj.subj) #Para saber la posición de las filas
+#x
+int.obj.subj <- as.data.frame(parameterEstimates(fit_m.obj.subj)[9:23,  ])
+ext.obj.subj <- as.data.frame(parameterEstimates(fit_m.obj.subj)[24:38,  ])
+fit.messem.inc <- fitMeasures(fit_m.subj,c("chisq","df","pvalue","cfi","rmsea"))
+#----Crear la tabla-----
+m.int.obj.subj <- texreg::createTexreg(coef.names  = int.obj.subj$rhs ,
+                                   coef = int.obj.subj$est,
+                                   se = int.obj.subj$z,
+                                   pvalues = int.obj.subj$pvalue,
+                                   gof = c(fitmeasures(fit_m.obj.subj)[[c(3)]],
+                                           fitmeasures(fit_m.obj.subj)[[c(4)]],
+                                           fitmeasures(fit_m.obj.subj)[[c(18)]],
+                                           fitmeasures(fit_m.obj.subj)[[c(36)]],
+                                           nobs(fit_m.subj)),
+                                   gof.names = ajuste,
+                                   gof.decimal =c (TRUE, FALSE,TRUE, TRUE, FALSE))
+m.ext.obj.subj <- texreg::createTexreg(coef.names  = ext.obj.subj$rhs ,
+                                       coef = ext.obj.subj$est,
+                                       se = ext.obj.subj$z,
+                                       pvalues = ext.obj.subj$pvalue,
+                                       gof = c(fitmeasures(fit_m.obj.subj)[[c(3)]],
+                                               fitmeasures(fit_m.obj.subj)[[c(4)]],
+                                               fitmeasures(fit_m.obj.subj)[[c(18)]],
+                                               fitmeasures(fit_m.obj.subj)[[c(36)]],
+                                               nobs(fit_m.subj)),
+                                       gof.names = ajuste,
+                                       gof.decimal =c (TRUE, FALSE,TRUE, TRUE, FALSE))
+
+################################ Modelo 4 (variables meritocráticas) ###################################
+
+
+m.merit <- '
+# measurement model
+## Endogenous factors 
+Atribuciones_Internas=~atrib_pob_1+atrib_pob_3+atrib_riq_1+atrib_riq_3
+Atribuciones_Externas=~atrib_pob_4+atrib_pob_5+atrib_riq_4
+
+## Exogenous factors
+perc_merit=~merit_perc_effort+merit_perc_talent
+pref_merit=~merit_pref_talent+merit_pref_effort
+perc_nmerit=~merit_perc_wpart+merit_perc_netw
+pref_nmerit=~merit_pref_netw+merit_pref_wpart
+
+# Cov
+atrib_riq_1 ~~ atrib_riq_3
+
+# regressions
+
+Atribuciones_Internas ~ perc_merit + pref_merit 
+Atribuciones_Externas ~ perc_merit + pref_merit 
+'
+fit_m.merit <- sem(m.merit, data=data,ordered = T)
+#semoutput::sem_paths(fit_m.merit, standardized = TRUE, ci = "standardized")
+#x <-  parameterEstimates(fit_m.merit) #Para saber la posición de las filas
+#x
+int.merit <- as.data.frame(parameterEstimates(fit_m.merit)[17:18,  ])
+ext.merit <- as.data.frame(parameterEstimates(fit_m.merit)[19:20,  ])
+fit.messem.inc <- fitMeasures(fit_m.merit,c("chisq","df","pvalue","cfi","rmsea"))
+#----Crear la tabla-----
+m.int.merit <- texreg::createTexreg(coef.names  = int.merit$rhs ,
+                                       coef = int.merit$est,
+                                       se = int.merit$z,
+                                       pvalues = int.merit$pvalue,
+                                       gof = c(fitmeasures(fit_m.merit)[[c(3)]],
+                                               fitmeasures(fit_m.merit)[[c(4)]],
+                                               fitmeasures(fit_m.merit)[[c(18)]],
+                                               fitmeasures(fit_m.merit)[[c(36)]],
+                                               nobs(fit_m.merit)),
+                                       gof.names = ajuste,
+                                       gof.decimal =c (TRUE, FALSE,TRUE, TRUE, FALSE))
+m.ext.merit <- texreg::createTexreg(coef.names  = ext.merit$rhs ,
+                                    coef = ext.merit$est,
+                                    se = ext.merit$z,
+                                    pvalues = ext.merit$pvalue,
+                                    gof = c(fitmeasures(fit_m.merit)[[c(3)]],
+                                            fitmeasures(fit_m.merit)[[c(4)]],
+                                            fitmeasures(fit_m.merit)[[c(18)]],
+                                            fitmeasures(fit_m.merit)[[c(36)]],
+                                            nobs(fit_m.merit)),
+                                    gof.names = ajuste,
+                                    gof.decimal =c (TRUE, FALSE,TRUE, TRUE, FALSE))
+################################ Modelo 5 (variables no meritocráticas) ###################################
+
+
+m.nmerit <- '
+# measurement model
+## Endogenous factors 
+Atribuciones_Internas=~atrib_pob_1+atrib_pob_3+atrib_riq_1+atrib_riq_3
+Atribuciones_Externas=~atrib_pob_4+atrib_pob_5+atrib_riq_4
+
+## Exogenous factors
+perc_merit=~merit_perc_effort+merit_perc_talent
+pref_merit=~merit_pref_talent+merit_pref_effort
+perc_nmerit=~merit_perc_wpart+merit_perc_netw
+pref_nmerit=~merit_pref_netw+merit_pref_wpart
+
+# Cov
+atrib_riq_1 ~~ atrib_riq_3
+
+# regressions
+
+Atribuciones_Internas ~ perc_nmerit + pref_nmerit
+Atribuciones_Externas ~ perc_nmerit + pref_nmerit
+'
+fit_m.nmerit <- sem(m.nmerit, data=data,ordered = T)
+#semoutput::sem_paths(fit_m.nmerit, standardized = TRUE, ci = "standardized")
+#x <-  parameterEstimates(fit_m.nmerit) #Para saber la posición de las filas
+#x
+int.nmerit <- as.data.frame(parameterEstimates(fit_m.nmerit)[17:18,  ])
+ext.nmerit <- as.data.frame(parameterEstimates(fit_m.nmerit)[19:20,  ])
+fit.messem.inc <- fitMeasures(fit_m.nmerit,c("chisq","df","pvalue","cfi","rmsea"))
+#----Crear la tabla-----
+m.int.nmerit <- texreg::createTexreg(coef.names  = int.nmerit$rhs ,
+                                    coef = int.nmerit$est,
+                                    se = int.nmerit$z,
+                                    pvalues = int.nmerit$pvalue,
+                                    gof = c(fitmeasures(fit_m.nmerit)[[c(3)]],
+                                            fitmeasures(fit_m.nmerit)[[c(4)]],
+                                            fitmeasures(fit_m.nmerit)[[c(18)]],
+                                            fitmeasures(fit_m.nmerit)[[c(36)]],
+                                            nobs(fit_m.nmerit)),
+                                    gof.names = ajuste,
+                                    gof.decimal =c (TRUE, FALSE,TRUE, TRUE, FALSE))
+m.ext.nmerit <- texreg::createTexreg(coef.names  = ext.nmerit$rhs ,
+                                     coef = ext.nmerit$est,
+                                     se = ext.nmerit$z,
+                                     pvalues = ext.nmerit$pvalue,
+                                     gof = c(fitmeasures(fit_m.nmerit)[[c(3)]],
+                                             fitmeasures(fit_m.nmerit)[[c(4)]],
+                                             fitmeasures(fit_m.nmerit)[[c(18)]],
+                                             fitmeasures(fit_m.nmerit)[[c(36)]],
+                                             nobs(fit_m.nmerit)),
+                                     gof.names = ajuste,
+                                     gof.decimal =c (TRUE, FALSE,TRUE, TRUE, FALSE))
+
+###################### Modelo 6 (variables meritocráticas y no meritocráticas) #########################
+
+
+m.merit.nmerit <- '
+# measurement model
+## Endogenous factors 
+Atribuciones_Internas=~atrib_pob_1+atrib_pob_3+atrib_riq_1+atrib_riq_3
+Atribuciones_Externas=~atrib_pob_4+atrib_pob_5+atrib_riq_4
+
+## Exogenous factors
+perc_merit=~merit_perc_effort+merit_perc_talent
+pref_merit=~merit_pref_talent+merit_pref_effort
+perc_nmerit=~merit_perc_wpart+merit_perc_netw
+pref_nmerit=~merit_pref_netw+merit_pref_wpart
+
+# Cov
+atrib_riq_1 ~~ atrib_riq_3
+
+# regressions
+
+Atribuciones_Internas ~ perc_merit + pref_merit + perc_nmerit + pref_nmerit
+Atribuciones_Externas ~ perc_merit + pref_merit + perc_nmerit + pref_nmerit
+'
+fit_m.merit.nmerit <- sem(m.merit.nmerit, data=data,ordered = T)
+#semoutput::sem_paths(fit_m.merit.nmerit, standardized = TRUE, ci = "standardized")
+#x <-  parameterEstimates(fit_m.merit.nmerit) #Para saber la posición de las filas
+#x
+int.merit.nmerit <- as.data.frame(parameterEstimates(fit_m.merit.nmerit)[17:20,  ])
+ext.merit.nmerit <- as.data.frame(parameterEstimates(fit_m.merit.nmerit)[21:24,  ])
+fit.messem.inc <- fitMeasures(fit_m.merit.nmerit,c("chisq","df","pvalue","cfi","rmsea"))
+#----Crear la tabla-----
+m.int.merit.nmerit <- texreg::createTexreg(coef.names  = int.merit.nmerit$rhs ,
+                                     coef = int.merit.nmerit$est,
+                                     se = int.merit.nmerit$z,
+                                     pvalues = int.merit.nmerit$pvalue,
+                                     gof = c(fitmeasures(fit_m.merit.nmerit)[[c(3)]],
+                                             fitmeasures(fit_m.merit.nmerit)[[c(4)]],
+                                             fitmeasures(fit_m.merit.nmerit)[[c(18)]],
+                                             fitmeasures(fit_m.merit.nmerit)[[c(36)]],
+                                             nobs(fit_m.merit.nmerit)),
+                                     gof.names = ajuste,
+                                     gof.decimal =c (TRUE, FALSE,TRUE, TRUE, FALSE))
+m.ext.merit.nmerit <- texreg::createTexreg(coef.names  = ext.merit.nmerit$rhs ,
+                                           coef = ext.merit.nmerit$est,
+                                           se = ext.merit.nmerit$z,
+                                           pvalues = ext.merit.nmerit$pvalue,
+                                           gof = c(fitmeasures(fit_m.merit.nmerit)[[c(3)]],
+                                                   fitmeasures(fit_m.merit.nmerit)[[c(4)]],
+                                                   fitmeasures(fit_m.merit.nmerit)[[c(18)]],
+                                                   fitmeasures(fit_m.merit.nmerit)[[c(36)]],
+                                                   nobs(fit_m.merit.nmerit)),
+                                           gof.names = ajuste,
+                                           gof.decimal =c (TRUE, FALSE,TRUE, TRUE, FALSE))
+
+
+############################ Modelo 7 (todas las variables) #############################
+
+
+m.total <- '
+# measurement model
+## Endogenous factors 
+Atribuciones_Internas=~atrib_pob_1+atrib_pob_3+atrib_riq_1+atrib_riq_3
+Atribuciones_Externas=~atrib_pob_4+atrib_pob_5+atrib_riq_4
+
+## Exogenous factors
+perc_merit=~merit_perc_effort+merit_perc_talent
+pref_merit=~merit_pref_talent+merit_pref_effort
+perc_nmerit=~merit_perc_wpart+merit_perc_netw
+pref_nmerit=~merit_pref_netw+merit_pref_wpart
+
+# Cov
+atrib_riq_1 ~~ atrib_riq_3
+
+# regressions
+
+Atribuciones_Internas ~ sexo + edad + educ_tecnica + educ_uni_incomp + educ_uni_post + 
+ingresos_1 + ingresos_2 + ingresos_3 + ingresos_4 +
+act_prin_no_remunerado + act_prin_desempleado + act_prin_trabaja_estudia + act_prin_estudia + act_prin_jubliado
++ ess_ind + 
+perc_merit + pref_merit + perc_nmerit + pref_nmerit
+Atribuciones_Externas ~ sexo + edad + educ_tecnica + educ_uni_incomp + educ_uni_post + 
+ingresos_1 + ingresos_2 + ingresos_3 + ingresos_4 +
+act_prin_no_remunerado + act_prin_desempleado + act_prin_trabaja_estudia + act_prin_estudia + act_prin_jubliado
++ ess_ind + 
+perc_merit + pref_merit + perc_nmerit + pref_nmerit
+'
+
+fit_total <- sem(m.total, data=data,ordered = T)
+#summary(fit_total,fit.measures=TRUE,standardized=TRUE,rsquare=T)
+#semoutput::sem_paths(fit_total, standardized = TRUE, ci = "standardized")
+#x <-  parameterEstimates(fit_total) #Para saber la posición de las filas
+#x
+int.total <- as.data.frame(parameterEstimates(fit_total)[17:35,  ])
+ext.total <- as.data.frame(parameterEstimates(fit_total)[36:54,  ])
+fit.messem.inc <- fitMeasures(fit_total,c("chisq","df","pvalue","cfi","rmsea"))
+#----Crear la tabla-----
+m.int.total <- texreg::createTexreg(coef.names  = int.total$rhs ,
+                                           coef = int.total$est,
+                                           se = int.total$z,
+                                           pvalues = int.total$pvalue,
+                                           gof = c(fitmeasures(fit_total)[[c(3)]],
+                                                   fitmeasures(fit_total)[[c(4)]],
+                                                   fitmeasures(fit_total)[[c(18)]],
+                                                   fitmeasures(fit_total)[[c(36)]],
+                                                   nobs(fit_total)),
+                                           gof.names = ajuste,
+                                           gof.decimal =c (TRUE, FALSE,TRUE, TRUE, FALSE))
+m.ext.total <- texreg::createTexreg(coef.names  = ext.total$rhs ,
+                                    coef = ext.total$est,
+                                    se = ext.total$z,
+                                    pvalues = ext.total$pvalue,
+                                    gof = c(fitmeasures(fit_total)[[c(3)]],
+                                            fitmeasures(fit_total)[[c(4)]],
+                                            fitmeasures(fit_total)[[c(18)]],
+                                            fitmeasures(fit_total)[[c(36)]],
+                                            nobs(fit_total)),
+                                    gof.names = ajuste,
+                                    gof.decimal =c (TRUE, FALSE,TRUE, TRUE, FALSE))
+
+
+# ---- Tabla de todos los modelos
+
+## Atribuciones internas
+
+modelos.int1 <- list(m.int.obj,m.int.obj.subj,m.int.merit,m.int.nmerit,m.int.merit.nmerit,m.int.total)
+coefm.int1 <- c("Sexo (Ref=hombre)",
+            "Edad",
+            "Educaci&oacuten t&eacutecnica",
+            "Educaci&oacuten universitaria incompleta",
+            "Educaci&oacuten universitaria y postgrado",
+            "De $358.001 a $448.000",
+            "De $448.001 a $1.000.000 mensuales",
+            "De $1.000.001 a $2.000.000",
+            "M&aacutes de $2.000.001",
+            "No remunerada",
+            "Desempleado",
+            "Trabaja y estudia",
+            "Estudia",
+            "Jubliado",
+            "Estatus Social Subjetivo",
+            "Percepci&oacuten meritocr&aacutetica",
+            "Preferencia meritocr&aacutetica",
+            "Percepci&oacuten no meritocr&aacutetica",
+            "Preferencia no meritocr&aacutetica")
+refm.int1 <- list("<b>Educaci&oacuten (ref: Media completa o menos)<b>" = 3:5 ,
+              "<b>Rango ingresos mensuales hogar (ref: $358.000 o menos )<b>"= 6:9,
+              "<b>Actividad principal (ref: Trabajo jornada completa o parcial)<b>"=10:14)
+semINT <- texreg::htmlreg(modelos.int1, center = TRUE,
+                 custom.coef.names = coefm.int1,
+                 custom.model.names = c("Modelo 1","Modelo 2","Modelo 3","Modelo 4","Modelo 5","Modelo 6"),
+                 dcolumn = TRUE,
+                 booktabs = TRUE,
+                 use.packages = FALSE,
+                 single.row = FALSE,digits = 3,
+                 sideways = FALSE,
+                 no.margin = FALSE,scalebox = 0.65,
+                 caption.above = TRUE,
+#                 custom.note = nota3,
+                 float.pos = "H",
+                 groups = refm.int1,
+                 label = "table:semREC",
+#                 omit.coef = "(IDNR)|(isco_nr)|(ppol_cen)|(ppol_der)|(ppol_ind)|(ppol_ninguno)|(sexo)|(edad)",
+                 caption = "Modelos de ecuaciones estructurales para variables independientes con la variable latente <b>Atribuciones internas (1)<b>")#, file='Output/models.html')
+
+## Atribuciones externas
+
+
+modelos.ext1 <- list(m.ext.obj,m.ext.obj.subj,m.ext.merit,m.ext.nmerit,m.ext.merit.nmerit,m.ext.total)
+coefm.ext1 <- c("Sexo (Ref=hombre)",
+            "Edad",
+            "Educaci&oacuten t&eacutecnica",
+            "Educaci&oacuten universitaria incompleta",
+            "Educaci&oacuten universitaria y postgrado",
+            "De $358.001 a $448.000",
+            "De $448.001 a $1.000.000 mensuales",
+            "De $1.000.001 a $2.000.000",
+            "M&aacutes de $2.000.001",
+            "No remunerada",
+            "Desempleado",
+            "Trabaja y estudia",
+            "Estudia",
+            "Jubliado",
+            "Estatus Social Subjetivo",
+            "Percepci&oacuten meritocr&aacutetica",
+            "Preferencia meritocr&aacutetica",
+            "Percepci&oacuten no meritocr&aacutetica",
+            "Preferencia no meritocr&aacutetica")
+refm.ext1 <- list("<b>Educaci&oacuten (ref: Media completa o menos)<b>" = 3:5 ,
+              "<b>Rango ingresos mensuales hogar (ref: $358.000 o menos )<b>"= 6:9,
+              "<b>Actividad principal (ref: Trabajo jornada completa o parcial)<b>"=10:14)
+semEXT <- texreg::htmlreg(modelos.ext1, center = TRUE,
+                 custom.coef.names = coefm.ext1,
+                 custom.model.names = c("Modelo 1","Modelo 2","Modelo 3","Modelo 4","Modelo 5","Modelo 6"),
+                 dcolumn = TRUE,
+                 booktabs = TRUE,
+                 use.packages = FALSE,
+                 single.row = FALSE,digits = 3,
+                 sideways = FALSE,
+                 no.margin = FALSE,scalebox = 0.65,
+                 caption.above = TRUE,
+#                 custom.note = nota3,
+                 float.pos = "H",
+                 groups = refm.ext1,
+                 label = "table:semREC",
+#                 omit.coef = "(IDNR)|(isco_nr)|(ppol_cen)|(ppol_der)|(ppol_ind)|(ppol_ninguno)|(sexo)|(edad)",
+                 caption = "Modelos de ecuaciones estructurales para variables independientes con la variable latente <b>Atribuciones externas (2)<b>")#, file='Output/models2.html')
+
+```
+
 
 
 
@@ -103,52 +616,24 @@ Más abajo en la misma Tabla se encuentran las variables independientes, disting
 
 <div style="text-align: justify">
 
-A continuación se presentan las Figuras N° \@ref(fig:matpearson_dep) y  N° \@ref(fig:matpolycor_dep), las cuales muestran las correlaciones de Person y policloricas, respectivamente, de la variable dependiente, referente a las atribuciones de pobreza y riqueza. Tanto en las correlaciones de Pearson como en las correlaciones policloricas, es posible identificar un primer grupo a partir de correlaciones positivas de niveles medios y medios-altos, en donde se encuentran las Atribuciones de pobreza por Falta de habilidad, Atribuciones de pobreza por Falta de esfuerzo, Atribuciones de riqueza a partir del Talento y Atribuciones de riqueza a partir del Trabajo duro. Cada una de ellas correlaciona entre sí de manera positiva y con niveles medios-altos, en donde destacan los niveles de correlación entre los dos indicadores correspondientes a las atribuciones de pobreza (por Falta de habilidad y por Falta de esfuerzo) y, por el otro lado, entre los dos indicadores de atribuciones de riqueza (por Talento y Trabajo duro). Por otro lado, se identifica otro grupo que correlaciona de manera positiva y con niveles medios y medios-altos entre Atribuciones de pobreza a partir del Sistema económico, Atribuciones de pobreza a partir del Sistema educativo, Atribuciones de riqueza a partir del Sistema económico y Atribuciones de riqueza a partir del Sistema educativo. Cabe destacar que los indicadores del primer grupo, coincidentes con lo que en la literatura se le ha llamado "atribuciones internas", correlacionan de manera negativa con los indicadores del segundo grupo, al cual se le puede denominar, a partir de la literatura, "atribuciones externas". Por último,las Atribuciones de pobreza por Mala suerte y Atribuciones de riqueza por Suerte, muestran una correlación positiva y media-alta solamente entre ellas, lo cual daría cuenta sobre un tercer constructo. Sin embargo, antes de anticiparnos a los constructos, es necesario realizar análisis factoriales.
+Antes de generar las variables latentes para la variable latente, se realizaron los test de correlación policórica y de Pearson. A partir de la Figura N° \@ref(fig:matpolycor2) se presentarán solamente los resultados de la correlación policórica, ya que en general coinciden los resultados entre los dos test, como también debido a que con los resultados de este test ya es posible identificar la relación entre indicadores. Tanto en las correlaciones de Pearson como en las correlaciones policóricas, es posible identificar un primer grupo a partir de correlaciones positivas de niveles medios y medios-altos, en donde se encuentran las Atribuciones de pobreza por Falta de habilidad, Atribuciones de pobreza por Falta de esfuerzo, Atribuciones de riqueza a partir del Talento y Atribuciones de riqueza a partir del Trabajo duro. Cada una de ellas correlaciona entre sí de manera positiva y con niveles medios-altos, en donde destacan los niveles de correlación entre los dos indicadores correspondientes a las atribuciones de pobreza (por Falta de habilidad y por Falta de esfuerzo) y, por el otro lado, entre los dos indicadores de atribuciones de riqueza (por Talento y Trabajo duro). Por otro lado, se identifica otro grupo que correlaciona de manera positiva y con niveles medios y medios-altos entre Atribuciones de pobreza a partir del Sistema económico, Atribuciones de pobreza a partir del Sistema educativo, Atribuciones de riqueza a partir del Sistema económico y Atribuciones de riqueza a partir del Sistema educativo. Cabe destacar que los indicadores del primer grupo, coincidentes con lo que en la literatura se le ha llamado "atribuciones internas", correlacionan de manera negativa con los indicadores del segundo grupo, al cual se le puede denominar, a partir de la literatura, "atribuciones externas". Por último,las Atribuciones de pobreza por Mala suerte y Atribuciones de riqueza por Suerte, muestran una correlación positiva y media-alta solamente entre ellas, lo cual daría cuenta sobre un tercer constructo. Sin embargo, antes de anticiparnos a los constructos, es necesario realizar un análisis confirmatorio.
 
-
-```{r matpearson_dep, echo=FALSE, fig.cap="Matriz de Correlaciones de Pearson  para Atribuciones de pobreza y riqueza", fig.align = 'center', out.width = '100%'}
-pearson_atrib=cor(atribcor, use = "complete.obs")
-windowsFonts(A = windowsFont("Times New Roman"))
-rownames(pearson_atrib) <-c(
-  "(1) Atribuciones pobreza Falta habilidad",
-  "(2) Atribuciones pobreza Mala suerte",
-  "(3) Atribuciones pobreza Falta esfuerzo",
-  "(4) Atribuciones pobreza Sistema económico",
-  "(5) Atribuciones pobreza Sistema educativo",
-  "(6) Atribuciones riqueza Talento",
-  "(7) Atribuciones riqueza Suerte",
-  "(8) Atribuciones riqueza Trabajo duro",
-  "(9) Atribuciones riqueza Sistema económico",
-  "(10) Atribuciones riqueza Sistema educativo")
-colnames(pearson_atrib) <-c("(1)", "(2)","(3)","(4)","(5)", "(6)","(7)","(8)","(9)","(10)")
-corrplot(pearson_atrib,
-         method = "color",
-         type = "upper",
-         tl.col = "black",
-         addCoef.col = "black",
-         diag = TRUE,
-         family = "A",
-         number.font = 6,
-         tl.cex =0.75,
-         number.cex = 1)
-```
-
-```{r matpolycor_dep, echo=FALSE, fig.cap="Matriz de Correlaciones Policlorica para Atribuciones de pobreza y riqueza", fig.align = 'center', out.width = '100%'}
+```{r matpolycor, echo=FALSE, fig.cap="Matriz de Correlaciones Policlorica para Atribuciones de pobreza y riqueza", fig.align = 'center', out.width = '100%'}
 polycor_atrib <- psych::polychoric(atribcor)
 windowsFonts(A = windowsFont("Times New Roman"))
 rownames(polycor_atrib$rho) <-c(
-  "(1) Atribuciones pobreza Falta habilidad",
-  "(2) Atribuciones pobreza Mala suerte",
-  "(3) Atribuciones pobreza Falta esfuerzo",
-  "(4) Atribuciones pobreza Sistema económico",
-  "(5) Atribuciones pobreza Sistema educativo",
-  "(6) Atribuciones riqueza Talento",
-  "(7) Atribuciones riqueza Suerte",
-  "(8) Atribuciones riqueza Trabajo duro",
-  "(9) Atribuciones riqueza Sistema económico",
-  "(10) Atribuciones riqueza Sistema educativo"
+  "(A) Atribuciones pobreza Falta habilidad",
+  "(B) Atribuciones pobreza Mala suerte",
+  "(C) Atribuciones pobreza Falta esfuerzo",
+  "(D) Atribuciones pobreza Sistema económico",
+  "(E) Atribuciones pobreza Sistema educativo",
+  "(F) Atribuciones riqueza Talento",
+  "(G) Atribuciones riqueza Suerte",
+  "(H) Atribuciones riqueza Trabajo duro",
+  "(I) Atribuciones riqueza Sistema económico",
+  "(J) Atribuciones riqueza Sistema educativo"
   )
-colnames(polycor_atrib$rho) <-c("(1)", "(2)","(3)","(4)","(5)", "(6)","(7)","(8)","(9)","(10)")
+colnames(polycor_atrib$rho) <-c("(A)", "(B)","(C)","(D)","(E)", "(F)","(G)","(H)","(I)","(J)")
 corrplot(polycor_atrib$rho,
   method = "color",
   type = "upper",
@@ -160,39 +645,42 @@ corrplot(polycor_atrib$rho,
   number.cex = 1)
 ```
 
-### Analisis Factorial Exploratorio (AFE)
+### Análisis factorial confirmatorio 
 
 <div style="text-align: justify">
 
-Como se señala en el libro de @_confirmatory_2007, el modelo de Análisis factorial exploratorio escencialmente es un análisis en donde se pretende identificar la covarianza y varianza dentro de un conjunto de datos u observaciones. Es decir, se busca identificar la relación entre medidas observables o indicadores a partir de una variable latente o factor, siendo esta última una variable inobservable. AFE es levemente distinto al Análisis del componente principal (PCA por sus siglas en inglés), en donde el primero puede hacer lo mismo que el Análisis del componente principal, pero no viceversa. Mientras PCA tiende a ser más exploratorio, el Análisis factorial requiere más suposiciones y es un poco más restrictivo en cuanto a sus suposiciones, como normalidad y relaciones lineales entre sus variables. 
+La implementación de CFA para las variables de atribuciones se debe principalmente a que se supone previamente el número de factores y como también su composición. Este método presenta la ventaja de que estima los errores de medición [@_confirmatory_2007]. La literatura sobre atribuciones de pobreza y riqueza en que se utilizan indicadores ordinales, se ha propuesto la existencia de dos macro constructos latentes, siendo estas las atribuciones internas y atribuciones externas. Debido a lo anterior, se estima un modelo de dos factores y se compara con modelos de más factores. 
 
-Para saber si se puede proceder a un Análisis factorial exploratorio sobre las variables dependientes, se realizó un test de normalidad, del determinante y KMO. Para el test de normalidad se realizaron pruebas de Lilliefors (Kolmogorov-Smirnov) y Jarque Bera, en donde ambos test presentaron valores *p* > *0.01*, descartando el supuesto de normalidad. Hubo dos excepciones, en donde las variables de Atribución de pobreza por Falta de habilidad y Atribución de riqueza por Talento presentaron valores *p* < *0.01*, cumpliendo con el supuesto de normalidad. Por su parte, el cálculo del determinante es de 0.1188577. Este valor es mayor que el valor necesario de 0.00001, por lo que el determinante no parece problemático. Por último, el resultado para KMO es de 0.67. Aún considerándose un resultado bajo, es posible continuar con el AFE.
+En un primer momento, la estructura de dos factores incluyó indicadores fatalistas. En el modelo 1 las atribuciones internas están constituidas por los siguientes indicadores: (A) Atribución de pobreza por falta de habilidad, (B) Atribución de pobreza por mala suerte, (C) Atribución de pobreza por falta de esfuerzo, (F) Atribución de riqueza por talento, (G) Atribución de riqueza por suerte y (H) Atribución de riqueza por trabajo duro. Por su parte, las atribuciones externas están construidas a partir de (D) Atribución de pobreza por sistema económico, (E) Atribución de pobreza por sistema educativo y (I) Atribución de riqueza por sistema económico. El indicador de Atribución de riqueza por sistema educativo es excluido ya que la correlación entre errores era alta con casi todos los otros indicadores, independiente de su factor. Para mejorar el ajuste, se especificó una correlación entre los errores de los dos indicadores fatalistas, como también entre los indicadores de atribución de pobreza por falta de habilidad y atribución de pobreza por falta de esfuerzo. El modelo presentó medidas de ajuste de χ2 (24)=183.178, p<0.000, CFI=0.967, TLI=0.951, RMSEA=0.074. Si bien los ajustes en general son aceptables, indicadores como el RMSEA podrían mejorar. Además se realizaron diversos ajustes para modificar el modelo. Debido a lo anterior se compara con otros dos modelos con estructuras diferentes. 
 
-Posteriormente, se procede a analizar los eigenvalores, el cual mide cuánta varianza de los indicadores es explicada por el (los) factor(es), siendo ≥ 1 cuando el factor logra explicar más que el indicador por si mismo. En este caso, el análisis muestra que dos factores logran explicar más que los indicadores por sí solos, por lo que se comienza el AFE a partir de dos factores, para luego comparar con modelos de más factores. 
+El modelo 2 presenta una estructura de tres factores, siendo estos los de Atribuciones internas, Atribuciones externas y Atribuciones fatalistas. La composición de los factores fue para las Atribuciones internas: (A) Atribución de pobreza por falta de habilidad, (C) Atribución de pobreza por falta de esfuerzo, (F) Atribución de riqueza por talento y (H) Atribución de riqueza por trabajo duro. Las atribuciones externas se componen de los indicadores de (D) Atribución de pobreza por sistema económico, (E) Atribución de pobreza por sistema educativo y (I) Atribución de riqueza por sistema económico. El último factor referente a las Atribuciones fatalistas está construido en base a los indicadores de suerte, siendo estos (B) Atribución de pobreza por mala suerte y (G) Atribución de riqueza por suerte. Para el presente modelo fue excluido el indicador de Atribución de riqueza por sistema educativo, ya que presentó niveles altos de correlación entre errores. Además se especificó una correlación entre  los errores de los indicadores de Atribución de pobreza por falta de habilidad y Atribución de pobreza por falta de esfuerzo. El modelo presentó medidas de ajuste de χ2 (23)=132.216, p<0.000, CFI=0.978, TLI=0.965, RMSEA=0.062. El modelo presenta un mejor ajuste respecto del modelo 1, sin embargo, considerando que el factor de atribuciones fatalistas no es relevante para el presente estudio, se prueba un tercer modelo en donde no se incluyen los indicadores de suerte.
 
-La tabla N° \@ref(tab:f2t) muestra los resultados para el modelo AFE de dos factores. Este muestra cargas factoriales consistentes con la literatura, distinguiendo entre atribuciones internas y atribuciones externas. Las cargas del grupo de atribuciones internas, referentes al esfuerzo y talento, muestran cargas sobre 0.6-. Si bien los indicadores fatalistas o de suerte pertenecerían a las atribuciones internas -por mostrar cargas mayores en este factor que en el factor de atribuciones externas-, sus cargas son muy bajas, entre 0.25 y 0.3, dificultando la tarea de ubicar a estos dos indicadores en atribuciones internas o atribuciones externas. Por otro lado, las cargas del grupo de atribuciones externas, muestran cargas sobre 0.5, a excepción de las Atribuciones de riqueza por Sistema económico, el cual da 0.43. Por su parte, la tabla N° \@ref(tab:f3t) muestra el modelo de tres factores. Las cargas factoriales en este caso indican la existencia de tres factores, siendo estos de atribuciones internas, externas y fatalistas. En general, las cargas factoriales aumentan en casi todos los indicadores, siendo especialmente importante para las atribuciones fatalistas o de suerte, las cuales muestran valores sobre 0.55. 
+En el modelo 3 se generan dos factores excluyendo del análisis los indicadores de (B) Atribución de pobreza por mala suerte y (G) Atribución de riqueza por suerte. De esta forma, la composición de los dos factores son, para Atribuciones internas, a partir de los indicadores de (A) Atribución de pobreza por falta de habilidad, (C) Atribución de pobreza por falta de esfuerzo, (F) Atribución de riqueza por talento y (H) Atribución de riqueza por trabajo duro. Para el factor de Atribuciones externas, los indicadores que le corresponden son las (D) Atribución de pobreza por sistema económico, (E) Atribución de pobreza por sistema educativo y (I) Atribución de riqueza por sistema económico. Nuevamente, el presente modelo excluye el indicador de Atribución de riqueza por sistema educativo, ya que, en general, presenta correlación de errores altos con todos los otros indicadores. Además se especificó una correlación entre los errores de los indicadores de Atribución de pobreza por falta de habilidad y Atribución de pobreza por falta de esfuerzo. El modelo presentó medidas de ajuste de χ2 (12)=82.876	, p<0.000, CFI=0.984, TLI=0.971, RMSEA=0.069. 
 
-Los modelos AFE coinciden con lo señalado por la literatura. Por un lado, el modelo de dos factores coincide con investigaciones que indican la existencia de dos factores, siendo estos de atribuciones internas-individualistas y atribuciones externas-estructuralistas, en donde los indicadores de suerte se comportan de manera ambigua a la hora de ubicarlos en atribuciones internas o externas, representando, posiblemente, dimensiones híbridas, tal como apunta @bullock_predicting_2003. Por otro lado, el modelo de tres factores mejora las cargas factoriales, y vendría a indicar la existencia de un tercer factor o grupo referente a las atribuciones fatalistas, en línea de lo planteado por @feaginj.r_subordinating_1975, siendo esta una investigación pionera respecto a atribuciones de pobreza, como también en investigaciones posteriores [@feather_explanations_1974; @hunt_race_2004]. Si bien el Análisis factorial exploratorio indica la presencia de dos factores, en donde los indicadores de suerte no serían explicados por estos dos factores, al generar un modelo de tres factores este hace sentido con parte de la literatura sobre atribuciones, en donde los tres factores logran explicar los indicadores de manera satisfactoria. Para determinar la composición de los factores y el número de ellos, se procede al Análisis factorial confirmatorio (CFA).
+Para mayor claridad, en la Tabla N° \@ref(tab:tab-fit) presentada más abajo se comparan las medidas de ajuste para los tres modelos de CFA.
 
-```{r f2t, echo=FALSE, message=FALSE, warning=FALSE}
-f2_table <- fa_table(fa_pa.2_fatal, -10)
-rownames(f2_table)  <- c("Atribuciones riqueza Talento","Atribuciones pobreza Falta esfuerzo","Atribuciones riqueza Trabajo duro","Atribuciones pobreza Falta habilidad","Atribuciones pobreza Mala suerte","Atribuciones riqueza Suerte","Atribuciones pobreza Sistema económico","Atribuciones pobreza Sistema educativo","Atribuciones riqueza Sistema económico","Atribuciones riqueza Sistema educativo")
-f2_table <- dplyr::select(f2_table, -item)
-knitr::kable(f2_table,
-             caption = "Cargas factoriales Modelo 2 Factores")
+```{r tab-fit,echo=FALSE, results='asis'}
+sum_fit<- bind_rows(fitmeasures(m2_4.fit)[c("chisq.scaled","df","cfi.scaled","rmsea","rmsea.scaled")],
+                    fitmeasures(m3_3.fit)[c("chisq.scaled","df","cfi.scaled","rmsea","rmsea.scaled")],
+                    fitmeasures(msf_3.fit)[c("chisq.scaled","df","cfi.scaled","rmsea","rmsea.scaled")])
+sum_fit$mod <- c("Modelo 1","Modelo 2","Modelo 3")
+sum_fit$est <- c("DWLS","DWLS","DWLS")
+sum_fit <- dplyr::select(sum_fit,mod,est,everything())
+colnames <- c("Modelo","Estimador","$\\chi^2$","df","CFI.sca","RMSEA","RMSEA.sca")
+
+sumtable01<- kable(sum_fit,digits = 3,format = "html",row.names = F,booktabs=T, caption = "Summary fit indices",col.names = colnames,escape = FALSE) %>%
+  kable_styling(full_width = F)  %>%
+  collapse_rows(columns = 1,valign = "middle")  %>%
+  footnote(number = c("Modelo 1: dos factores incluyendo atribuciones fatalistas",
+                      "Modelo 2: tres factores: internas, externas y fatalistas",
+                      "Modelo 3: dos factores excluyendo atribuciones fatalistas"));sumtable01
 ```
 
-```{r f3t, echo=FALSE, message=FALSE, warning=FALSE}
-f3_table <- fa_table(fa_pa.3, -10)
-rownames(f3_table)  <- c("Atribuciones riqueza Trabajo duro","Atribuciones riqueza Talento","Atribuciones pobreza Falta esfuerzo","Atribuciones pobreza Falta habilidad","Atribuciones pobreza Sistema económico","Atribuciones pobreza Sistema educativo","Atribuciones riqueza Sistema económico","Atribuciones riqueza Sistema educativo","Atribuciones pobreza Mala suerte","Atribuciones riqueza Suerte")
-f3_table <- dplyr::select(f3_table, -item)
-knitr::kable(f3_table,
-             caption = "Cargas factoriales Modelo 3 Factores")
+Debido a que las atribuciones fatalistas como constructo latente no es de relevancia para el presente estudio, y considerando que las medidas de ajuste son similares entre el Modelo 2 y 3, es que se propone el Modelo 3 como el modelo final, para luego tratar a los dos factores latentes de Atribuciones internas y Atribuciones externas como variable endógena en los modelos de ecuaciones estructurales. La construcción y las cargas factoriales del modelo se observan en la Figura  N° \@ref(fig:cfa-plot1). 
+
+```{r cfa-plot1, echo=FALSE, fig.align = 'center', fig.cap = "Clases latentes para atribuciones de pobreza y riqueza"}
+knitr::include_graphics(here::here("Output/images/atrib_cfa_path.png"))
 ```
-
-
-### Análisis factorial confirmatorio 
-
 
 ## Modelo de medición para Percepciones y Preferencias meritocráticas
 
@@ -200,51 +688,23 @@ knitr::kable(f3_table,
 
 <div style="text-align: justify">
 
-Las Figuras N° \@ref(fig:matpearson_indep) y  N° \@ref(fig:matpolycor_indep) muestran las correlaciones de Pearson y policloricas respectivamente, en donde se observa que los valores medios-altos, especificamente, correlaciones en torno al valor 0.5, se dan entre (1) [se] Obtienen mayores recompensas por el Esfuerzo y [se] Obtienen mayores recompensas por el Talento, (2) Logran a salir adelante [quienes tienen] Padres ricos y Logran a salir adelante [quienes tienen] buenos contactos, (3) Deberían obtener mayores recompensas [quienes] se Esfuerzan y Deberían tener mayores recompensas [quienes tienen] Talento y (4) Está bien que salgan adelante [quienes tienen] Padres ricos y Está bien que salgan adelante [quienes tienen] Buenos contactos. De esta forma, es posible subdividir en cuatro grupos, a los cuales se les puede llamar de (1) Percepción meritocráctica, (2) Percepción no-meritocrática, (3) Preferencias meritocráticas y (4) Preferencias no-meritocráticas. Además, existen correlaciones bajas-medias distinguibles entre varias de los indicadores de carácter meritocrático, ya sean del grupo de Percepciones o del de Preferencias, no así entre indicadores de carácter no-meritocrático. La categorización que se logra distinguir a partir del modelo de correlación coincide con la literatura [@Castillo2020] en cuanto a la existencia de cuatro sub-grupos y que las variables meritocráticas no son necesariamente opuestas a las no-meritocráticas al no existir grandes niveles de correlación negativa e incluso presentando ciertos niveles de correlación entre indicadores meritocráticos y no-meritocráticos. Debido a los resultados que se obtuvieron a partir de los modelos de correlación y a la literatura existente que señala la posibilidad de subdividir en percepciones y preferencias merticoráticas y no-meritocráticas [@castillo_meritocracia_2019a; @Castillo2020; @Iturra2019] es que se procede a un Análisis Factorial Confirmatorio (CFA) para poner a prueba la viabilidad de los cuatro constructos. 
+Como primer paso para la construcción de las variables latentes para las creencias meritocráticas, se generan los modelos de correlación de pearson y correlación policórica. A continuación se muestran los resultados de la correlación policórica. En la Figura  N° \@ref(fig:matpolycor2) se observa que los valores medios-altos, es decir, correlaciones en torno al valor 0.5, se dan entre (A) [se] Obtienen mayores recompensas [por el] Esfuerzo y (B) [se] Obtienen mayores recompensas [por el] Talento, entre (C) Logran a salir adelante [quienes tienen] Padres ricos y (D) Logran a salir adelante [quienes tienen] buenos contactos, entre (E)[se]  Deberían obtener mayores recompensas [por el] Esfuerzo y (F) [se] Deberían tener mayores recompensas [por el] Talento y, finalmente, también se da entre (G) Está bien que salgan adelante [quienes tienen] Padres ricos (H) Está bien que salgan adelante [quienes tienen] Buenos contactos. La categorización que se logra distinguir a partir del modelo de correlación coincide con la literatura en cuanto a la existencia de cuatro sub-grupos y que las variables meritocráticas no son necesariamente opuestas a las no meritocráticas [@Castillo2020] al no existir grandes niveles de correlación negativa e incluso presentando ciertos niveles de correlación entre indicadores meritocráticos y no meritocráticos. Debido a los resultados que se obtuvieron a partir de los modelos de correlación, y considerando que la literatura apunta en la dirección de cuatro variables latentes, siendo estas de percepción meritocrática, preferencia merticorática, percepción no meritocrática y preferencia no meritocrática [@castillo_meritocracia_2019a; @Castillo2020; @Iturra2019] es que se procede a realizar un Análisis Factorial Confirmatorio (CFA) para poner a prueba la viabilidad de las cuatro variables latentes. 
 
-
-```{r matpearson_indep, echo=FALSE, fig.cap="Matriz de Correlaciones de Pearson para Percepciones y Preferencias meritocráticas", fig.align = 'center', out.width = '100%'}
-# Correlación de pearson
-
-pearson_merit=cor(meritcor, use = "complete.obs")
-windowsFonts(A = windowsFont("Times New Roman"))
-rownames(pearson_merit) <-c(
-  "(1) Obtienen mayores recompensas: Esfuerzo",
-  "(2) Obtienen mayores recompensas: Talento",
-  "(3) Logran salir adelante: Padres ricos",
-  "(4) Logran salir adelante: Buenos contactos",
-  "(5) Deberían obtener mayores recompensas: Esfuerzo",
-  "(6) Deberían obtener mayores recompensas: Talento",
-  "(7) Esta bien que salgan adelante: Padres ricos",
-  "(8) Esta bien que salgan adelante: Buenos contactos")
-colnames(pearson_merit) <-c("(1)", "(2)","(3)","(4)","(5)", "(6)","(7)","(8)")
-corrplot(pearson_merit,
-         method = "color",
-         type = "upper",
-         tl.col = "black",
-         addCoef.col = "black",
-         diag = TRUE,
-         family = "A",
-         number.font = 6,
-         tl.cex =0.75,
-         number.cex = 1)
-```
-
-```{r matpolycor_indep, echo=FALSE, fig.cap="Matriz de Correlaciones Policlorica para Percepciones y Preferencias meritocráticas", fig.align = 'center', out.width = '100%'}
+```{r matpolycor2, echo=FALSE, fig.cap="Matriz de Correlaciones Policlorica para Percepciones y Preferencias meritocráticas", fig.align = 'center', out.width = '100%'}
 # Correlación policlorica 
 
 polycor_merit <- psych::polychoric(meritcor)
 windowsFonts(A = windowsFont("Times New Roman"))
 rownames(polycor_merit$rho) <-c(
-  "(1) Obtienen mayores recompensas: Esfuerzo",
-  "(2) Obtienen mayores recompensas: Talento",
-  "(3) Logran salir adelante: Padres ricos",
-  "(4) Logran salir adelante: Buenos contactos",
-  "(5) Deberían obtener mayores recompensas: Esfuerzo",
-  "(6) Deberían obtener mayores recompensas: Talento",
-  "(7) Esta bien que salgan adelante: Padres ricos",
-  "(8) Esta bien que salgan adelante: Buenos contactos")
-colnames(polycor_merit$rho) <-c("(1)", "(2)","(3)","(4)","(5)", "(6)","(7)","(8)")
+  "(A) Obtienen mayores recompensas: Esfuerzo",
+  "(B) Obtienen mayores recompensas: Talento",
+  "(C) Logran salir adelante: Padres ricos",
+  "(D) Logran salir adelante: Buenos contactos",
+  "(E) Deberían obtener mayores recompensas: Esfuerzo",
+  "(F) Deberían obtener mayores recompensas: Talento",
+  "(G) Esta bien que salgan adelante: Padres ricos",
+  "(H) Esta bien que salgan adelante: Buenos contactos")
+colnames(polycor_merit$rho) <-c("(A)", "(B)","(C)","(D)","(E)", "(F)","(G)","(H)")
 corrplot(polycor_merit$rho,
          method = "color",
          type = "upper",
@@ -257,34 +717,63 @@ corrplot(polycor_merit$rho,
 
 ```
 
-
 ### Análisis Factorial Confirmatorio
 
 <div style="text-align: justify">
 
-```{r tab-cfa-indep, echo=FALSE, fig.cap="Matriz de Correlaciones Policlorica para Percepciones y Preferencias meritocráticas", fig.align = 'center', out.width = '100%'}
-
-m_merit.4<-'
-perc_merit=~merit_perc_effort+merit_perc_talent
-pref_merit=~merit_pref_talent+merit_pref_effort
-perc_nmerit=~merit_perc_wpart+merit_perc_netw
-pref_nmerit=~merit_pref_netw+merit_pref_wpart
-'
+Para la variable independiente sobre creencias meritocráticas se propone un modelo de cuatro factores, en donde los factores que corresponden a las creencias meritocráticas son él de percepción meritocrática y de preferencia meritocrática. Los otros dos factores corresponden a creencias no meritocráticas, siendo estos los de percepción no meritocrática y preferencia no meritocrática. En la Figura  N° \@ref(fig:cfa-plot2) se muestra a partir de qué indicadores se componen cada factor, como también las cargas factoriales. La percepción meritocrática incluye los indicadores de (A) [se] Obtienen mayores recompensas [por el] Esfuerzo y (B) [se] Obtienen mayores recompensas [por el] Talento: La preferencia meritocrática se compone de (E) [se] Deberían obtener mayores recompensas [por el] esfuerzo y (E) [se] Deberían obtener mayores recompensas [por el] talento. La percepción no meritocrática se compone de (C) Logran salir adelante [quienes tienen] padres ricos y (D) Logran salir adelante [quienes tienen] buenos contactos. Por último, la preferencia no meritocrática se compone de (G) Está bien que salgan adelante [quienes tienen] padres ricos y (H) Está bien que salgan adelante [quienes tienen] buenos contactos.  El modelo presentó medidas de ajuste de χ2 (28)=2386.315, p<, CFI=0.944, TLI=.887, RMSEA=0.088[^1].
 
 
-m_merit.4.fit<-cfa(m_merit.4,data=data,estimator="MLR")
-#Continuous/ estimator ML Robust
-m_merit.4_ord.fit <- cfa(model = m_merit.4,data = data,ordered = c("merit_perc_effort","merit_perc_talent",
-                                                          "merit_perc_wpart","merit_perc_netw",
-                                                          "merit_pref_effort","merit_pref_talent",
-                                                          "merit_pref_wpart","merit_pref_netw"))
-
-
-#---------------------------------------------------#
-
-
-cnames <- c("Factor","Indicator","Loading (MLR)","Loading (DWLS)")
-
-kable(left_join(x = standardizedsolution(m_merit.4.fit) %>% filter(op=="=~") %>% dplyr::select(lhs,rhs,est.std),y = standardizedsolution(m_merit.4_ord.fit) %>% filter(op=="=~") %>% dplyr::select(lhs,rhs,est.std),c("lhs","rhs")),
-      format = "markdown",digits = 2,col.names = cnames, caption = "Factor loadings")
+```{r cfa-plot2, echo=FALSE, fig.align = 'center', fig.cap = "Clases latentes para creencias meritocráticas y no meritocráticas"}
+knitr::include_graphics(here::here("Output/images/merit_cfa_path.png"))
 ```
+
+
+
+
+## Análisis de Modelos Estructurales
+
+<div style="text-align: justify">
+
+En esta sección se presentan los resultados de los modelos de ecuaciones estructurales, a partir del análisis de diferentes modelos de regresión. Para mayor claridad, se subdivide en dos apartados. En el primero se analiza la influencia de las variables exógenas sobre la variable latente referente a atribuciones internas de la pobreza y la riqueza. En el segundo se analiza la influencia de las variables exógenas sobre la variable latente referente a atribuciones externas de la pobreza y la riqueza. 
+
+Siguiendo la hipótesis, en un primer momento se analizan las variables de interés racional y sociodemográficas, considerando que son los factores que más se han incluido en la literatura para estudiar la variación en las atribuciones de pobreza y riqueza. Luego se incluyen las variables independientes, siendo estas las percepciones y preferencias meritocráticas. Finalmente, a modo de control, se agregan percepciones y preferencias no meritocráticas, las cuales refieren a la percepción de que quienes tienen padres ricos o buenos contactos logran salir adelante, o a la preferencia de que quienes tienen padres ricos o buenos contactos salgan adelante.
+
+El orden en que se presentarán los resultados responden a un problema de relevancia en el área de las atribuciones de pobreza y riqueza, siendo las atribuciones internas un tipo de explicación que ha sido relacionado con la legitimación de desigualdades, mientras que las externas se vinculan más a una visión crítica.
+
+
+### Atribuciones internas de pobreza y riqueza
+
+<div style="text-align: justify">
+
+
+```{r echo=FALSE, results='asis'}
+htmltools::HTML(semINT)
+```
+
+Respecto a las variables de interés racional, no se observan coeficientes significativos tanto en educación como en rango de ingresos. Si se es sumamente flexible con la significancia, con un 95% de confianza, el rango de 1 millón a 2 millones de pesos presenta un coeficiente negativo, lo cual indicaría que este grupo, respecto de quienes pertenecen al tramo de $380.000 o menos, mantienen menos atribuciones internas sobre la pobreza y la riqueza.
+
+A diferencia de las variables referentes a estratificación social, las variables sociodemográficas mostraron resultados más contundentes en cuanto a significancia. Sexo, con hombre como categoría de referencia, presente un coeficiente negativo a un 99% de confianza, lo que indica que las mujeres mantienen menos atribuciones internas que los hombres. Esto coincide con la hipótesis de los desvalidos *o tiene otro nombre? de legitimacioN?* que se observa en algunos trabajos (), en donde el que los hombres mentengan más atribuciones internas funciona para legitimizar su superioridad y su propia posición en la jerarquía social. Por su parte, edad presenta un efecto positivo al 99,9% de confianza, lo cual indica que quienes presentan más edad mantienen más atribuciones internas. *explicar porque puede ser | ver si se recodifica por rangos*. Finalmente, en actividad princiapl no se observan efectos significativos, a excepción de la de estudiante, que muestra un efecto negativo pero débil en significancia (95% de confianza), lo que indicaría que aquellos que se encuentran estudiando mantienen menos atribuciones internas respecto de aquellos que se encuentran trabajando con joranada completa o parcial. 
+
+En el modelo 2, además de las variables de estratificación objetivas, se agrega el estatus social subjetivo del sujeto. El estatus social subjetivo muestra un efecto positivo y significativo al 99,9% de confianza, indicando que aquellos que se ubican a sí mismos más arriba en la sociedad mantienen más atribuciones internas. *buscar explicación*. Además, al agregar el indicador de estatus social subjetivo aumenta la significancia en la actividad princial de estudiante a un 99% de confianza. 
+
+En el modelo 3 se observa únicamente el efecto de las percepciones y preferencias meritocráticas sobre las atribuciones internas. Para el caso de las percepciones, este presenta un efecto alto y positivo a un 99,9% de confianza, lo cual indicaría que a medida que se percibe más meritocracia, mayores serán las atribuciones internas. Por su parte, las preferencias meritocráticas presentan un efecto negativo a un 99,9% de confianza, es decir, a mayor preferencia por la meritocracia, menos atribuciones internas. En el modelo 5 se observan los efectos de las creencias meritocráticas controladas por creencias no meritocráticas, en donde las percepciones meritocráticas mantienen la significancia y el sentido del efecto, pero disminuye la magnitud del efecto, mientras que para las preferencias cambia el sentido del efecto, disminuye su magnitud y pierde toda significancia. 
+
+El modelo 6 incluye las variables de creencias meritocráticas junto a todos los otros indicadores analizados anteriormente a modo de control. Tanto en percepciones y preferencias meritocráticas se mantienen los valores relativamente estables respecto del modelo 5, lo cual indicaría que su efecto se ve afectado al agregar variables de percepciones y preferencias no meritocráticas. En cuanto a las percepciones no meritocráticas, muestran un efecto negativo y significativo sobre las atribuciones de internas, mientras que las preferencias no meritocráticas muestran un efecto positivo y significativo sobre las atribuciones internas.
+
+A modo de síntesis, los resultados se muestran a favor de la hipótesis central de la investigación, es decir, que las atribuciones de pobreza y riqueza se explican parcialmente por las creencias meritocráticas. Por otro lado, las hipótesis específicas se cumplen en parte. La hipótesis 1, de que a mayor percepción meritocrática mayor atribuciones internas hacia la pobreza y la riqueza, se cumple. Tal como se esperaba, mayores niveles en la percepción de meritocracia presenta un efecto positivo con las atribuciones internas de pobreza y riqueza, &Beta 0.443***. La hipótesis 2, que plantea que a mayores preferencias meritocráticas menores atribuciones internas, no se cumple, ya que al agregar variables de creencias no meritocráticas el efecto cambia de sentido, de negativo a positivo, y pierde toda significancia. En este sentido, un resultado que llama la atención es el efecto de las creencias no meritocráticas sobre las atribuciones internas, encontrándose una significancia a un 99,9% de confianza tanto para percepciones como preferencias no meritocráticas. En el modelo 6 se observa que aquellos que perciben más mecanismos no meritocráticos operando en la sociedad mantienen menos atribuciones internas, mientras que quienes prefieren más mecanismos no meritocráticos mantienen más atribuciones internas. Una posible conclusión sería que quienes perciben más mecanismos no meritocráticos poseen una visión más crítica acerca de cómo se distribuyen los bienes, recursos y títulos en la sociedad, por lo que no atribuyen a características individuales las causas de que personas se encuentren en desventaja o disfruten de grandes ventajas. Para el caso de las preferencias no meritocráticas el análisis es inverso, en el sentido de que quienes prefieren mecanismos no meritocráticos legitiman las desigualdades socioeconómicas al culpabilizar a los pobres y atribuir a características individuales los logros de los ricos. 
+
+### Atribuciones externas de pobreza y riqueza
+
+<div style="text-align: justify">
+
+
+```{r echo=FALSE, results='asis'}
+htmltools::HTML(semEXT)
+```
+
+Al igual que con las atribuciones internas de pobreza y riqueza, en las atribuciones externas no se observan efectos significativos por parte de variables de estartificación, como el ingreso y la educación. En este sentido, se descarta la hipótesis de interés racional tanto para las atribuciones internas como externas. En cuanto a las variables sociodemográficas, sexo presenta un efecto positivo y significativo al 99% de confianza. Esto quiere decir que las mujeres, en comparación de los hombres, mantienen más atribuciones externas. Este resultado dialoga con los resultados del apartado anterior, en donde se observa que las mujeres mantienen menos atribuciones internas que los hombres. Lo anterior indica una visión más crítica por parte de las mujeres, en cuanto explican las causas de la pobreza y la riqueza a partir de factores externos a los individuos y, si se quiere, de las estructuras sociales. 
+
+El estatus social subjetivo aparece nuevamente como un factor influyente en las atribuciones, aunque esta vez con una significancia al 99% de confianza. Los resultados muestran un efecto bajo y negativo sobre las atribuciones de riqueza, lo que indica que el posicionarte a ti mismo más arriba en la escala de estatus subjetivo tiene como efecto mantener menos atribuciones externas. Nuevamente coincide con los datos del apartado anterior ....
+
+[^1]: Los resultados del índice RMSEA traspasan el límite aceptable para un modelo con buen ajuste (≤ 0,06), e incluso es mayor a límites más flexibles (≤ 0,07 / 0,08). Sin embargo, dentro de las posibilidades de variables latentes que coincidan con la literatura, es el mejor modelo en términos de coherencia y ajustes.

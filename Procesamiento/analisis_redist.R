@@ -1,3 +1,9 @@
+# El presente código es un avance hacia una posible extensión de la investigación sobre "Efectos de las creencias
+# meritocráticas sobre las atribuciones de pobreza y riqueza", en donde se analice la relación de variables 
+# meritocráticas, atribuciones de pobreza y riqueza y políticas redistributivas.
+
+
+
 pacman::p_load(dplyr, sjmisc, car, sjlabelled,labelled, stargazer,kableExtra,corrplot,sessioninfo,readxl,
                pander,xtable, tidyverse, extrafont, ggplot2, forcats, ggpubr, naniar,haven, devtools,summarytools,
                poLCA,sjPlot,lavaan)
