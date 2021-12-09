@@ -1,6 +1,6 @@
 # Apéndice {#apendice}
 
-## CFA: creencias meritocráticas
+### CFA: creencias meritocráticas
 
 <div style="text-align: justify">
 
@@ -23,6 +23,6 @@ sumtable02<- kable(sum_fit2,digits = 3,format = "html",row.names = F,booktabs=T,
 ```
 
 
-```{r cfa-plot3, fig.align = 'center', fig.cap = "Clases latentes para percepciones meritocráticas y percepciones y preferencias no meritocráticas"}
+```{r cfa-plot3, echo=FALSE, fig.align = 'center', fig.cap = "Clases latentes para percepciones meritocráticas y percepciones y preferencias no meritocráticas"}
 knitr::include_graphics(here::here("Output/images/merit_cfa_nopref_path.png"))
 ```

@@ -687,9 +687,9 @@ nodeNames <-c("Atribuciones pobreza Falta habilidad",
               "Atribuciones pobreza Falta esfuerzo",
               "Atribuciones riqueza Talento",
               "Atribuciones riqueza Trabajo duro",
-              "Atribuciones pobreza Sistema económico",
-              "Atribuciones pobreza Sistema educativo",
-              "Atribuciones riqueza Sistema económico",
+              "Atribuciones pobreza \n Sistema económico",
+              "Atribuciones pobreza \n Sistema educativo",
+              "Atribuciones riqueza \n Sistema económico",
               "Atribuciones \n internas","Atribuciones \n externas")
 
 # graphics.off()
@@ -711,7 +711,7 @@ semPaths(
   msf_3.fit ,
   # whatLabels = "std", # Indica si aparecen los valores
   what = "mod",
-  label.cex = 1.3, # Tamaño de las etiquetas dentro de los nodos.
+  label.cex = 1.2, # Tamaño de las etiquetas dentro de los nodos.
   edge.label.cex =  0.8, #  0.8 Tamaño de los valores estimados.
   residuals = T,
   optimizeLatRes =F,
@@ -729,12 +729,12 @@ semPaths(
   edge.label.font = 14,
   asize = 3,
   edge.width = 1.2,
-  sizeMan = 8,# largo manifest
+  sizeMan = 9.5,# largo manifest
   sizeMan2= 8,# alto manifest
-  sizeLat = 5.5, # largo de los circulos
-  sizeLat2 = 20, # alto de los circulos
+  sizeLat = 7.5, # largo de los circulos
+  sizeLat2 = 26, # alto de los circulos
   residScale = 10,
-  width = 21.5, # 17
+  width = 21, # 17
   height = 10, # 10
   # nodeNames = nodeNames,
   intercepts = F,
@@ -760,7 +760,7 @@ text(x = -0.1,y =  0.32, ld$est.std[4],font = 5,cex = 1.20)
 text(x = -0.1,y = -0.38, ld$est.std[5],font = 5,cex = 1.20)
 text(x = -0.1,y = -0.58, ld$est.std[6],font = 5,cex = 1.20)
 text(x = -0.1,y = -0.75, ld$est.std[7],font = 5,cex = 1.20)
-text(x = -1.75,y = 0.15, "0.39",font = 5,cex = 1.20)
+text(x = -1.68,y = 0.15, "0.39",font = 5,cex = 1.20)
 
 library(draw) #para hacer rectangulo de fit
 
