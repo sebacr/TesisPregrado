@@ -100,16 +100,11 @@ data$ingresos <- car::recode(data$ingresos, "1:9=0;10=1;11=2;12=3;13:14=4")
 data$ingresos <- as.character(data$ingresos)
 data <- dummy_cols(data,select_columns = "ingresos")
 data = subset(data, select = -ingresos) # Eliminamos variable educ
-data$ingresos_0 <- set_label(x = data$ingresos_0,label = "Menos de $56.000")
-data$ingresos_1 <- set_label(x = data$ingresos_1,label = "De $56.001 a $101.000")
-data$ingresos_2 <- set_label(x = data$ingresos_2,label = "De $101.001 a $179.000")
-data$ingresos_3 <- set_label(x = data$ingresos_3,label = "De $179.001 a $291.000")
-data$ingresos_3 <- set_label(x = data$ingresos_3,label = "De $291.001 a $358.000")
-data$ingresos_3 <- set_label(x = data$ingresos_3,label = "De $358.001 a $448.000")
-data$ingresos_3 <- set_label(x = data$ingresos_3,label = "De $448.001 a $1.000.000")
+data$ingresos_0 <- set_label(x = data$ingresos_0,label = "Menos de $358.000")
+data$ingresos_1 <- set_label(x = data$ingresos_1,label = "De $358.001 a $448.000")
+data$ingresos_2 <- set_label(x = data$ingresos_2,label = "De $448.001 a $1.000.000")
 data$ingresos_3 <- set_label(x = data$ingresos_3,label = "De $1.000.001 a $2.000.000")
-data$ingresos_3 <- set_label(x = data$ingresos_3,label = "De $2.000.001 a $3.000.000")
-data$ingresos_3 <- set_label(x = data$ingresos_3,label = "Más de $3.000.000")
+data$ingresos_4 <- set_label(x = data$ingresos_4,label = "Más de $2.000.000")
 
 #data$ingresos <- set_labels(data$ingresos,
 #                        labels=c( "Menos de $56.000"=0,
@@ -146,7 +141,8 @@ data$act_prin_completa <- set_label(x = data$act_prin_completa,label = "Jornada 
 #data$act_prin_parcial<- set_label(x = data$act_prin_parcial,label = "Jornada parcial")
 data$act_prin_desempleado <- set_label(x = data$act_prin_desempleado,label = "Desempleado")
 data$act_prin_jubliado <- set_label(x = data$act_prin_jubliado,label = "Jubliado o pensionado")
-data$act_prin_trabaja_estudia <- set_label(x = data$act_prin_trabaja_estudia,label = "Trabaja y/o estudia")
+data$act_prin_estudia <- set_label(x = data$act_prin_estudia,label = "Estudia")
+data$act_prin_trabaja_estudia <- set_label(x = data$act_prin_trabaja_estudia,label = "Trabaja y estudia")
 data$act_prin_no_remunerado <- set_label(x = data$act_prin_no_remunerado,
                                                       label = "Trabajo no remunerado, no realiza actividades o enfermo/discapacidad")
 

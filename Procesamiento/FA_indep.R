@@ -6,19 +6,9 @@ library(webshot)
 webshot::install_phantomjs(force = TRUE)
 load("Input/Data_proc/data.RData") # Data percepcion 2019
 
-
-#test de normalidad
-
-library("ggpubr")
-ggdensity(meritcor$merit_pref_effort, 
-          main = "Density plot of pref effort",
-          xlab = "pref effort")
-ggqqplot(meritcor$merit_pref_effort)
-
 data %>% 
   dplyr::select(merit_perc_effort,merit_perc_talent,merit_perc_wpart,merit_perc_netw,
                 merit_pref_effort,merit_pref_talent,merit_pref_wpart,merit_pref_netw) -> meritcor
-
 
 names(meritcor)
 meritcor %>% 
@@ -29,6 +19,54 @@ meritcor %>%
 desc.issp
 
 
+# Grafico rectangulos likert
+
+
+dat_merit <- meritcor %>% dplyr::select("a.Esfuerzo"=merit_perc_effort,"a.Talento"=merit_perc_talent,
+                                 "a.Padres ricos"=merit_perc_wpart, "a.Contactos"=merit_perc_netw,
+                                 "b.Esfuerzo"=merit_pref_effort,"b.Talento"=merit_pref_talent,
+                                 "b.Padres ricos"=merit_pref_wpart, "b.Contactos"=merit_pref_netw)
+dat_merit <- set_label(dat_merit, c("Esfuerzo","Talento","Padres ricos",
+                                    "Buenos contactos","Esfuerzo","Talento","Padres ricos",
+                                    "Buenos contactos"))
+
+dat_merit_2<- dat_merit %>% sjmisc::rec(rec="rev") %>%
+dplyr::select(
+  "a.Esfuerzo" = a.Esfuerzo_r,
+  "a.Talento" = a.Talento_r,
+  "a.Padres ricos" = "a.Padres ricos_r",
+  "a.Contactos" = a.Contactos_r,
+  "b.Esfuerzo" = b.Esfuerzo_r,
+  "b.Talento" = b.Talento_r,
+  "b.Padres ricos" = "b.Padres ricos_r",
+  "b.Contactos" = b.Contactos_r)
+
+
+set_theme(
+  base = theme_light(),
+  theme.font = 'serif',
+  axis.title.size = .9,
+  axis.textsize = .9,
+  legend.size = .7,
+  legend.title.size = .8,
+  geom.label.size = 3
+)
+merit_likert<-plot_likert(dat_merit_2,
+                              c(1, 1, 1, 1, 2, 2, 2, 2),
+                              groups.titles = c("Percepciones", "Preferencias"),
+                          geom.colors   = c("#6baed6","#9ecae1","#FF9999", 
+                                            "#FF5555"),
+                              geom.size = 0.8,
+                              catcount = 4,
+                              cat.neutral = 3,
+                              grid.range  =  c (1.2 , 1.4),
+                              values  =  "sum.outside",
+                              reverse.colors = T,
+                              reverse.scale = F)
+
+merit_likert
+ggsave(merit_likert,filename = "Output/images/merit_likert.png",device = "png",width = 30,height = 15,dpi = "retina",units = "cm")
+
 
 # Observar distribución de respuestas en variables dependientes
 
@@ -37,7 +75,7 @@ meritcor %>%
   ggplot(aes(x = response)) +
   geom_bar() +
   facet_wrap(vars(question), ncol = 3) +
-  labs(x = "Response (on a 1 to 5 scale)", y = "Number of respondents")
+  labs(x = "Respuestas (escala de 1 a 5)", y = "Número de respuestas")
 
 
 

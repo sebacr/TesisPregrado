@@ -1,6 +1,6 @@
 pacman::p_load(dplyr, car, sjlabelled,labelled, stargazer,kableExtra,corrplot,
                tidyverse, ggplot2, ggpubr,haven, devtools,summarytools,nortest,tseries,psych,
-               sjPlot,lavaan,semPlot,pander,standarize,texreg)
+               sjPlot,lavaan,semPlot,pander,standarize,texreg,expss)
 source('https://raw.githubusercontent.com/brandmaier/onyxR/master/tools/install.R')
 library(onyxR)
 #install.packages("webshot",dependencies = TRUE)
@@ -8,18 +8,76 @@ library(webshot)
 webshot::install_phantomjs(force = TRUE)
 load("Input/Data_proc/data.RData") # Data 
 
-atribcor <- data %>% dplyr::select(atrib_pob_1,atrib_pob_2,atrib_pob_3,atrib_pob_4,atrib_pob_5,
+
+atribdesc <- data %>% dplyr::select(atrib_pob_1,atrib_pob_2,atrib_pob_3,atrib_pob_4,atrib_pob_5,
                                   atrib_riq_1,atrib_riq_2,atrib_riq_3,atrib_riq_4,atrib_riq_5) # Var deps
 
-names(atribcor)
-atribcor %>% 
+names(atribdesc)
+atribdesc %>% 
   psych::describe() %>% 
   as.data.frame() %>% 
   dplyr::select("Mean"=mean,"SD"=sd,"Min"=min,"Max"=max) %>% 
   round(2) ->desc.issp
 desc.issp
 
+
+# Gráfico rectangular likert
+
+dat_atrib <- atribcor %>% select("a.Falta de habilidad"=atrib_pob_1,"a.Mala suerte"=atrib_pob_2,
+                                 "a.Falta esfuerzo"=atrib_pob_3, "a.Sistema económico"=atrib_pob_4, 
+                                 "a.Sistema educativo"=atrib_pob_5,
+                                 "b.Talento"=atrib_riq_1,"b.Suerte"=atrib_riq_2, 
+                                 "b.Trabajo duro"=atrib_riq_3,"b.Sistema económico"=atrib_riq_4,
+                                 "b.Sistema educativo"=atrib_riq_5)
+dat_atrib <- set_label(dat_atrib, c("Falta de habilidad","Mala suerte","Falta de esfuerzo",
+                                    "Sistema económico","Sistema educativo",
+                                    "Talento","Suerte","Trabajo duro",
+                                    "Sistema económico","Sistema educativo"))
+dat_atrib_2 <- dat_atrib %>% sjmisc::rec(rec="rev") %>%
+select(
+  "a.Falta de habilidad" = "a.Falta de habilidad_r",
+  "a.Mala suerte" = "a.Mala suerte_r",
+  "a.Falta esfuerzo" = "a.Falta esfuerzo_r",
+  "a.Sistema económico" = "a.Sistema económico_r",
+  "a.Sistema educativo" = "a.Sistema educativo_r",
+  "b.Talento" = b.Talento_r,
+  "b.Suerte" = b.Suerte_r,
+  "b.Trabajo duro" = "b.Trabajo duro_r",
+  "b.Sistema económico" = "b.Sistema económico_r",
+  "b.Sistema educativo" = "b.Sistema educativo_r")
+# http://www.sthda.com/english/wiki/colors-in-r  = PALETAS de COLORES
+set_theme(
+  base = theme_light(),
+  theme.font = 'serif',
+  axis.title.size = .9,
+  axis.textsize = .9,
+  legend.size = .7,
+  legend.title.size = .8,
+  geom.label.size = 3
+)
+atrib_likert<-plot_likert(dat_atrib_2,
+                        c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2),
+                        groups.titles = c("Atribuciones pobreza", "Atribuciones riqueza"),
+                        geom.colors   = c("#6baed6","#9ecae1","#FF9999", 
+                                          "#FF5555"),
+                        geom.size = 0.8,
+                        catcount = 4,
+                        cat.neutral = 3,
+                        grid.range  =  c (1.2 , 1.4),
+                        values  =  "sum.outside",
+                        reverse.colors = T,
+                        reverse.scale = F,
+                        )
+
+atrib_likert
+
+ggsave(atrib_likert,filename = "Output/images/atrib_likert.png",device = "png",width = 30,height = 15,dpi = "retina",units = "cm")
+
+
 # Correlación de pearson
+
+atribcor <- data %>% dplyr::select(atrib_pob_1,atrib_pob_2,atrib_pob_3,atrib_pob_4,atrib_pob_5,
+                                    atrib_riq_1,atrib_riq_2,atrib_riq_3,atrib_riq_4,atrib_riq_5) # Var deps
 
 pearson_atrib=cor(atribcor, use = "complete.obs")
 windowsFonts(A = windowsFont("Times New Roman"))

@@ -1,6 +1,8 @@
 tab:tab-dep
 tab:tab-indep
 tab:tab-control
+fig:atrib-desc
+fig:merit-desc
 fig:matpolycor
 tab:tab-fit
 fig:cfa-plot1
@@ -21,8 +23,7 @@ el-principio-meritocrático
 las-creencias-meritocráticas-en-las-ciencias-sociales
 relación-de-la-meritocracia-con-las-creencias-sobre-desigualdad-y-sobre-la-pobreza
 antecedentes-en-la-relación-entre-meritocracia-y-atribuciones-de-pobreza-y-riqueza
-estatus-creencias-meritocráticas-y-atribuciones-de-pobreza-y-riqueza
-datos-variables-y-métodos
+método
 datos
 variables
 variables-dependientes
@@ -41,8 +42,5 @@ análisis-de-modelos-estructurales
 atribuciones-internas-de-pobreza-y-riqueza
 atribuciones-externas-de-pobreza-y-riqueza
 conclusiones
-apunter-preliminares
-en-torno-a-justificación-de-sistemasdesigualdad
-en-torno-a-la-igualdad-de-oportunidades-y-agenda-liberal
 apendice
 cfa-creencias-meritocráticas
